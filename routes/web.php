@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminMerchantController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
-use App\Http\Controllers\Dashboard\AdminTokenController;
+use App\Http\Controllers\Admin\AdminTokenController;
 use App\Http\Controllers\Merchant\MerchantRegisterController;
 
 /*
@@ -29,9 +31,7 @@ Route::get('/', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     // DASHBOARD
     Route::prefix('/dashboard')->name('dashboard.')->group(function () {
-        Route::get('/', function () {
-            return Inertia::render('Dashboard/Index');
-        })->name('index');
+        Route::get('/', [AdminDashboardController::class, 'index'])->name('index');
     });
 
     // ADMIN ROUTE
@@ -41,6 +41,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', [AdminTokenController::class, 'index'])->name('index');
             Route::post('/', [AdminTokenController::class, 'generate'])->name('generate');
             Route::delete('/{adminToken}', [AdminTokenController::class, 'destroy'])->name('destroy');
+        });
+
+        Route::prefix('/merchants')->name('merchants.')->group(function () {
+            Route::get('/', [AdminMerchantController::class, 'index'])->name('index');
+            Route::post('/activate/{merchant}', [AdminMerchantController::class, 'activate'])->name('activate');
+            Route::post('/reject/{merchant}', [AdminMerchantController::class, 'reject'])->name('reject');
         });
     });
 

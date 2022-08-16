@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Dashboard;
+namespace App\Http\Controllers\Admin;
 
 use Inertia\Inertia;
 use App\Models\AdminToken;
@@ -17,7 +17,7 @@ class AdminTokenController extends Controller
     public function index()
     {
         $adminTokens = AdminToken::with(['user'])->get();
-        return Inertia::render('Dashboard/AdminToken', compact('adminTokens'));
+        return Inertia::render('Admin/Dashboard/AdminToken', compact('adminTokens'));
     }
 
     public function generate()
