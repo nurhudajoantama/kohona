@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Dashboard\AdminTokenController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,8 +25,16 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::prefix('/dashboard')->middleware(['auth', 'verified'])->name('dashboard.')->group(function () {
+    Route::get('/', function () {
+        return Inertia::render('Dashboard/Index');
+    })->name('index');
 
-require __DIR__.'/auth.php';
+    Route::prefix('/admin-tokens')->name('admin-tokens.')->group(function () {
+        Route::get('/', [AdminTokenController::class, 'index'])->name('index');
+        Route::post('/', [AdminTokenController::class, 'generate'])->name('generate');
+        Route::delete('/{adminToken}', [AdminTokenController::class, 'destroy'])->name('destroy');
+    });
+});
+
+require __DIR__ . '/auth.php';
