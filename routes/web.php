@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\Admin\AdminTokenController;
 use App\Http\Controllers\Merchant\MerchantRegisterController;
+use App\Http\Controllers\UserSettingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,17 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
+
+    Route::prefix('/user/setting')->name('user.setting.')->group(function () {
+        Route::get('/', [UserSettingController::class, 'index'])->name('index');
+        Route::post('/', [UserSettingController::class, 'update'])->name('update');
+
+        Route::prefix('/change-password')->name('change-password.')->group(function () {
+            Route::get('/', [UserSettingController::class, 'password'])->name('index');
+            Route::post('/', [UserSettingController::class, 'passwordUpdate'])->name('update');
+        });
+    });
+
     // DASHBOARD
     Route::prefix('/dashboard')->name('dashboard.')->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('index');
