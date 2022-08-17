@@ -66,7 +66,7 @@ function UserMenu({ user, level, image }) {
             </button>
 
             <Transition
-                className="origin-top-right z-10 absolute top-full right-0 min-w-44 bg-white border border-slate-200 py-1.5 rounded shadow-lg overflow-hidden mt-1"
+                className="origin-top-right z-10 absolute top-full right-0 min-w-max bg-white border border-slate-200 py-1.5 rounded shadow-lg overflow-hidden mt-1"
                 show={dropdownOpen}
                 enter="transition ease-out duration-200 transform"
                 enterStart="opacity-0 -translate-y-2"
@@ -92,19 +92,21 @@ function UserMenu({ user, level, image }) {
                         <li>
                             <Link
                                 className="font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3"
-                                to="/"
+                                href="/user/settings"
                                 onClick={() => setDropdownOpen(!dropdownOpen)}
                             >
-                                Settings
+                                User Settings
                             </Link>
                         </li>
                         <li>
                             <Link
+                                method="post"
+                                href={route("logout")}
+                                as="button"
                                 className="font-medium text-sm text-indigo-500 hover:text-indigo-600 flex items-center py-1 px-3"
-                                to="/"
                                 onClick={() => setDropdownOpen(!dropdownOpen)}
                             >
-                                Sign Out
+                                Log Out
                             </Link>
                         </li>
                     </ul>

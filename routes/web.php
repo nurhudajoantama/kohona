@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminDashboardController;
-use App\Http\Controllers\Admin\AdminMerchantController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
-use App\Http\Controllers\Admin\AdminTokenController;
-use App\Http\Controllers\Merchant\MerchantRegisterController;
 use App\Http\Controllers\UserSettingController;
+use App\Http\Controllers\Admin\AdminTokenController;
+use App\Http\Controllers\Admin\AdminMerchantController;
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Merchant\MerchantSettingController;
+use App\Http\Controllers\Merchant\MerchantRegisterController;
+use App\Http\Controllers\Merchant\MerchantDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +33,7 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])->group(function () {
 
-    Route::prefix('/user/setting')->name('user.setting.')->group(function () {
+    Route::prefix('/user/settings')->name('user.setting.')->group(function () {
         Route::get('/', [UserSettingController::class, 'index'])->name('index');
         Route::post('/', [UserSettingController::class, 'update'])->name('update');
 
@@ -59,6 +61,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
 
+    // REFACTOR
+
     Route::prefix('/merchants')->name('merchants.')->group(function () {
         Route::get('/', function () {
             return 'index';
@@ -72,9 +76,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 
         Route::prefix('/dashboard')->middleware(['merchant'])->name('dashboard.')->group(function () {
-            Route::get('/', function () {
-                return 'index';
-            })->name('index');
+            Route::get('/', [MerchantDashboardController::class, 'index'])->name('index');
+            Route::prefix('/settings')->name('settings.')->group(function () {
+                Route::get('/', [MerchantSettingController::class, 'index'])->name('index');
+                Route::post('/', [MerchantSettingController::class, 'update'])->name('update');
+            });
         });
         // Route::get('/', function () {
         //     return Inertia::render('Merchant/Index');
