@@ -42,7 +42,7 @@ export default function Index(props) {
                         <p className="text-sm">{merchant.description}</p>
                     </div>
                     <div>
-                        {merchant.status_id === 1 && (
+                        {merchant.status === "requested" && (
                             <>
                                 <button
                                     className="btn border border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 px-4 py-1 rounded-md text-sm"

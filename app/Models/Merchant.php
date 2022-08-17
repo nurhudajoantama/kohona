@@ -5,6 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+class MerchantStatus
+{
+    const requested = 'requested';
+    const active = 'active';
+    const rejected = 'rejected';
+};
+
 class Merchant extends Model
 {
     use HasFactory;
@@ -15,23 +22,11 @@ class Merchant extends Model
         'name',
         'image',
         'description',
-        'status_id',
+        'status',
     ];
 
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'id');
-    }
-
-    public function status()
-    {
-        switch ($this->status_id) {
-            case 2:
-                return 'active';
-            case 3:
-                return 'rejected';
-            default:
-                return 'requested';
-        }
     }
 }
