@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import AdminDashboard from "@/Layouts/Admin/AdminDashboard";
-import { Inertia } from "@inertiajs/inertia";
+import { useForm } from "@inertiajs/inertia-react";
 import Drawer from "@/Components/Dashboard/Drawer/Drawer";
+import Alert from "@/Components/Alert/Alert";
 
 export default function Index(props) {
     const { merchants } = props;
@@ -10,16 +11,39 @@ export default function Index(props) {
     const [selectedMerchantDetails, setSelectedMerchantDetails] =
         useState(null);
 
-    const handleActive = (id) => {
+    const { post } = useForm();
+    const [alerts, setAlerts] = useState([]);
+
+    const handleActive = ({ id, name }) => {
         return (e) => {
             e.preventDefault();
-            Inertia.post(route("admin.dashboard.merchants.activate", id));
+            post(route("admin.dashboard.merchants.activate", id), {
+                onSuccess: () =>
+                    setAlerts([
+                        ...alerts,
+                        {
+                            color: "green",
+                            title: "Success!!",
+                            message: `Successfully activate ${name} merchant.`,
+                        },
+                    ]),
+            });
         };
     };
-    const handleReject = (id) => {
+    const handleReject = ({ id, name }) => {
         return (e) => {
             e.preventDefault();
-            Inertia.post(route("admin.dashboard.merchants.reject", id));
+            post(route("admin.dashboard.merchants.reject", id), {
+                onSuccess: () =>
+                    setAlerts([
+                        ...alerts,
+                        {
+                            color: "red",
+                            title: "Success!!",
+                            message: `Successfully rejected ${name} merchant.`,
+                        },
+                    ]),
+            });
         };
     };
     const handleDetails = (i) => {
@@ -32,6 +56,7 @@ export default function Index(props) {
 
     return (
         <AdminDashboard title="Merchants" user={props.auth.user}>
+            <Alert alerts={alerts} setAlerts={setAlerts} />
             {merchants.map((merchant, i) => (
                 <div
                     className="border px-6 py-3 max-w-4xl rounded-lg flex justify-between items-center mb-5"
@@ -52,13 +77,13 @@ export default function Index(props) {
                                 </button>
                                 <button
                                     className="ml-4 btn border border-green-500 hover:bg-green-500 hover:text-white text-green-500 px-4 py-1 rounded-md text-sm"
-                                    onClick={handleActive(merchant.id)}
+                                    onClick={handleActive(merchant)}
                                 >
                                     Accepted
                                 </button>
                                 <button
                                     className="ml-4 btn border border-red-500 hover:bg-red-500 hover:text-white text-red-500 px-4 py-1 rounded-md text-sm"
-                                    onClick={handleReject(merchant.id)}
+                                    onClick={handleReject(merchant)}
                                 >
                                     Reject
                                 </button>

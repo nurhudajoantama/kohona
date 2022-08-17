@@ -1,28 +1,52 @@
-import React from "react";
+import React, { useState } from "react";
 import AdminDashboard from "@/Layouts/Admin/AdminDashboard";
-import Button from "@/Components/Button";
-import { Head, useForm } from "@inertiajs/inertia-react";
-import { Inertia } from "@inertiajs/inertia";
+import { useForm } from "@inertiajs/inertia-react";
+import Alert from "@/Components/Alert/Alert";
+import moment from "moment";
 
 export default function adminTokens(props) {
     const { adminTokens } = props;
 
-    const { post, processing } = useForm();
-    const submitGenerate = (e) => {
+    const { post, delete: d } = useForm();
+
+    const [alerts, setAlerts] = useState([]);
+
+    const handleGenerate = (e) => {
         e.preventDefault();
-        post(route("admin.dashboard.admin-tokens.generate"));
+        post(route("admin.dashboard.admin-tokens.generate"), {
+            onSuccess: () =>
+                setAlerts([
+                    ...alerts,
+                    {
+                        color: "green",
+                        title: "Success!!",
+                        message: "Successfully generated admin token.",
+                    },
+                ]),
+        });
     };
 
     const handleDelete = (id) => {
         return (e) => {
             e.preventDefault();
-            Inertia.delete(route("admin.dashboard.admin-tokens.destroy", id));
+            d(route("admin.dashboard.admin-tokens.destroy", id), {
+                onSuccess: () =>
+                    setAlerts([
+                        ...alerts,
+                        {
+                            color: "red",
+                            title: "Success!!",
+                            message: "Successfully deleted admin token.",
+                        },
+                    ]),
+            });
         };
     };
 
     return (
         <AdminDashboard title="Admin Token" user={props.auth.user}>
-            <form onSubmit={submitGenerate}>
+            <Alert alerts={alerts} setAlerts={setAlerts} />
+            <form onSubmit={handleGenerate}>
                 <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white px-5 py-2 rounded-sm">
                     Generate Token
                 </button>
@@ -37,7 +61,10 @@ export default function adminTokens(props) {
                         <div>
                             <p className="underline">{token.token}</p>
                             <span className="font-bold text-sm">
-                                Created By {token.user.name}
+                                Created By {token.user.name} on{" "}
+                                {moment(token.created_at).format(
+                                    "DD MMMM YYYY, HH:mm:ss"
+                                )}
                             </span>
                         </div>
                         <div>

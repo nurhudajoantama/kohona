@@ -26,7 +26,10 @@ function Header({ sidebarOpen, setSidebarOpen, user, level, image, title }) {
                                 <rect x="4" y="17" width="16" height="2" />
                             </svg>
                         </button>
-                        <h4>{title}</h4>
+                        <h4>
+                            {title}
+                            {user.merchant && ` - ${user.merchant.name}`}
+                        </h4>
                     </div>
 
                     {/* Header: Right side */}
