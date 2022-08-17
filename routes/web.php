@@ -41,13 +41,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         });
     });
 
-    // DASHBOARD
-    Route::prefix('/dashboard')->name('dashboard.')->group(function () {
-        Route::get('/', [AdminDashboardController::class, 'index'])->name('index');
-    });
-
     // ADMIN ROUTE
     Route::prefix('/admin/dashboard')->middleware(['can:admin-access'])->name('admin.dashboard.')->group(function () {
+        Route::get('/', [AdminDashboardController::class, 'index'])->name('index');
         // ADMIN TOKEN
         Route::prefix('/admin-tokens')->name('admin-tokens.')->group(function () {
             Route::get('/', [AdminTokenController::class, 'index'])->name('index');
@@ -55,6 +51,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('/{adminToken}', [AdminTokenController::class, 'destroy'])->name('destroy');
         });
 
+        // Merchant
         Route::prefix('/merchants')->name('merchants.')->group(function () {
             Route::get('/', [AdminMerchantController::class, 'index'])->name('index');
             Route::post('/activate/{merchant}', [AdminMerchantController::class, 'activate'])->name('activate');

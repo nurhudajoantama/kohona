@@ -27,12 +27,12 @@ class AdminTokenController extends Controller
             'token' => Str::random(60),
             'user_id' => auth()->user()->id,
         ]);
-        return redirect()->route('dashboard.admin-tokens.index');
+        return redirect()->back();
     }
 
     public function destroy(AdminToken $adminToken)
     {
         $adminToken->delete();
-        return redirect()->route('dashboard.admin-tokens.index');
+        return redirect()->back();
     }
 }

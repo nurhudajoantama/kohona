@@ -8,12 +8,24 @@ export default function Welcome(props) {
             <div className="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
                 <div className="fixed top-0 right-0 px-6 py-4 sm:block">
                     {props.auth.user ? (
-                        <Link
-                            href={route("dashboard.index")}
-                            className="text-sm text-gray-700 dark:text-gray-500 underline"
-                        >
-                            Dashboard
-                        </Link>
+                        <>
+                            {props.auth.user.is_admin && (
+                                <Link
+                                    href={route("admin.dashboard.index")}
+                                    className="text-sm text-gray-700 dark:text-gray-500 underline"
+                                >
+                                    Dashboard
+                                </Link>
+                            )}
+                            <Link
+                                href={route("logout")}
+                                method="post"
+                                as="button"
+                                className="text-sm ml-4 text-gray-700 dark:text-gray-500 underline"
+                            >
+                                Log Out
+                            </Link>
+                        </>
                     ) : (
                         <>
                             <Link
