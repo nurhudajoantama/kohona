@@ -6,11 +6,11 @@ import InputError from "@/Components/InputError";
 import Label from "@/Components/Label";
 import Alert from "@/Components/Alert/Alert";
 import { useForm } from "@inertiajs/inertia-react";
+import { Inertia } from "@inertiajs/inertia";
 import CurrencyInput from "react-currency-input-field";
 
 export default function FormProduct(props) {
     const { update = false } = props;
-
     const { data, setData, post, processing, errors, progress, put } = useForm(
         update
             ? {
@@ -34,7 +34,9 @@ export default function FormProduct(props) {
     const submit = (e) => {
         e.preventDefault();
         if (update) {
-            put(route("merchants.dashboard.products.update", props.product), {
+            post(route("merchants.dashboard.products.update", props.product), {
+                forceFormData: true,
+                replace: true,
                 onSuccess: () =>
                     setAlerts([
                         ...alerts,
@@ -59,6 +61,28 @@ export default function FormProduct(props) {
             <Alert alerts={alerts} setAlerts={setAlerts} />
 
             <form onSubmit={submit} encType="multipart/form-data">
+                <div>
+                    {update && !data.image && props?.product?.image && (
+                        <img
+                            className="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
+                            src={`/storage/${props?.product.image}`}
+                            alt={props?.product.name}
+                        />
+                    )}
+                    <Label forInput="image" value="Image" />
+                    <input
+                        type="file"
+                        name="image"
+                        onChange={(e) => setData("image", e.target.files[0])}
+                    />
+                    {progress && (
+                        <progress value={progress.percentage} max="100">
+                            {progress.percentage}%
+                        </progress>
+                    )}
+                    <InputError message={errors.image} className="mt-2" />
+                </div>
+
                 <div className="mt-4">
                     <Label forInput="name" value="Name" />
                     <Input

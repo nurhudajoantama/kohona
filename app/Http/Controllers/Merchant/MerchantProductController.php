@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class MerchantProductController extends Controller
 {
@@ -48,16 +49,21 @@ class MerchantProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        $request->merge(['slug' => Str::slug($request->name)]);
+        if ($request->has('name')) {
+            $request->merge(['slug' => Str::slug($request->name)]);
+        }
         $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'slug' => 'required|string|unique:products,slug,' . $product->id,
+            'name' => 'string|max:255',
+            'slug' => 'string|unique:products,slug,' . $product->id,
             'image' => 'image|max:2048',
-            'description' => 'required|string',
-            'price' => 'required|integer',
-            'stock' => 'required|integer',
+            'description' => 'string',
+            'price' => 'integer',
+            'stock' => 'integer',
         ]);
         if ($request->file('image')) {
+            if ($product->image) {
+                Storage::delete($product->image);
+            }
             $data['image'] = $request->file('image')->store('product-image', 'public');
         }
         $product->update($data);

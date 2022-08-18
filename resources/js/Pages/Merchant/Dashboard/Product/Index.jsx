@@ -44,9 +44,15 @@ export default function Index(props) {
                     key={product.id}
                 >
                     <div>
+                        {product.image && (
+                            <img
+                                className="p-1 w-24 h-24 rounded-md"
+                                src={`/storage/${product.image}`}
+                                alt={product.name}
+                            />
+                        )}
                         <h1 className="font-md font-bold">{product.name}</h1>
                         <p>{product.description}</p>
-
                         <NumberFormat
                             value={product.price}
                             displayType={"text"}
