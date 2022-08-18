@@ -14,10 +14,10 @@ export default function Index(props) {
     const { post } = useForm();
     const [alerts, setAlerts] = useState([]);
 
-    const handleActive = ({ id, name }) => {
+    const handleActive = ({ name, ...merchant }) => {
         return (e) => {
             e.preventDefault();
-            post(route("admin.dashboard.merchants.activate", id), {
+            post(route("admin.dashboard.merchants.activate", merchant), {
                 onSuccess: () =>
                     setAlerts([
                         ...alerts,
@@ -30,10 +30,10 @@ export default function Index(props) {
             });
         };
     };
-    const handleReject = ({ id, name }) => {
+    const handleReject = ({ name, ...merchant }) => {
         return (e) => {
             e.preventDefault();
-            post(route("admin.dashboard.merchants.reject", id), {
+            post(route("admin.dashboard.merchants.reject", merchant), {
                 onSuccess: () =>
                     setAlerts([
                         ...alerts,
@@ -67,7 +67,7 @@ export default function Index(props) {
                         <p className="text-sm">{merchant.description}</p>
                     </div>
                     <div>
-                        {merchant.status === "requested" && (
+                        {merchant.status_id === 1 && (
                             <>
                                 <button
                                     className="btn border border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 px-4 py-1 rounded-md text-sm"

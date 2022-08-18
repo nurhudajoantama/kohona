@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\EnumStatus;
 use App\Models\Merchant;
-use App\Models\MerchantStatus;
 
 class AdminMerchantController extends Controller
 {
@@ -18,13 +18,13 @@ class AdminMerchantController extends Controller
 
     public function activate(Merchant $merchant)
     {
-        $merchant->update(['status' => MerchantStatus::active]);
+        $merchant->update(['status_id' => EnumStatus::activeId]);
         return redirect()->back();
     }
 
     public function reject(Merchant $merchant)
     {
-        $merchant->update(['status' => MerchantStatus::rejected]);
+        $merchant->update(['status_id' => EnumStatus::rejectedId]);
         return redirect()->back();
     }
 }

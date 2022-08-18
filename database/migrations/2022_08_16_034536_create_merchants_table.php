@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('image')->nullable();
             $table->text('description')->nullable();
-            $table->enum('status', ['requested', 'active', 'rejected'])->default('requested');
+            $table->foreignId('status_id')->default(1)->references('id')->on('statuses')->nullOnDelete();
             $table->timestamps();
         });
     }

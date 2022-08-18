@@ -1,32 +1,37 @@
 import React from "react";
-import Authenticated from "@/Layouts/Authenticated";
 import { Head } from "@inertiajs/inertia-react";
+import Main from "@/Layouts/Main";
 
 export default function MerchantWait(props) {
     const { merchant } = props;
     return (
-        <Authenticated
-            auth={props.auth}
-            errors={props.errors}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Dashboard
-                </h2>
-            }
-        >
+        <Main user={props.auth.user} title="Merchant Wait">
             <Head title="Dashboard" />
-
-            <p>name : {merchant.name}</p>
-            <p>description : {merchant.description}</p>
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 bg-yellow-500 border-b border-gray-200">
-                            {merchant.status}
+            <div className="pt-7">
+                <div className="flex flex-col items-center">
+                    <h1 className="capitalize font-bold text-xl">
+                        {merchant.name}
+                    </h1>
+                    <p className="text-gray-600 text-center">
+                        {merchant.description}
+                    </p>
+                </div>
+                <div className="py-12">
+                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                        <div
+                            className={`p-6 rounded-lg border-b border-gray-200 flex justify-center ${
+                                merchant.status_id === 1
+                                    ? "bg-yellow-500"
+                                    : "bg-red-500"
+                            }`}
+                        >
+                            <div className="font-semibold text-white text-lg">
+                                {merchant.status.status}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </Authenticated>
+        </Main>
     );
 }

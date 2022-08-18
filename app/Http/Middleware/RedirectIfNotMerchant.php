@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\MerchantStatus;
+use App\Models\EnumStatus;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -22,7 +22,7 @@ class RedirectIfNotMerchant
         if ($merchant == null) {
             return redirect(route('merchants.register'));
         }
-        if ($merchant->status != MerchantStatus::active) {
+        if ($merchant->status_id != EnumStatus::activeId) {
             return redirect(route('merchants.wait'));
         }
         return $next($request);
