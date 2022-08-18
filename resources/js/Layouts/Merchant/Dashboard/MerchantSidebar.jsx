@@ -28,7 +28,14 @@ export default function MerchantSidebar(props) {
                         >
                             Merchant Dashboard
                         </SidebarLink>
-                        <SidebarLink>Products</SidebarLink>
+                        <SidebarLink
+                            to="/merchants/dashboard/products"
+                            active={
+                                pathname === "/merchants/dashboard/products"
+                            }
+                        >
+                            Products
+                        </SidebarLink>
                         <SidebarLink
                             to="/merchants/dashboard/settings"
                             active={

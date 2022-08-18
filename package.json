@@ -23,6 +23,8 @@
     },
     "dependencies": {
         "moment": "^2.29.4",
+        "react-currency-input-field": "^3.6.4",
+        "react-number-format": "^4.9.3",
         "react-transition-group": "^4.4.5",
         "styled-components": "^5.3.5"
     }

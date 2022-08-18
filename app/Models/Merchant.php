@@ -29,4 +29,9 @@ class Merchant extends Model
     {
         return $this->hasOne(User::class, 'id', 'id');
     }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
 }
