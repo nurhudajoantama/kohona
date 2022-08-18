@@ -279,6 +279,30 @@
   resolved "https://registry.yarnpkg.com/@headlessui/react/-/react-1.6.6.tgz#3073c066b85535c9d28783da0a4d9288b5354d0c"
   integrity sha512-MFJtmj9Xh/hhBMhLccGbBoSk+sk61BlP6sJe4uQcVMtXZhCgGqd2GyIQzzmsdPdTEWGSF434CBi8mnhR6um46Q==
 
+"@iconify/icons-akar-icons@^1.2.9":
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-akar-icons/-/icons-akar-icons-1.2.9.tgz#8add6a0534bd00a038d32fd19769860d2847abb3"
+  integrity sha512-57QfZjfdWoxW6SJ1wYzd6Id8TbBkS9zuHX9ii0Zhsv6IOJ9vbDgfbZz8gaNz7nabV5St5o7oLFLA9Izxb5dpyw==
+  dependencies:
+    "@iconify/types" "*"
+
+"@iconify/icons-bxs@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-bxs/-/icons-bxs-1.2.4.tgz#a5ab4a04caf08e0de74774ff894ed29abac00de8"
+  integrity sha512-CjGnCyNetJ4MqssJTeyOKgdowFvrO/yb7kTmJixFPSY9dHF/Kbu/jt+9KEg/vVXyQGE0bHhbaBfDsyr/9G6E9w==
+  dependencies:
+    "@iconify/types" "*"
+
+"@iconify/react@^3.2.2":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@iconify/react/-/react-3.2.2.tgz#ab5241dc01562076bae3b0c22238aff7e5f029cc"
+  integrity sha512-z3+Jno3VcJzgNHsN5mEvYMsgCkOZkydqdIwOxjXh45+i2Vs9RGH68Y52vt39izwFSfuYUXhaW+1u7m7+IhCn/g==
+
+"@iconify/types@*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@iconify/types/-/types-1.1.0.tgz#dc15fc988b1b3fd558dd140a24ede7e0aac11280"
+  integrity sha512-Jh0llaK2LRXQoYsorIH8maClebsnzTcve+7U3rQUSnC11X4jtPnFuyatqFLvMxZ8MLG8dB4zfHsbPfuvxluONw==
+
 "@inertiajs/inertia-react@^0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@inertiajs/inertia-react/-/inertia-react-0.8.0.tgz#1749208f0fc7fab1e2d235d6da7e0ecaa3e4a757"

@@ -21,12 +21,7 @@ use App\Http\Controllers\Merchant\MerchantDashboardController;
 */
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+    return Inertia::render('Index');
 });
 
 Route::prefix('/merchants')->name('merchants.')->group(function () {
