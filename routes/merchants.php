@@ -5,6 +5,7 @@ use App\Http\Controllers\Merchant\MerchantProductController;
 use App\Http\Controllers\Merchant\MerchantSettingController;
 use App\Http\Controllers\Merchant\MerchantRegisterController;
 use App\Http\Controllers\Merchant\MerchantDashboardController;
+use App\Http\Controllers\Merchant\MerchantController;
 
 Route::prefix('/merchants')->middleware(['auth', 'verified'])->name('merchants.')->group(function () {
     // Register Merchant
@@ -28,4 +29,11 @@ Route::prefix('/merchants')->middleware(['auth', 'verified'])->name('merchants.'
     // Route::get('/', function () {
     //     return Inertia::render('Merchant/Index');
     // })->name('index');
+});
+
+Route::prefix('/merchants')->name('merchants.')->group(function () {
+    Route::get('/', function () {
+        return 'index';
+    })->name('index');
+    Route::get('/{merchant}', [MerchantController::class, 'show'])->name('show');
 });

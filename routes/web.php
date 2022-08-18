@@ -1,14 +1,8 @@
 <?php
 
-use App\Http\Controllers\Merchant\MerchantController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Application;
 use App\Http\Controllers\UserSettingController;
-use App\Http\Controllers\Merchant\MerchantSettingController;
-use App\Http\Controllers\Merchant\MerchantRegisterController;
-use App\Http\Controllers\Merchant\MerchantDashboardController;
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -22,13 +16,6 @@ use App\Http\Controllers\Merchant\MerchantDashboardController;
 
 Route::get('/', function () {
     return Inertia::render('Index');
-});
-
-Route::prefix('/merchants')->name('merchants.')->group(function () {
-    Route::get('/', function () {
-        return 'index';
-    })->name('index');
-    Route::get('/{merchant}', [MerchantController::class, 'show'])->name('show');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
