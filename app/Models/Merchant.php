@@ -25,6 +25,11 @@ class Merchant extends Model
         'status',
     ];
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public function user()
     {
         return $this->hasOne(User::class, 'id', 'id');

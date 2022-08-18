@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Merchant\MerchantController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -32,6 +33,7 @@ Route::prefix('/merchants')->name('merchants.')->group(function () {
     Route::get('/', function () {
         return 'index';
     })->name('index');
+    Route::get('/{merchant}', [MerchantController::class, 'show'])->name('show');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
