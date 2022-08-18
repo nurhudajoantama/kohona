@@ -14,7 +14,7 @@ export default function Show(props) {
                 {merchant.image && (
                     <div className="mb-8">
                         <img
-                            className="w-52 h-52 rounded-full ring-2 ring-gray-700"
+                            className="w-52 h-52 rounded-full ring-2 ring-gray-400"
                             src={`/storage/${merchant.image}`}
                             alt={merchant.name}
                         />

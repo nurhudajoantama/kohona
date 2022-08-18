@@ -36,15 +36,15 @@ export default function Navbar({ user }) {
                         {/*  */}
 
                         <form
-                            class="items-center hidden md:flex mx-3"
+                            className="items-center hidden md:flex mx-3"
                             style={{ width: "600px" }}
                             onSubmit={(e) => e.preventDefault()}
                         >
-                            <label for="simple-search" class="sr-only">
+                            <label htmlFor="simple-search" className="sr-only">
                                 Search
                             </label>
-                            <div class="relative w-full">
-                                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                            <div className="relative w-full">
+                                <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
                                     <Icon
                                         icon={searchIcon}
                                         className="h-5 w-5 text-gray-500"
@@ -53,16 +53,16 @@ export default function Navbar({ user }) {
                                 <input
                                     type="text"
                                     id="simple-search"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-yellow-300 focus:border-yellow-100 block w-full pl-10 p-2.5"
+                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-yellow-300 focus:border-yellow-100 block w-full pl-10 p-2.5"
                                     placeholder="Search"
                                 />
                             </div>
                             <button
                                 type="submit"
-                                class="p-2.5 ml-2 text-sm font-medium text-white bg-yellow-300 rounded-full border border-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-100"
+                                className="p-2.5 ml-2 text-sm font-medium text-white bg-yellow-300 rounded-full border border-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-100"
                             >
                                 <Icon icon={searchIcon} className="h-5 w-5" />
-                                <span class="sr-only">Search</span>
+                                <span className="sr-only">Search</span>
                             </button>
                         </form>
 
@@ -129,9 +129,10 @@ export default function Navbar({ user }) {
                                             )}
                                             <Menu.Item>
                                                 <Link
+                                                    as="button"
                                                     method="post"
                                                     href="/logout"
-                                                    className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                                    className="w-full text-start block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                                                 >
                                                     Logout
                                                 </Link>
@@ -140,17 +141,11 @@ export default function Navbar({ user }) {
                                     </Transition>
                                 </Menu>
                             ) : (
-                                <Link href="/login" className="ml-3">
-                                    <button
-                                        type="button"
-                                        className="p-1 text-gray-800 hover:text-gray-700"
-                                    >
-                                        <span className="sr-only">Login</span>
-                                        <Icon
-                                            icon={userCircle}
-                                            className="h-6 w-6"
-                                        />
-                                    </button>
+                                <Link
+                                    href="/register"
+                                    className="ml-3 px-3 py-1.5 text-white bg-yellow-400 hover:bg-yellow-300 rounded-md"
+                                >
+                                    Register
                                 </Link>
                             )}
                         </div>

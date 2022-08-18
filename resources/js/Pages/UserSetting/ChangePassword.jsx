@@ -1,12 +1,10 @@
 import React, { useEffect } from "react";
 import Button from "@/Components/Button";
-import Checkbox from "@/Components/Checkbox";
-import Guest from "@/Layouts/Guest";
 import Input from "@/Components/Input";
 import InputError from "@/Components/InputError";
 import Label from "@/Components/Label";
 import { Head, useForm } from "@inertiajs/inertia-react";
-import Authenticated from "@/Layouts/Authenticated";
+import Setting from "@/Layouts/Setting";
 
 export default function ChangePassword(props) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -29,18 +27,10 @@ export default function ChangePassword(props) {
     };
 
     return (
-        <Authenticated
-            auth={props.auth}
-            errors={props.errors}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    User Setting
-                </h2>
-            }
-        >
+        <Setting user={props.auth.user}>
             <Head title="User Setting" />
 
-            <form onSubmit={submit} className="p-7">
+            <form onSubmit={submit}>
                 <div>
                     <Label forInput="password" value="Password" />
                     <Input
@@ -88,12 +78,10 @@ export default function ChangePassword(props) {
                     />
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
-                    <Button className="ml-4" processing={processing}>
-                        Update
-                    </Button>
+                <div className="mt-4">
+                    <Button processing={processing}>Update</Button>
                 </div>
             </form>
-        </Authenticated>
+        </Setting>
     );
 }
