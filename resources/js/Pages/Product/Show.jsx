@@ -72,7 +72,7 @@ export default function Show(props) {
                         )}
                     />
                     <Link href={route("merchants.show", merchant)}>
-                        <div className="flex mt-10 px-5 py-3 border border-1 border-gray-300 rounded-xl drop-shadow-xl">
+                        <div className="flex mt-10 px-5 py-3 border border-1 border-gray-300 rounded-xl shadow-xl">
                             <div>
                                 {merchant.image && (
                                     <img
@@ -89,7 +89,7 @@ export default function Show(props) {
                             </div>
                         </div>
                     </Link>
-                    <div className="mt-10 px-5 py-3 border border-1 border-gray-300 rounded-md drop-shadow-xl">
+                    <div className="mt-10 px-5 py-3 border border-1 border-gray-300 rounded-md shadow-xl">
                         <h4 className="font-semibold text-lg text-yellow-400">
                             Description
                         </h4>
@@ -99,7 +99,7 @@ export default function Show(props) {
                     </div>
                 </div>
                 <div>
-                    <div className="mt-10 px-5 py-3 border border-1 border-gray-300 rounded-md drop-shadow-xl">
+                    <div className="mt-10 px-5 py-3 border border-1 border-gray-300 rounded-md shadow-xl">
                         <h1 className="capitalize font-semibold text-xl">
                             {product.name}
                         </h1>
