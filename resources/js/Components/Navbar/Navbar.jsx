@@ -74,7 +74,8 @@ export default function Navbar({ user }) {
                                 <span className="sr-only">Cart</span>
                                 <Icon icon={cartIcon} className="h-6 w-6" />
                             </button>
-
+                            {/* Divider */}
+                            <hr className="w-px h-6 bg-slate-200 mx-3" />
                             {/* Profile dropdown */}
                             {user ? (
                                 <Menu as="div" className="ml-3 relative">
@@ -141,12 +142,20 @@ export default function Navbar({ user }) {
                                     </Transition>
                                 </Menu>
                             ) : (
-                                <Link
-                                    href="/register"
-                                    className="ml-3 px-3 py-1.5 text-white bg-yellow-400 hover:bg-yellow-300 rounded-md"
-                                >
-                                    Register
-                                </Link>
+                                <>
+                                    <Link
+                                        href="/login"
+                                        className="ml-3 px-3 py-1.5 text-yellow-400 ring-1 ring-yellow-400 rounded-md"
+                                    >
+                                        Log In
+                                    </Link>
+                                    <Link
+                                        href="/register"
+                                        className="ml-3 px-3 py-1.5 text-white bg-yellow-400 rounded-md"
+                                    >
+                                        Register
+                                    </Link>
+                                </>
                             )}
                         </div>
                     </div>
