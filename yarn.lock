@@ -286,6 +286,13 @@
   dependencies:
     "@iconify/types" "*"
 
+"@iconify/icons-bi@^1.2.7":
+  version "1.2.7"
+  resolved "https://registry.yarnpkg.com/@iconify/icons-bi/-/icons-bi-1.2.7.tgz#4b52c56672dd57ef8d334319b6ac0bcf660db282"
+  integrity sha512-UwJRr8XeLMJHurGvIg02i+znNBFhDoUBhC4OIczdp7IeJt5J/1zx65w4jZSxql2dC81u9SrE4I24IlG0XdzmoQ==
+  dependencies:
+    "@iconify/types" "*"
+
 "@iconify/icons-bxs@^1.2.4":
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/@iconify/icons-bxs/-/icons-bxs-1.2.4.tgz#a5ab4a04caf08e0de74774ff894ed29abac00de8"

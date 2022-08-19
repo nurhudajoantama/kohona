@@ -36,8 +36,8 @@ export default function Navbar({ user }) {
                         {/*  */}
 
                         <form
-                            className="items-center hidden md:flex mx-3"
-                            style={{ width: "600px" }}
+                            className="items-center hidden lg:flex mx-3"
+                            style={{ width: "500px" }}
                             onSubmit={(e) => e.preventDefault()}
                         >
                             <label htmlFor="simple-search" className="sr-only">

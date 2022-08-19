@@ -7,6 +7,7 @@
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
         "@iconify/icons-akar-icons": "^1.2.9",
+        "@iconify/icons-bi": "^1.2.7",
         "@iconify/icons-bxs": "^1.2.4",
         "@iconify/react": "^3.2.2",
         "@inertiajs/inertia": "^0.11.0",
