@@ -6,9 +6,9 @@ import NumberFormat from "react-number-format";
 import { Link } from "@inertiajs/inertia-react";
 import cartPlus from "@iconify/icons-bi/cart-plus";
 
-export default function Show({ product: { merchant, ...product } }) {
+export default function Show({ product: { merchant, ...product }, ...props }) {
     return (
-        <Main>
+        <Main user={props.auth.user}>
             <div className="mt-24 grid grid-cols-3 gap-12">
                 <div>
                     <img
