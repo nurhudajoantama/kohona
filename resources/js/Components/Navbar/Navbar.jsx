@@ -78,7 +78,7 @@ export default function Navbar({ user }) {
                             <hr className="w-px h-6 bg-slate-200 mx-3" />
                             {/* Profile dropdown */}
                             {user ? (
-                                <Menu as="div" className="ml-3 relative">
+                                <Menu as="div" className="relative">
                                     <div>
                                         <Menu.Button className="flex text-sm rounded-full ">
                                             <span className="sr-only">
@@ -86,7 +86,7 @@ export default function Navbar({ user }) {
                                             </span>
                                             <Icon
                                                 icon={userCircle}
-                                                className="h-8 w-8 rounded-full text-gray-800 hover:text-gray-700"
+                                                className="h-6 w-6 rounded-full text-gray-800 hover:text-gray-700"
                                             />
                                         </Menu.Button>
                                     </div>
@@ -145,13 +145,13 @@ export default function Navbar({ user }) {
                                 <>
                                     <Link
                                         href="/login"
-                                        className="ml-3 px-3 py-1.5 text-yellow-400 ring-1 ring-yellow-400 rounded-md"
+                                        className="ml-3 px-2 py-1 text-yellow-400 border border-1 border-yellow-400 rounded-md"
                                     >
                                         Log In
                                     </Link>
                                     <Link
                                         href="/register"
-                                        className="ml-3 px-3 py-1.5 text-white bg-yellow-400 rounded-md"
+                                        className="ml-3 px-2 py-1 text-white border border-1 border-yellow-400 bg-yellow-400 rounded-md"
                                     >
                                         Register
                                     </Link>
