@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import Button from "@/Components/Button";
-import Guest from "@/Layouts/Guest";
+import Auth from "@/Layouts/Auth/Auth";
 import Input from "@/Components/Input";
 import InputError from "@/Components/InputError";
 import Label from "@/Components/Label";
@@ -37,8 +37,18 @@ export default function Register() {
     };
 
     return (
-        <Guest>
+        <Auth>
             <Head title="Register" />
+
+            <div className="mb-7">
+                <h1 className="font-semibold text-2xl">Register</h1>
+                <p className="text-gray-600">
+                    Already have an account?{" "}
+                    <Link className="underline" href="/login">
+                        Log in
+                    </Link>
+                </p>
+            </div>
 
             <form onSubmit={submit}>
                 <div>
@@ -124,19 +134,25 @@ export default function Register() {
                     <InputError message={errors.code} className="mt-2" />
                 </div>
 
-                <div className="flex items-center justify-end mt-4">
-                    <Link
-                        href={route("login")}
-                        className="underline text-sm text-gray-600 hover:text-gray-900"
+                <div className="flex items-center justify-end mt-5">
+                    <Button
+                        className="w-full flex justify-center bg-yellow-400 py-3"
+                        processing={processing}
                     >
-                        Already registered?
-                    </Link>
-
-                    <Button className="ml-4" processing={processing}>
                         Register
                     </Button>
                 </div>
             </form>
-        </Guest>
+            <div className="flex justify-center mt-5">
+                <p className="w-2/3 text-center">
+                    Dengan mendaftar, saya menyetujui{" "}
+                    <span className="text-yellow-400">
+                        Syarat dan Ketentuan{" "}
+                    </span>{" "}
+                    serta{" "}
+                    <span className="text-yellow-400">Kebijakan Privasi</span>
+                </p>
+            </div>
+        </Auth>
     );
 }
