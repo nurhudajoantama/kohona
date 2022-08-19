@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\IndexController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserSettingController;
@@ -15,9 +16,7 @@ use App\Http\Controllers\Product\ProductController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Index');
-});
+Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::prefix('/user/settings')->name('user.setting.')->group(function () {
