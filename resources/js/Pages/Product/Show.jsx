@@ -116,7 +116,7 @@ export default function Show(props) {
                                     onClick={handleRemoveQuantity}
                                     className="flex items-center justify-center px-3 py-2 border border-1 border-gray-200 rounded-l-md hover:bg-gray-100 hover:text-gray-700"
                                 >
-                                    <Icon icon={cartPlus} className="mr-1" />
+                                    <Icon icon={cartDash} className="mx-1" />
                                 </button>
                                 <input
                                     className="border w-16 border-1 border-gray-200 "
@@ -128,7 +128,7 @@ export default function Show(props) {
                                     onClick={handleAddQuantity}
                                     className="flex items-center justify-center px-3 py-2 border border-1 border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-gray-700"
                                 >
-                                    <Icon icon={cartDash} className="mr-1" />
+                                    <Icon icon={cartPlus} className="mx-1" />
                                 </button>
                             </div>
                         </div>

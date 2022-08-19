@@ -19,15 +19,18 @@ export default function Cart(props) {
     const handleRemove = (cart) => {
         return (e) => {
             e.preventDefault();
-            d(route("carts.destroy", cart));
-            setAlerts([
-                ...alerts,
-                {
-                    color: "red",
-                    title: "Success!!",
-                    message: "Successfully deleted admin token.",
+            d(route("carts.destroy", cart), {
+                onSuccess: () => {
+                    setAlerts([
+                        ...alerts,
+                        {
+                            color: "red",
+                            title: "Success!!",
+                            message: `Successfully remove item "${cart.product.name}" form your cart.`,
+                        },
+                    ]);
                 },
-            ]);
+            });
         };
     };
 
