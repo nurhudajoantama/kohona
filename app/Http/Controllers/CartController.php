@@ -48,4 +48,19 @@ class CartController extends Controller
         }
         return redirect()->route('carts.index');
     }
+
+    public function destroy(Cart $cart)
+    {
+        $product = $cart->product;
+        try {
+            $product->update([
+                'stock' => $product->stock + $cart->quantity,
+            ]);
+            $cart->delete();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back();
+        }
+        return redirect()->route('carts.index');
+    }
 }

@@ -3,14 +3,33 @@ import Main from "@/Layouts/Main";
 
 import moment from "moment/moment";
 import PriceFormat from "@/Components/Price/PriceFormat";
-import { Link } from "@inertiajs/inertia-react";
+import { Link, useForm } from "@inertiajs/inertia-react";
+import Alert from "@/Components/Alert/Alert";
 
 export default function Cart(props) {
     const { carts } = props;
+    const { delete: d } = useForm();
 
     const total = carts.reduce((acc, cart) => {
         return acc + cart.quantity * cart.product.price;
     }, 0);
+
+    const [alerts, setAlerts] = React.useState([]);
+
+    const handleRemove = (cart) => {
+        return (e) => {
+            e.preventDefault();
+            d(route("carts.destroy", cart));
+            setAlerts([
+                ...alerts,
+                {
+                    color: "red",
+                    title: "Success!!",
+                    message: "Successfully deleted admin token.",
+                },
+            ]);
+        };
+    };
 
     return (
         <Main user={props.auth.user}>
@@ -18,6 +37,7 @@ export default function Cart(props) {
                 <h1 className="font-bold text-4xl">Cart</h1>
                 <p>Your cart is going full, let's pay... </p>
             </div>
+            <Alert alerts={alerts} setAlerts={setAlerts} />
             <div className="grid grid-cols-3 gap-7">
                 <div className="col-span-2">
                     {carts.map((cart, index) => (
@@ -95,7 +115,10 @@ export default function Cart(props) {
                                             )}
                                         />
                                         <div className="mt-3">
-                                            <button className="bg-red-600 text-white py-1 px-3 rounded-md">
+                                            <button
+                                                onClick={handleRemove(cart)}
+                                                className="bg-red-600 text-white py-1 px-3 rounded-md"
+                                            >
                                                 Remove
                                             </button>
                                         </div>
