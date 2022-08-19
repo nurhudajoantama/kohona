@@ -3,7 +3,7 @@ import Main from "@/Layouts/Main";
 
 import moment from "moment/moment";
 import PriceFormat from "@/Components/Price/PriceFormat";
-import { Link, useForm } from "@inertiajs/inertia-react";
+import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import Alert from "@/Components/Alert/Alert";
 
 export default function Cart(props) {
@@ -36,6 +36,7 @@ export default function Cart(props) {
 
     return (
         <Main user={props.auth.user}>
+            <Head title="Cart" />
             <div className="mb-7 mt-12">
                 <h1 className="font-bold text-4xl">Cart</h1>
                 <p>Your cart is going full, let's pay... </p>
