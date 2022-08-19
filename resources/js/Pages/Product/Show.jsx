@@ -111,22 +111,22 @@ export default function Show(props) {
                             <span className="block text-gray-700">
                                 Quantity
                             </span>
-                            <div className="flex">
+                            <div className="flex mt-1">
                                 <button
                                     onClick={handleRemoveQuantity}
-                                    className="flex items-center justify-center px-3 py-2 border border-1 border-gray-300 rounded-l-md bg-gray-100 hover:bg-gray-200 hover:text-gray-700"
+                                    className="flex items-center justify-center px-3 py-2 border border-1 border-gray-200 rounded-l-md hover:bg-gray-100 hover:text-gray-700"
                                 >
                                     <Icon icon={cartPlus} className="mr-1" />
                                 </button>
                                 <input
-                                    className="border border-1 border-gray-300 bg-gray-100"
+                                    className="border w-16 border-1 border-gray-200 "
                                     type="number"
                                     value={data.quantity}
                                     readOnly
                                 />
                                 <button
                                     onClick={handleAddQuantity}
-                                    className="flex items-center justify-center px-3 py-2 border border-1 border-gray-300 rounded-r-md bg-gray-100 hover:bg-gray-200 hover:text-gray-700"
+                                    className="flex items-center justify-center px-3 py-2 border border-1 border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-gray-700"
                                 >
                                     <Icon icon={cartDash} className="mr-1" />
                                 </button>
