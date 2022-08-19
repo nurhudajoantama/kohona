@@ -120,10 +120,11 @@ export default function Login({ status, canResetPassword }) {
             <div>
                 <p className="text-gray-600 text-center mt-4">
                     Don't have an account?{" "}
-                    <Link href={route("register")}>
-                        <a className="underline text-sm text-gray-600 hover:text-gray-900">
-                            Register
-                        </a>
+                    <Link
+                        href={route("register")}
+                        className="underline text-sm text-gray-600 hover:text-gray-900"
+                    >
+                        Register
                     </Link>
                 </p>
             </div>
