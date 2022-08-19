@@ -30,5 +30,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('admin-access', function ($user) {
             return $user->is_admin;
         });
+
+        Gate::define('merchant-update', function ($user, $product) {
+            return $user->is_admin || $user->id === $product->merchant_id;
+        });
     }
 }

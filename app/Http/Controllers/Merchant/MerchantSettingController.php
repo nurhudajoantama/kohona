@@ -13,7 +13,7 @@ class MerchantSettingController extends Controller
 {
     public function index()
     {
-        $merchant = Merchant::find(auth()->id());
+        $merchant = auth()->user()->merchant;
         return Inertia::render('Merchant/Dashboard/Setting', compact('merchant'));
     }
 
@@ -23,7 +23,7 @@ class MerchantSettingController extends Controller
             'slug' => Str::slug($request->name),
         ]);
         // dd($request->all());
-        $merchant = Merchant::find(auth()->id());
+        $merchant = auth()->user()->merchant;
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'string',

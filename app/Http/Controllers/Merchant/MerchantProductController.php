@@ -7,6 +7,7 @@ use App\Models\Product;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
 class MerchantProductController extends Controller
@@ -43,12 +44,18 @@ class MerchantProductController extends Controller
 
     public function edit(Product $product)
     {
+        if (!Gate::allows('merchant-update', $product)) {
+            abort(403);
+        }
         $update = true;
         return Inertia::render('Merchant/Dashboard/Product/FormProduct', compact('product', 'update'));
     }
 
     public function update(Request $request, Product $product)
     {
+        if (!Gate::allows('merchant-update', $product)) {
+            abort(403);
+        }
         if ($request->has('name')) {
             $request->merge(['slug' => Str::slug($request->name)]);
         }
@@ -72,6 +79,9 @@ class MerchantProductController extends Controller
 
     public function destroy(Product $product)
     {
+        if (!Gate::allows('merchant-update', $product)) {
+            abort(403);
+        }
         $product->delete();
         return redirect()->back();
     }
