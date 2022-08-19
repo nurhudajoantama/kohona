@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\IndexController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('/', [UserSettingController::class, 'password'])->name('index');
             Route::post('/', [UserSettingController::class, 'passwordUpdate'])->name('update');
         });
+    });
+
+    Route::prefix('/carts')->name('carts.')->group(function () {
+        Route::get('/', [CartController::class, 'index'])->name('index');
+        Route::post('/', [CartController::class, 'store'])->name('store');
     });
 });
 
