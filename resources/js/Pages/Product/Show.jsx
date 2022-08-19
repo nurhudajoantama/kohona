@@ -3,12 +3,13 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import shippingBox01 from "@iconify/icons-akar-icons/shipping-box-01";
 import NumberFormat from "react-number-format";
-import { Link } from "@inertiajs/inertia-react";
+import { Head, Link } from "@inertiajs/inertia-react";
 import cartPlus from "@iconify/icons-bi/cart-plus";
 
 export default function Show({ product: { merchant, ...product }, ...props }) {
     return (
         <Main user={props.auth.user}>
+            <Head title={product.name} />
             <div className="mt-24 grid grid-cols-3 gap-12">
                 <div>
                     <img
