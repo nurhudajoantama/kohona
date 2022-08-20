@@ -52,7 +52,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, children }) {
         <div>
             {/* Sidebar backdrop (mobile only) */}
             <div
-                className={`fixed inset-0 bg-slate-900 bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
+                className={`fixed inset-0 bg-white bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
                     sidebarOpen
                         ? "opacity-100"
                         : "opacity-0 pointer-events-none"
@@ -64,7 +64,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, children }) {
             <div
                 id="sidebar"
                 ref={sidebar}
-                className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-slate-800 p-4 transition-all duration-200 ease-in-out ${
+                className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 transform h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-white p-4 transition-all duration-200 ease-in-out border-r ${
                     sidebarOpen ? "translate-x-0" : "-translate-x-64"
                 }`}
             >
@@ -73,7 +73,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, children }) {
                     {/* Close button */}
                     <button
                         ref={trigger}
-                        className="lg:hidden text-slate-500 hover:text-slate-400"
+                        className="lg:hidden text-yellow-400 "
                         onClick={() => setSidebarOpen(!sidebarOpen)}
                         aria-controls="sidebar"
                         aria-expanded={sidebarOpen}
@@ -88,8 +88,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen, children }) {
                         </svg>
                     </button>
                     {/* Logo */}
-                    <Link href="/" className="block">
+                    <Link href="/" className="flex items-center">
                         <ApplicationLogo className="h-10 w-10" />
+                        <h3 className="text-xl font-semibold ml-4">Kohona</h3>
                     </Link>
                 </div>
 
@@ -109,11 +110,11 @@ function Sidebar({ sidebarOpen, setSidebarOpen, children }) {
                                 viewBox="0 0 24 24"
                             >
                                 <path
-                                    className="text-slate-400"
+                                    className="text-yellow-400"
                                     d="M19.586 11l-5-5L16 4.586 23.414 12 16 19.414 14.586 18l5-5H7v-2z"
                                 />
                                 <path
-                                    className="text-slate-600"
+                                    className="text-yellow-600"
                                     d="M3 23H1V1h2z"
                                 />
                             </svg>

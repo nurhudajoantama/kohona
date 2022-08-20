@@ -1,6 +1,10 @@
 import React from "react";
 import Sidebar from "@/Components/Dashboard/Sidebar/Sidebar";
 import SidebarLink from "@/Components/Dashboard/Sidebar/SidebarLink";
+import BagShopping from "@/Components/Icon/BagShopping";
+import GeneratingTokenRounded from "@/Components/Icon/GeneratingTokenRounded";
+import DashboardFilled from "@/Components/Icon/DashboardFilled";
+import ClipboardList from "@/Components/Icon/ClipboardList";
 
 export default function AdminSidebar(props) {
     const { pathname } = window.location;
@@ -10,7 +14,7 @@ export default function AdminSidebar(props) {
             <div className="space-y-8">
                 {/* Pages group */}
                 <div>
-                    <h3 className="text-xs uppercase text-slate-500 font-semibold pl-3">
+                    <h3 className="text-xs uppercase text-yellow-500 font-semibold pl-3">
                         <span
                             className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6"
                             aria-hidden="true"
@@ -25,6 +29,7 @@ export default function AdminSidebar(props) {
                         <SidebarLink
                             to="/admin/dashboard"
                             active={pathname === "/admin/dashboard"}
+                            Icon={DashboardFilled}
                         >
                             Admin Dashboard
                         </SidebarLink>
@@ -33,14 +38,23 @@ export default function AdminSidebar(props) {
                             active={
                                 pathname === "/admin/dashboard/admin-tokens"
                             }
+                            Icon={GeneratingTokenRounded}
                         >
                             Admin Tokens
                         </SidebarLink>
                         <SidebarLink
                             to="/admin/dashboard/merchants"
                             active={pathname === "/admin/dashboard/merchants"}
+                            Icon={BagShopping}
                         >
                             Merchants
+                        </SidebarLink>
+                        <SidebarLink
+                            // to="/admin/dashboard/merchants"
+                            // active={pathname === "/admin/dashboard/merchants"}
+                            Icon={ClipboardList}
+                        >
+                            Transactions
                         </SidebarLink>
                     </ul>
                 </div>

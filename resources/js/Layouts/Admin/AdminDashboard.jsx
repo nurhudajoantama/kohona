@@ -16,7 +16,7 @@ export default function AdminDashboard({ children, title, user }) {
             />
 
             {/* Content area */}
-            <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+            <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden bg-gray-50">
                 {/*  Site header */}
                 <Header
                     user={user}

@@ -3,14 +3,14 @@ import UserMenu from "@/Components/Dashboard/Header/UserMenu";
 
 function Header({ sidebarOpen, setSidebarOpen, user, level, image, title }) {
     return (
-        <header className="sticky top-0 bg-white border-b border-slate-200 z-30">
+        <header className="sticky top-0 bg-white border-b z-30 shadow-sm">
             <div className="px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16 -mb-px">
                     {/* Header: Left side */}
                     <div className="flex">
                         {/* Hamburger button */}
                         <button
-                            className="text-slate-500 hover:text-slate-600 lg:hidden"
+                            className="text-yellow-400 lg:hidden"
                             aria-controls="sidebar"
                             aria-expanded={sidebarOpen}
                             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -35,7 +35,7 @@ function Header({ sidebarOpen, setSidebarOpen, user, level, image, title }) {
                     {/* Header: Right side */}
                     <div className="flex items-center">
                         {/*  Divider */}
-                        <hr className="w-px h-6 bg-slate-200 mx-3" />
+                        <hr className="w-px h-6 bg-yellow-200 mx-3" />
                         <UserMenu user={user} level={level} image={image} />
                     </div>
                 </div>

@@ -1,6 +1,10 @@
 import React from "react";
 import Sidebar from "@/Components/Dashboard/Sidebar/Sidebar";
 import SidebarLink from "@/Components/Dashboard/Sidebar/SidebarLink";
+import DashboardFilled from "@/Components/Icon/DashboardFilled";
+import ClipboardList from "@/Components/Icon/ClipboardList";
+import GearIcon from "@/Components/Icon/GearIcon";
+import AdProduct from "@/Components/Icon/AdProduct";
 
 export default function MerchantSidebar(props) {
     const { pathname } = window.location;
@@ -10,7 +14,7 @@ export default function MerchantSidebar(props) {
             <div className="space-y-8">
                 {/* Pages group */}
                 <div>
-                    <h3 className="text-xs uppercase text-slate-500 font-semibold pl-3">
+                    <h3 className="text-xs uppercase text-yellow-400 font-semibold pl-3">
                         <span
                             className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6"
                             aria-hidden="true"
@@ -25,6 +29,7 @@ export default function MerchantSidebar(props) {
                         <SidebarLink
                             to="/merchants/dashboard"
                             active={pathname === "/merchants/dashboard"}
+                            Icon={DashboardFilled}
                         >
                             Merchant Dashboard
                         </SidebarLink>
@@ -33,14 +38,25 @@ export default function MerchantSidebar(props) {
                             active={
                                 pathname === "/merchants/dashboard/products"
                             }
+                            Icon={AdProduct}
                         >
                             Products
+                        </SidebarLink>
+                        <SidebarLink
+                            // to="/merchants/dashboard/settings"
+                            // active={
+                            //     pathname === "/merchants/dashboard/settings"
+                            // }
+                            Icon={ClipboardList}
+                        >
+                            Transaction
                         </SidebarLink>
                         <SidebarLink
                             to="/merchants/dashboard/settings"
                             active={
                                 pathname === "/merchants/dashboard/settings"
                             }
+                            Icon={GearIcon}
                         >
                             Merchant Settings
                         </SidebarLink>
