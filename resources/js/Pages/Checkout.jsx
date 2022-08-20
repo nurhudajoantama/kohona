@@ -9,11 +9,19 @@ import Modal from "@/Components/Modal/Modal";
 
 export default function Checkout(props) {
     const { carts } = props;
-    const { data, setData } = useForm({
+    const { data, setData, post } = useForm({
         address: "",
         bank_name: "",
         bank_account_number: "",
+        carts_id: carts.map((cart) => cart.id),
     });
+
+    const handleBuy = (e) => {
+        e.preventDefault();
+        if (!data.address || !data.bank_name || !data.bank_account_number)
+            return;
+        post(route("buy.store"));
+    };
 
     const [modalAddress, setModalAddress] = React.useState(false);
     const [modalBank, setModalBank] = React.useState(false);
@@ -176,7 +184,7 @@ export default function Checkout(props) {
                         </div>
                         <div className="px-5 mb-2">
                             <button
-                                // onClick={handleCheckout}
+                                onClick={handleBuy}
                                 className="w-full bg-yellow-300 text-white py-1 px-3 rounded-sm"
                             >
                                 Buy

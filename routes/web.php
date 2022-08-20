@@ -6,6 +6,8 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserSettingController;
 use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\TransactionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -37,6 +39,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
         Route::get('/checkout', fn () => redirect()->route('carts.index'));
         Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
+    });
+
+    Route::post('/buy', [TransactionController::class, 'store'])->name('buy.store');
+
+    Route::prefix('/transactions')->name('transactions.')->group(function () {
+        Route::get('/', [TransactionController::class, 'index'])->name('index');
+        Route::get('/{transaction}', [TransactionController::class, 'show'])->name('show');
     });
 });
 
