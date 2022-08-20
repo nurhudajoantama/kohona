@@ -106,6 +106,14 @@ export default function Navbar({ user }) {
                                                     User Setting
                                                 </Link>
                                             </Menu.Item>
+                                            <Menu.Item>
+                                                <Link
+                                                    href="/transactions"
+                                                    className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                                >
+                                                    Transactions
+                                                </Link>
+                                            </Menu.Item>
                                             {user.merchant && (
                                                 <Menu.Item>
                                                     <Link
