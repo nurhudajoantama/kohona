@@ -5,6 +5,7 @@ import QuantityField from "@/Components/Cart/QuantityField";
 import CartPlus from "@/Components/Icon/CartPlus";
 import ShippingBox01 from "@/Components/Icon/ShippingBox01";
 import PriceFormat from "@/Components/Price/PriceFormat";
+import { Inertia } from "@inertiajs/inertia";
 
 export default function Show(props) {
     const { product, cart } = props;
@@ -34,6 +35,16 @@ export default function Show(props) {
     const handleAddToCart = (e) => {
         e.preventDefault();
         post(route("carts.store"));
+    };
+
+    const handleBuyNow = (e) => {
+        e.preventDefault();
+        Inertia.post(route("carts.checkout"), [
+            {
+                product_id: product.id,
+                quantity: data.quantity,
+            },
+        ]);
     };
 
     return (
@@ -135,13 +146,12 @@ export default function Show(props) {
                                 <CartPlus className="mr-2 inline" />
                                 Add To Cart
                             </button>
-                            <Link
-                                as="button"
-                                href="#"
+                            <button
+                                onClick={handleBuyNow}
                                 className="ml-3 px-3 py-2 text-white border border-1 border-yellow-400 bg-yellow-400 rounded-lg"
                             >
                                 Buy Now
-                            </Link>
+                            </button>
                         </div>
                     </div>
                 </div>
