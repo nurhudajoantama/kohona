@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Main from "@/Layouts/Main";
 import moment from "moment/moment";
 import PriceFormat from "@/Components/Price/PriceFormat";
@@ -16,6 +16,11 @@ export default function Cart(props) {
     const [carts, setCarts] = React.useState(
         JSON.parse(JSON.stringify([...c]))
     );
+
+    useEffect(() => {
+        setCarts(JSON.parse(JSON.stringify([...c])));
+    }, [c]);
+
     const [selectedCartsIndex, setSelectedCartsIndex] = React.useState([]);
 
     const total = selectedCartsIndex.reduce((acc, cartIndex) => {
