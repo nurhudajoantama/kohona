@@ -29,7 +29,7 @@ class MerchantProductController extends Controller
         $data = $request->validate([
             'name' => 'required|string|max:255',
             'slug' => 'required|string|unique:products,slug',
-            'image' => 'image|max:2048',
+            'image' => 'required|image|max:2048',
             'description' => 'required|string',
             'price' => 'required|integer',
             'stock' => 'required|min:1|integer',

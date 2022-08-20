@@ -98,14 +98,14 @@ export default function FormProduct(props) {
                 </div>
                 <div className="mt-4">
                     <Label forInput="description" value="Description" />
-                    <Input
+                    <textarea
                         type="text"
                         name="description"
                         value={data.description}
-                        className="mt-1 block w-full"
-                        handleChange={onHandleChange}
+                        className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full"
+                        onChange={onHandleChange}
                         required
-                    />
+                    ></textarea>
                     <InputError message={errors.description} className="mt-2" />
                 </div>
                 <div className="mt-4">
