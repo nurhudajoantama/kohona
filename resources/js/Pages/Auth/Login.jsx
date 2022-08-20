@@ -110,7 +110,7 @@ export default function Login({ status, canResetPassword }) {
                     )}
 
                     <Button
-                        className="w-full flex justify-center bg-yellow-400 py-2"
+                        className="w-full flex justify-center bg-yellow-400 py-3"
                         processing={processing}
                     >
                         Log in

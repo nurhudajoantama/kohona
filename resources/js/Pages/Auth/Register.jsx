@@ -144,7 +144,7 @@ export default function Register() {
                 </div>
             </form>
             <div className="flex justify-center mt-5">
-                <p className="w-2/3 text-center">
+                <p className="text-center">
                     Dengan mendaftar, saya menyetujui{" "}
                     <span className="text-yellow-400">
                         Syarat dan Ketentuan{" "}

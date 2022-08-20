@@ -18,7 +18,10 @@ export default function Auth({ children }) {
                     <ApplicationLogo />
                     <h1 className="ml-3 font-semibold text-3xl">Kohona</h1>
                 </Link>
-                <div className="w-2/3 border border-gray-300 px-12 py-14 rounded-xl">
+                <div
+                    className="border border-gray-300 rounded-xl px-20 py-24"
+                    style={{ width: "515px" }}
+                >
                     {children}
                 </div>
             </div>
