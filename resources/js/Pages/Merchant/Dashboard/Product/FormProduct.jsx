@@ -6,8 +6,7 @@ import InputError from "@/Components/InputError";
 import Label from "@/Components/Label";
 import Alert from "@/Components/Alert/Alert";
 import { useForm } from "@inertiajs/inertia-react";
-import { Inertia } from "@inertiajs/inertia";
-import CurrencyInput from "react-currency-input-field";
+import PriceFormat from "@/Components/Price/PriceFormat";
 
 export default function FormProduct(props) {
     const { update = false } = props;
@@ -111,13 +110,12 @@ export default function FormProduct(props) {
                 </div>
                 <div className="mt-4">
                     <Label forInput="price" value="Price  (Rp.)" />
-                    <CurrencyInput
-                        name="price"
+                    <PriceFormat
+                        displayType={"input"}
                         value={data.price}
-                        onValueChange={(value, name) => setData(name, value)}
                         className="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full"
-                        required
-                        autoComplete="off"
+                        name="price"
+                        onValueChange={({ value }) => setData("price", value)}
                     />
                     <InputError message={errors.price} className="mt-2" />
                 </div>
