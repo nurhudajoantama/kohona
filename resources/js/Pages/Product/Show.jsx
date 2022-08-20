@@ -1,11 +1,10 @@
 import Main from "@/Layouts/Main";
 import React from "react";
-import { Icon } from "@iconify/react";
-import shippingBox01 from "@iconify/icons-akar-icons/shipping-box-01";
 import NumberFormat from "react-number-format";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
-import cartPlus from "@iconify/icons-bi/cart-plus";
-import cartDash from "@iconify/icons-bi/cart-dash";
+import QuantityField from "@/Components/Cart/QuantityField";
+import CartPlus from "@/Components/Icon/CartPlus";
+import ShippingBox01 from "@/Components/Icon/ShippingBox01";
 
 export default function Show(props) {
     const { product, cart } = props;
@@ -53,10 +52,7 @@ export default function Show(props) {
                         {product.name}
                     </h1>
                     <div className="mt-3 flex items-center">
-                        <Icon
-                            icon={shippingBox01}
-                            className="mr-1 text-yellow-300 text-sm"
-                        />
+                        <ShippingBox01 className="mr-1 text-yellow-300 text-sm" />
                         <span className="text-sm">5 Terjual</span>
                     </div>
                     <NumberFormat
@@ -111,26 +107,11 @@ export default function Show(props) {
                             <span className="block text-gray-700">
                                 Quantity
                             </span>
-                            <div className="flex mt-1">
-                                <button
-                                    onClick={handleRemoveQuantity}
-                                    className="flex items-center justify-center px-3 py-2 border border-1 border-gray-200 rounded-l-md hover:bg-gray-100 hover:text-gray-700"
-                                >
-                                    <Icon icon={cartDash} className="mx-1" />
-                                </button>
-                                <input
-                                    className="border w-16 border-1 border-gray-200 "
-                                    type="number"
-                                    value={data.quantity}
-                                    readOnly
-                                />
-                                <button
-                                    onClick={handleAddQuantity}
-                                    className="flex items-center justify-center px-3 py-2 border border-1 border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-gray-700"
-                                >
-                                    <Icon icon={cartPlus} className="mx-1" />
-                                </button>
-                            </div>
+                            <QuantityField
+                                quantity={data.quantity}
+                                onAddQuantity={handleAddQuantity}
+                                onRemoveQuantity={handleRemoveQuantity}
+                            />
                         </div>
                         <div className="mt-7">
                             <span className="block text-gray-700">
@@ -157,7 +138,7 @@ export default function Show(props) {
                                 onClick={handleAddToCart}
                                 className="flex items-center px-5 py-2 text-yellow-400 border border-1 border-yellow-400 rounded-lg"
                             >
-                                <Icon icon={cartPlus} className="mr-2 inline" />
+                                <CartPlus className="mr-2 inline" />
                                 Add To Cart
                             </button>
                             <Link

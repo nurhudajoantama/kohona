@@ -1,12 +1,10 @@
-/* This example requires Tailwind CSS v2.0+ */
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Icon } from "@iconify/react";
-import userCircle from "@iconify/icons-bxs/user-circle";
-import searchIcon from "@iconify/icons-akar-icons/search";
-import cartIcon from "@iconify/icons-bxs/cart";
 import ApplicationLogo from "../ApplicationLogo";
 import { Link } from "@inertiajs/inertia-react";
+import SearchIcon from "../Icon/SearchIcon";
+import CartIcon from "../Icon/CartIcon";
+import UserCircle from "../Icon/UserCircle";
 
 const navigation = [
     { name: "Dashboard", href: "#", current: true },
@@ -45,10 +43,7 @@ export default function Navbar({ user }) {
                             </label>
                             <div className="relative w-full">
                                 <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                                    <Icon
-                                        icon={searchIcon}
-                                        className="h-5 w-5 text-gray-500"
-                                    />
+                                    <SearchIcon className="h-5 w-5 text-gray-500" />
                                 </div>
                                 <input
                                     type="text"
@@ -61,7 +56,7 @@ export default function Navbar({ user }) {
                                 type="submit"
                                 className="p-2 ml-2 text-sm font-medium text-white bg-yellow-300 rounded-full border border-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-100"
                             >
-                                <Icon icon={searchIcon} className="h-5 w-5" />
+                                <SearchIcon className="h-5 w-5" />
                                 <span className="sr-only">Search</span>
                             </button>
                         </form>
@@ -73,7 +68,7 @@ export default function Navbar({ user }) {
                                 className="p-1 text-gray-800 hover:text-gray-700"
                             >
                                 <span className="sr-only">Cart</span>
-                                <Icon icon={cartIcon} className="h-6 w-6" />
+                                <CartIcon className="h-6 w-6" />
                             </Link>
                             {/* Divider */}
                             <hr className="w-px h-6 bg-slate-200 mx-3" />
@@ -85,10 +80,7 @@ export default function Navbar({ user }) {
                                             <span className="sr-only">
                                                 Open user menu
                                             </span>
-                                            <Icon
-                                                icon={userCircle}
-                                                className="h-6 w-6 rounded-full text-gray-800 hover:text-gray-700"
-                                            />
+                                            <UserCircle className="h-6 w-6 rounded-full text-gray-800 hover:text-gray-700" />
                                         </Menu.Button>
                                     </div>
                                     <Transition

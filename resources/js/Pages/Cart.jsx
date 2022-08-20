@@ -4,14 +4,12 @@ import moment from "moment/moment";
 import PriceFormat from "@/Components/Price/PriceFormat";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import Alert from "@/Components/Alert/Alert";
-import { Icon } from "@iconify/react";
-import cartPlus from "@iconify/icons-bi/cart-plus";
-import cartDash from "@iconify/icons-bi/cart-dash";
 import { Inertia } from "@inertiajs/inertia";
+import QuantityField from "@/Components/Cart/QuantityField";
 
 export default function Cart(props) {
     const c = props.carts;
-    const { delete: d, post } = useForm();
+    const { delete: d } = useForm();
 
     const [alerts, setAlerts] = React.useState([]);
 
@@ -39,21 +37,21 @@ export default function Cart(props) {
         setSelectedCartsIndex(newSelectedCartsIndex);
     };
 
+    const handleRemoveQuantity = (index) => (e) => {
+        e.preventDefault();
+        const newCarts = [...carts];
+        if (newCarts[index].quantity > 1) {
+            newCarts[index].quantity -= 1;
+        }
+        setCarts(newCarts);
+    };
+
     const handleAddQuantity = (index) => (e) => {
         e.preventDefault();
         const stock = c[index].product.stock + c[index].quantity;
         const newCarts = [...carts];
         if (newCarts[index].quantity < stock) {
             newCarts[index].quantity += 1;
-        }
-        setCarts(newCarts);
-    };
-
-    const handleRemoveQuantity = (index) => (e) => {
-        e.preventDefault();
-        const newCarts = [...carts];
-        if (newCarts[index].quantity > 1) {
-            newCarts[index].quantity -= 1;
         }
         setCarts(newCarts);
     };
@@ -171,36 +169,15 @@ export default function Cart(props) {
                                         <span className="font-semibold text-gray-700 font-sm">
                                             Qty
                                         </span>
-                                        <div className="flex mt-1">
-                                            <button
-                                                onClick={handleRemoveQuantity(
-                                                    index
-                                                )}
-                                                className="flex items-center justify-center px-3 py-2 border border-1 border-gray-200 rounded-l-md hover:bg-gray-100 hover:text-gray-700"
-                                            >
-                                                <Icon
-                                                    icon={cartDash}
-                                                    className="mx-1"
-                                                />
-                                            </button>
-                                            <input
-                                                className="border w-16 border-1 border-gray-200 "
-                                                type="number"
-                                                value={cart.quantity}
-                                                readOnly
-                                            />
-                                            <button
-                                                onClick={handleAddQuantity(
-                                                    index
-                                                )}
-                                                className="flex items-center justify-center px-3 py-2 border border-1 border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-gray-700"
-                                            >
-                                                <Icon
-                                                    icon={cartPlus}
-                                                    className="mx-1"
-                                                />
-                                            </button>
-                                        </div>
+                                        <QuantityField
+                                            quantity={cart.quantity}
+                                            onAddQuantity={handleAddQuantity(
+                                                index
+                                            )}
+                                            onRemoveQuantity={handleRemoveQuantity(
+                                                index
+                                            )}
+                                        />
                                         <PriceFormat
                                             value={
                                                 cart.product.price *

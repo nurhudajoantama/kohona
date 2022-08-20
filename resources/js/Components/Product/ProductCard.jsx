@@ -1,8 +1,7 @@
 import React from "react";
 import NumberFormat from "react-number-format";
-import { Icon } from "@iconify/react";
-import shippingBox01 from "@iconify/icons-akar-icons/shipping-box-01";
 import { Link } from "@inertiajs/inertia-react";
+import ShippingBox01 from "../Icon/ShippingBox01";
 
 export default function ProductCard({ product }) {
     return (
@@ -38,10 +37,7 @@ export default function ProductCard({ product }) {
                         )}
                     />
                     <div className="flex items-center">
-                        <Icon
-                            icon={shippingBox01}
-                            className="mr-1 text-yellow-300 text-sm"
-                        />
+                        <ShippingBox01 className="mr-1 text-yellow-300 text-sm" />
                         <span className="text-xs">5 Terjual</span>
                     </div>
                 </div>
