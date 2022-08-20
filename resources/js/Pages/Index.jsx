@@ -13,7 +13,7 @@ export default function Index(props) {
                     </h1>
 
                     <Link
-                        href="#"
+                        href={route("products.index")}
                         className="flex items-center px-4 py-2 text-yellow-400 border border-1 border-yellow-400 rounded-full"
                     >
                         See More

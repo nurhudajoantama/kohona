@@ -1,23 +1,22 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import ApplicationLogo from "../ApplicationLogo";
-import { Link } from "@inertiajs/inertia-react";
+import { Link, useForm } from "@inertiajs/inertia-react";
 import SearchIcon from "../Icon/SearchIcon";
 import CartIcon from "../Icon/CartIcon";
 import UserCircle from "../Icon/UserCircle";
 
-const navigation = [
-    { name: "Dashboard", href: "#", current: true },
-    { name: "Team", href: "#", current: false },
-    { name: "Projects", href: "#", current: false },
-    { name: "Calendar", href: "#", current: false },
-];
-
-function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-}
-
 export default function Navbar({ user }) {
+    const params = new URLSearchParams(window.location.search);
+    const { get, data, setData } = useForm({
+        search: params.get("search") || "",
+    });
+
+    const handleSearch = (e) => {
+        e.preventDefault();
+        get(route("products.index"));
+    };
+
     return (
         <Disclosure as="nav" className="bg-white shadow-lg sticky top-0">
             <>
@@ -50,11 +49,17 @@ export default function Navbar({ user }) {
                                     id="simple-search"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-full focus:ring-yellow-300 focus:border-yellow-100 block w-full pl-10 p-2"
                                     placeholder="Search"
+                                    autoComplete="search"
+                                    value={data.search}
+                                    onChange={(e) =>
+                                        setData("search", e.target.value)
+                                    }
                                 />
                             </div>
                             <button
                                 type="submit"
                                 className="p-2 ml-2 text-sm font-medium text-white bg-yellow-300 rounded-full border border-yellow-300 focus:ring-4 focus:outline-none focus:ring-yellow-100"
+                                onClick={handleSearch}
                             >
                                 <SearchIcon className="h-5 w-5" />
                                 <span className="sr-only">Search</span>

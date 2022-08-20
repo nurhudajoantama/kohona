@@ -10,6 +10,13 @@ use App\Http\Controllers\Controller;
 
 class ProductController extends Controller
 {
+    public function index()
+    {
+        $search = request('search');
+        $products = Product::where('name', 'LIKE', "%{$search}%")->get();
+        return Inertia::render('Product/Index', compact('products', 'search'));
+    }
+
     public function show(Product $product)
     {
         $product->load('merchant');
