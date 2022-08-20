@@ -43,6 +43,7 @@ export default function Show(props) {
             {
                 product_id: product.id,
                 quantity: data.quantity,
+                new: !cart,
             },
         ]);
     };

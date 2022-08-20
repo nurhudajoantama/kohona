@@ -52,7 +52,16 @@ class CartController extends Controller
         $request->validate([
             '*.product_id' => 'required|exists:products,id|distinct',
             '*.quantity' => 'required|integer|min:1',
+            '*.new' => 'boolean',
         ]);
+
+        if ($request->all()[0]['new']) {
+            Cart::create([
+                'user_id' => auth()->id(),
+                'product_id' => $request->all()[0]['product_id'],
+                'quantity' => $request->all()[0]['quantity'],
+            ]);
+        }
 
         $cartsId = [];
         try {
