@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MerchantDashboard from "@/Layouts/Merchant/Dashboard/MerchantDashboard";
 import { Link, useForm } from "@inertiajs/inertia-react";
 import Alert from "@/Components/Alert/Alert";
-import NumberFormat from "react-number-format";
+import PriceFormat from "@/Components/Price/PriceFormat";
 
 export default function Index(props) {
     const { products } = props;
@@ -53,11 +53,8 @@ export default function Index(props) {
                         )}
                         <h1 className="font-md font-bold">{product.name}</h1>
                         <p>{product.description}</p>
-                        <NumberFormat
+                        <PriceFormat
                             value={product.price}
-                            displayType={"text"}
-                            thousandSeparator={true}
-                            prefix={"Rp. "}
                             renderText={(value, props) => (
                                 <div {...props}>price : {value}</div>
                             )}

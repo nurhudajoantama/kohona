@@ -1,7 +1,7 @@
 import React from "react";
-import NumberFormat from "react-number-format";
 import { Link } from "@inertiajs/inertia-react";
 import ShippingBox01 from "../Icon/ShippingBox01";
+import PriceFormat from "../Price/PriceFormat";
 
 export default function ProductCard({ product }) {
     return (
@@ -21,12 +21,8 @@ export default function ProductCard({ product }) {
                 </div>
                 <div className="px-3">
                     <h1 className="capitalize mb-1 text-sm">{product.name}</h1>
-                    <NumberFormat
+                    <PriceFormat
                         value={product.price}
-                        displayType={"text"}
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        prefix={"Rp. "}
                         renderText={(value, props) => (
                             <span
                                 className="block font-semibold text-xl mb-5"
@@ -36,6 +32,7 @@ export default function ProductCard({ product }) {
                             </span>
                         )}
                     />
+
                     <div className="flex items-center">
                         <ShippingBox01 className="mr-1 text-yellow-300 text-sm" />
                         <span className="text-xs">5 Terjual</span>

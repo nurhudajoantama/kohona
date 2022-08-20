@@ -1,10 +1,10 @@
 import Main from "@/Layouts/Main";
 import React from "react";
-import NumberFormat from "react-number-format";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import QuantityField from "@/Components/Cart/QuantityField";
 import CartPlus from "@/Components/Icon/CartPlus";
 import ShippingBox01 from "@/Components/Icon/ShippingBox01";
+import PriceFormat from "@/Components/Price/PriceFormat";
 
 export default function Show(props) {
     const { product, cart } = props;
@@ -55,18 +55,16 @@ export default function Show(props) {
                         <ShippingBox01 className="mr-1 text-yellow-300 text-sm" />
                         <span className="text-sm">5 Terjual</span>
                     </div>
-                    <NumberFormat
+
+                    <PriceFormat
                         value={product.price}
-                        displayType={"text"}
-                        thousandSeparator="."
-                        decimalSeparator=","
-                        prefix={"Rp. "}
                         renderText={(value, props) => (
                             <h3 className="mt-7 font-bold text-4xl" {...props}>
                                 {value}
                             </h3>
                         )}
                     />
+
                     <Link href={route("merchants.show", merchant)}>
                         <div className="flex mt-10 px-5 py-3 border border-1 border-gray-300 rounded-xl shadow-xl">
                             <div>
@@ -117,12 +115,8 @@ export default function Show(props) {
                             <span className="block text-gray-700">
                                 Subtotal
                             </span>
-                            <NumberFormat
+                            <PriceFormat
                                 value={product.price * data.quantity}
-                                displayType={"text"}
-                                thousandSeparator="."
-                                decimalSeparator=","
-                                prefix={"Rp. "}
                                 renderText={(value, props) => (
                                     <h3
                                         className="font-semibold text-2xl"
