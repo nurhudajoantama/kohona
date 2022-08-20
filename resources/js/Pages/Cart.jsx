@@ -1,20 +1,62 @@
 import React from "react";
 import Main from "@/Layouts/Main";
-
 import moment from "moment/moment";
 import PriceFormat from "@/Components/Price/PriceFormat";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import Alert from "@/Components/Alert/Alert";
+import { Icon } from "@iconify/react";
+import cartPlus from "@iconify/icons-bi/cart-plus";
+import cartDash from "@iconify/icons-bi/cart-dash";
+import { Inertia } from "@inertiajs/inertia";
 
 export default function Cart(props) {
-    const { carts } = props;
-    const { delete: d } = useForm();
-
-    const total = carts.reduce((acc, cart) => {
-        return acc + cart.quantity * cart.product.price;
-    }, 0);
+    const c = props.carts;
+    const { delete: d, post } = useForm();
 
     const [alerts, setAlerts] = React.useState([]);
+
+    const [carts, setCarts] = React.useState(
+        JSON.parse(JSON.stringify([...c]))
+    );
+    const [selectedCartsIndex, setSelectedCartsIndex] = React.useState([]);
+
+    const total = selectedCartsIndex.reduce((acc, cartIndex) => {
+        return acc + carts[cartIndex].quantity * carts[cartIndex].product.price;
+    }, 0);
+
+    const handleCheckboxChange = (e) => {
+        const index = e.target.value;
+        const isChecked = e.target.checked;
+        const newSelectedCartsIndex = [...selectedCartsIndex];
+        if (isChecked) {
+            newSelectedCartsIndex.push(index);
+        } else {
+            newSelectedCartsIndex.splice(
+                newSelectedCartsIndex.indexOf(index),
+                1
+            );
+        }
+        setSelectedCartsIndex(newSelectedCartsIndex);
+    };
+
+    const handleAddQuantity = (index) => (e) => {
+        e.preventDefault();
+        const stock = c[index].product.stock + c[index].quantity;
+        const newCarts = [...carts];
+        if (newCarts[index].quantity < stock) {
+            newCarts[index].quantity += 1;
+        }
+        setCarts(newCarts);
+    };
+
+    const handleRemoveQuantity = (index) => (e) => {
+        e.preventDefault();
+        const newCarts = [...carts];
+        if (newCarts[index].quantity > 1) {
+            newCarts[index].quantity -= 1;
+        }
+        setCarts(newCarts);
+    };
 
     const handleRemove = (cart) => {
         return (e) => {
@@ -34,6 +76,16 @@ export default function Cart(props) {
         };
     };
 
+    const handleCheckout = (e) => {
+        e.preventDefault();
+        if (selectedCartsIndex.length === 0) return;
+        const data = selectedCartsIndex.map((index) => ({
+            product_id: carts[index].product.id,
+            quantity: carts[index].quantity,
+        }));
+        Inertia.post(route("carts.checkout"), data);
+    };
+
     return (
         <Main user={props.auth.user}>
             <Head title="Cart" />
@@ -50,60 +102,105 @@ export default function Cart(props) {
                             className="mb-6 border border-gray-100 rounded-lg shadow-xl p-5"
                         >
                             <div className="flex items-center justify-between">
-                                <Link
-                                    href={route("products.show", cart.product)}
-                                >
-                                    <div className="flex items-center">
-                                        <img
-                                            className="h-28 w-28 object-cover rounded-md"
-                                            src={`/storage/${cart.product.image}`}
-                                            alt={cart.product.name}
+                                <div className="flex items-center justify-between">
+                                    <div className="mr-4">
+                                        <input
+                                            value={index}
+                                            type="checkbox"
+                                            name="carts"
+                                            onChange={handleCheckboxChange}
                                         />
-                                        <div className="flex flex-col ml-4">
-                                            <div className="mb-2">
-                                                <h1 className="font-bold text-xl">
-                                                    {cart.product.name}
-                                                </h1>
-                                                <p className="text-xs text-gray-500">
-                                                    Stock : {cart.product.stock}
-                                                </p>
-                                            </div>
+                                    </div>
+                                    <Link
+                                        href={route(
+                                            "products.show",
+                                            cart.product
+                                        )}
+                                    >
+                                        <div className="flex items-center">
+                                            <img
+                                                className="h-28 w-28 object-cover rounded-md"
+                                                src={`/storage/${cart.product.image}`}
+                                                alt={cart.product.name}
+                                            />
+                                            <div className="flex flex-col ml-4">
+                                                <div className="mb-2">
+                                                    <h1 className="font-bold text-xl">
+                                                        {cart.product.name}
+                                                    </h1>
+                                                    <p className="text-xs text-gray-500">
+                                                        Stock :{" "}
+                                                        {cart.product.stock}
+                                                    </p>
+                                                </div>
 
-                                            <div className="flex items-center justify-between">
-                                                <PriceFormat
-                                                    value={cart.product.price}
-                                                    renderText={(
-                                                        value,
-                                                        props
-                                                    ) => (
-                                                        <span
-                                                            className="font-semibold text-xl"
-                                                            {...props}
-                                                        >
-                                                            {value}
-                                                        </span>
-                                                    )}
-                                                />
-                                            </div>
+                                                <div className="flex items-center justify-between">
+                                                    <PriceFormat
+                                                        value={
+                                                            cart.product.price
+                                                        }
+                                                        renderText={(
+                                                            value,
+                                                            props
+                                                        ) => (
+                                                            <span
+                                                                className="font-semibold text-xl"
+                                                                {...props}
+                                                            >
+                                                                {value}
+                                                            </span>
+                                                        )}
+                                                    />
+                                                </div>
 
-                                            <div>
-                                                <span className="text-sm text-gray-500">
-                                                    {moment(
-                                                        cart.updated_at
-                                                    ).format("DD MMMM YYYY")}
-                                                </span>
+                                                <div>
+                                                    <span className="text-sm text-gray-500">
+                                                        {moment(
+                                                            cart.updated_at
+                                                        ).format(
+                                                            "DD MMMM YYYY"
+                                                        )}
+                                                    </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </Link>
+                                    </Link>
+                                </div>
                                 <div>
                                     <div className="flex flex-col items-end">
                                         <span className="font-semibold text-gray-700 font-sm">
                                             Qty
                                         </span>
-                                        <span className="text-sm text-gray-800">
-                                            {cart.quantity}
-                                        </span>
+                                        <div className="flex mt-1">
+                                            <button
+                                                onClick={handleRemoveQuantity(
+                                                    index
+                                                )}
+                                                className="flex items-center justify-center px-3 py-2 border border-1 border-gray-200 rounded-l-md hover:bg-gray-100 hover:text-gray-700"
+                                            >
+                                                <Icon
+                                                    icon={cartDash}
+                                                    className="mx-1"
+                                                />
+                                            </button>
+                                            <input
+                                                className="border w-16 border-1 border-gray-200 "
+                                                type="number"
+                                                value={cart.quantity}
+                                                readOnly
+                                            />
+                                            <button
+                                                onClick={handleAddQuantity(
+                                                    index
+                                                )}
+                                                className="flex items-center justify-center px-3 py-2 border border-1 border-gray-200 rounded-r-md hover:bg-gray-100 hover:text-gray-700"
+                                            >
+                                                <Icon
+                                                    icon={cartPlus}
+                                                    className="mx-1"
+                                                />
+                                            </button>
+                                        </div>
                                         <PriceFormat
                                             value={
                                                 cart.product.price *
@@ -132,37 +229,43 @@ export default function Cart(props) {
                         </div>
                     ))}
                 </div>
-
-                <div className="py-3 border border-gray-100 rounded-lg shadow-xl">
-                    <div className="px-5 pb-3 border-b border-gray-200">
-                        <h3 className="font-bold text-2xl">Shopping Summary</h3>
-                        <div className="mt-5 flex justify-between">
-                            <h3 className=" text-sm">Subtotal</h3>
+                <div>
+                    <div className="py-3 border border-gray-100 rounded-lg shadow-xl">
+                        <div className="px-5 pb-3 border-b border-gray-200">
+                            <h3 className="font-bold text-2xl">
+                                Shopping Summary
+                            </h3>
+                            <div className="mt-5 flex justify-between">
+                                <h3 className=" text-sm">Subtotal</h3>
+                                <PriceFormat
+                                    value={total}
+                                    renderText={(value, props) => (
+                                        <span className="text-sm" {...props}>
+                                            {value}
+                                        </span>
+                                    )}
+                                />
+                            </div>
+                        </div>
+                        <div className="px-5 my-5 flex justify-between">
+                            <h3 className="font-semibold text-xl">Total</h3>
                             <PriceFormat
                                 value={total}
                                 renderText={(value, props) => (
-                                    <span className="text-sm" {...props}>
+                                    <span className="text-lg" {...props}>
                                         {value}
                                     </span>
                                 )}
                             />
                         </div>
-                    </div>
-                    <div className="px-5 my-5 flex justify-between">
-                        <h3 className="font-semibold text-xl">Total</h3>
-                        <PriceFormat
-                            value={total}
-                            renderText={(value, props) => (
-                                <span className="text-lg" {...props}>
-                                    {value}
-                                </span>
-                            )}
-                        />
-                    </div>
-                    <div className="px-5 mb-2">
-                        <button className="w-full bg-yellow-300 text-white py-1 px-3 rounded-sm">
-                            Checkout
-                        </button>
+                        <div className="px-5 mb-2">
+                            <button
+                                onClick={handleCheckout}
+                                className="w-full bg-yellow-300 text-white py-1 px-3 rounded-sm"
+                            >
+                                Checkout
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

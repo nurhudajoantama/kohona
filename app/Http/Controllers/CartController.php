@@ -22,28 +22,9 @@ class CartController extends Controller
             'product_id' => 'required|exists:products,id',
             'quantity' => 'required|integer|min:1',
         ]);
-        $product = Product::find($request->product_id);
-        $cart = Cart::where('user_id', auth()->id())->where('product_id', $request->product_id)->first();
-        $stock = $product->stock + ($cart ? $cart->quantity : 0);
-        if ($stock <  $request->quantity) {
-            return redirect()->back();
-        }
         try {
-            if ($cart) {
-                $cart->quantity = $request->quantity;;
-                $cart->save();
-            } else {
-                Cart::create([
-                    'user_id' => auth()->id(),
-                    'product_id' => $request->product_id,
-                    'quantity' => $request->quantity,
-                ]);
-            }
-            $product->update([
-                'stock' => $stock - $request->quantity,
-            ]);
+            $this->updateCart($request->product_id, $request->quantity);
         } catch (\Exception $e) {
-            DB::rollBack();
             return redirect()->back();
         }
         return redirect()->route('carts.index');
@@ -53,14 +34,70 @@ class CartController extends Controller
     {
         $product = $cart->product;
         try {
+            DB::beginTransaction();
             $product->update([
                 'stock' => $product->stock + $cart->quantity,
             ]);
             $cart->delete();
+            DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()->back();
         }
         return redirect()->route('carts.index');
+    }
+
+    public function checkout(Request $request)
+    {
+        $request->validate([
+            '*.product_id' => 'required|exists:products,id|distinct',
+            '*.quantity' => 'required|integer|min:1',
+        ]);
+
+        $cartsId = [];
+        try {
+            DB::beginTransaction();
+            foreach ($request->all() as $r) {
+                $cart = $this->updateCart($r['product_id'], $r['quantity']);
+                array_push($cartsId, $cart->id);
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back();
+        }
+        $carts = Cart::with(['product'])->whereIn('id', $cartsId)->get();
+        return Inertia::render('Checkout', compact('carts'));
+    }
+
+    private function updateCart($product_id, $quantity)
+    {
+        $product = Product::find($product_id);
+        $cart = Cart::where('user_id', auth()->id())->where('product_id', $product_id)->first();
+        $stock = $product->stock + ($cart ? $cart->quantity : 0);
+        if ($stock <  $quantity) {
+            throw new \Exception('Stock is not enough');
+        }
+        try {
+            DB::beginTransaction();
+            if ($cart) {
+                $cart->quantity = $quantity;;
+                $cart->save();
+            } else {
+                Cart::create([
+                    'user_id' => auth()->id(),
+                    'product_id' => $product_id,
+                    'quantity' => $quantity,
+                ]);
+            }
+            $product->update([
+                'stock' => $stock - $quantity,
+            ]);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        return $cart;
     }
 }

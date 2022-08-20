@@ -34,6 +34,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/', [CartController::class, 'index'])->name('index');
         Route::post('/', [CartController::class, 'store'])->name('store');
         Route::delete('/{cart}', [CartController::class, 'destroy'])->name('destroy');
+
+        Route::get('/checkout', fn () => redirect()->route('carts.index'));
+        Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
     });
 });
 
