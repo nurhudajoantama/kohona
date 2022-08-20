@@ -6,10 +6,6 @@
     },
     "devDependencies": {
         "@headlessui/react": "^1.4.2",
-        "@iconify/icons-akar-icons": "^1.2.9",
-        "@iconify/icons-bi": "^1.2.7",
-        "@iconify/icons-bxs": "^1.2.4",
-        "@iconify/react": "^3.2.2",
         "@inertiajs/inertia": "^0.11.0",
         "@inertiajs/inertia-react": "^0.8.0",
         "@inertiajs/progress": "^0.2.6",
@@ -27,7 +23,6 @@
     },
     "dependencies": {
         "moment": "^2.29.4",
-        "react-currency-input-field": "^3.6.4",
         "react-number-format": "^4.9.3",
         "react-transition-group": "^4.4.5",
         "styled-components": "^5.3.5"
