@@ -14,6 +14,7 @@ class Merchant extends Model
         'slug',
         'name',
         'image',
+        'wallet_amount',
         'description',
         'status_id',
     ];

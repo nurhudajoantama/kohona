@@ -50,8 +50,10 @@ export default function AdminSidebar(props) {
                             Merchants
                         </SidebarLink>
                         <SidebarLink
-                            // to="/admin/dashboard/merchants"
-                            // active={pathname === "/admin/dashboard/merchants"}
+                            to="/admin/dashboard/transactions"
+                            active={
+                                pathname === "/admin/dashboard/transactions"
+                            }
                             Icon={ClipboardList}
                         >
                             Transactions

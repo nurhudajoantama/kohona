@@ -7,24 +7,45 @@ use App\Models\Status;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Merchant;
+use Illuminate\Support\Facades\DB;
 
 class AdminTransactionController extends Controller
 {
     public function index()
     {
 
-        $requested = Transaction::where('status_id', Status::requestedId)->latest()->get();
-        $active = Transaction::where('status_id', Status::acceptedId)->latest()->get();
-        $rejected = Transaction::where('status_id', Status::rejectedId)->latest()->get();
-        return Inertia::render('Admin/Dashboard/Transaction', compact('requested', 'active', 'rejected'));
+        $transactions = Transaction::with(['user', 'status'])
+            ->orderBy('status_id')->orderBy('created_at', 'desc')->paginate(10);
+        return Inertia::render('Admin/Dashboard/Transaction', compact('transactions'));
     }
 
-    public function changeStatus(Request $request, Transaction $transaction)
+    public function accept(Transaction $transaction)
     {
-        $request->validate([
-            'status_id' => 'required|integer|exists:enum_statuses,id',
+        try {
+            DB::beginTransaction();
+            $transaction->update([
+                'status_id' => 2
+            ]);
+            $orders = $transaction->orders;
+            foreach ($orders as $order) {
+                $merchant = $order->product->merchant;
+                $merchant->wallet_amount += $order->quantity * $order->price;
+                $merchant->save();
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back();
+        }
+        return redirect()->back();
+    }
+
+    public function reject(Transaction $transaction)
+    {
+        $transaction->update([
+            'status_id' => 3
         ]);
-        $transaction->update(['status_id' => $request->status_id]);
         return redirect()->back();
     }
 }

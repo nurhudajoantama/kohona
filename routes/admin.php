@@ -25,6 +25,7 @@ Route::prefix('/admin/dashboard')->middleware(['auth', 'verified', 'can:admin-ac
 
     Route::prefix('/transactions')->name('transactions.')->group(function () {
         Route::get('/', [AdminTransactionController::class, 'index'])->name('index');
-        Route::post('/{transaction}/status', [AdminTransactionController::class, 'changeStatus'])->name('status');
+        Route::post('/{transaction}/accept', [AdminTransactionController::class, 'accept'])->name('accept');
+        Route::post('/{transaction}/reject', [AdminTransactionController::class, 'reject'])->name('reject');
     });
 });

@@ -55,7 +55,7 @@ class CartController extends Controller
             '*.new' => 'boolean',
         ]);
 
-        if ($request->all()[0]['new']) {
+        if (isset($request->all()[0]['new']) && $request->all()[0]['new']) {
             Cart::create([
                 'user_id' => auth()->id(),
                 'product_id' => $request->all()[0]['product_id'],

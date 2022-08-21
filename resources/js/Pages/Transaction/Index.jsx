@@ -58,7 +58,7 @@ export default function Index(props) {
                                             ? "text-yellow-400"
                                             : transaction.status.id === 2
                                             ? "text-green-400"
-                                            : transaction.status.id === 2
+                                            : transaction.status.id === 3
                                             ? "text-red-400"
                                             : ""
                                     }`}
