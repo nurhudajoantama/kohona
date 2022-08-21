@@ -14,7 +14,7 @@ class AdminTransactionController extends Controller
     {
 
         $requested = Transaction::where('status_id', Status::requestedId)->latest()->get();
-        $active = Transaction::where('status_id', Status::activeId)->latest()->get();
+        $active = Transaction::where('status_id', Status::acceptedId)->latest()->get();
         $rejected = Transaction::where('status_id', Status::rejectedId)->latest()->get();
         return Inertia::render('Admin/Dashboard/Transaction', compact('requested', 'active', 'rejected'));
     }

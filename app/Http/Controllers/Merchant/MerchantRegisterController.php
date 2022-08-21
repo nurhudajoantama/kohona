@@ -7,7 +7,7 @@ use App\Models\Merchant;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\EnumStatus;
+use App\Models\Status;
 
 class MerchantRegisterController extends Controller
 {
@@ -43,7 +43,7 @@ class MerchantRegisterController extends Controller
         if ($merchant == null) {
             return redirect(route('merchants.register'));
         }
-        if ($merchant->status_id == EnumStatus::activeId) {
+        if ($merchant->status_id == Status::acceptedId) {
             return redirect(route('merchants.dashboard.index'));
         }
         return Inertia::render('Merchant/MerchantWait', compact('merchant'));

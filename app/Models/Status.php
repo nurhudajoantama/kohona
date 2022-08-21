@@ -5,35 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-abstract class EnumStatus
-{
-    const requested = 'requested';
-    const active = 'active';
-    const rejected = 'rejected';
-
-    const requestedId = 1;
-    const activeId = 2;
-    const rejectedId = 3;
-
-    public static function all()
-    {
-        return [
-            [
-                'id' => self::requestedId,
-                'status' => self::requested,
-            ],
-            [
-                'id' => self::activeId,
-                'status' => self::active,
-            ],
-            [
-                'id' => self::rejectedId,
-                'status' => self::rejected,
-            ],
-        ];
-    }
-};
-
 class Status extends Model
 {
     use HasFactory;
@@ -45,12 +16,14 @@ class Status extends Model
         return $this->belongsTo(Merchant::class);
     }
 
+
+    // Status
     const requested = 'requested';
-    const active = 'active';
+    const accepted = 'accepted';
     const rejected = 'rejected';
 
     const requestedId = 1;
-    const activeId = 2;
+    const acceptedId = 2;
     const rejectedId = 3;
 
     public static function statusAll()
@@ -61,8 +34,8 @@ class Status extends Model
                 'status' => self::requested,
             ],
             [
-                'id' => self::activeId,
-                'status' => self::active,
+                'id' => self::acceptedId,
+                'status' => self::accepted,
             ],
             [
                 'id' => self::rejectedId,

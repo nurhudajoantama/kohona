@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\EnumStatus;
 use App\Models\Status;
 use Illuminate\Database\Seeder;
 
@@ -23,6 +22,6 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
-        Status::insert(EnumStatus::all());
+        Status::insert(Status::statusAll());
     }
 }
