@@ -29,7 +29,11 @@ class AdminTransactionController extends Controller
             ]);
             $orders = $transaction->orders;
             foreach ($orders as $order) {
-                $merchant = $order->product->merchant;
+                $product = $order->product;
+                $product->sold += $order->quantity;
+                $product->save();
+
+                $merchant = $product->merchant;
                 $merchant->wallet_amount += $order->quantity * $order->price;
                 $merchant->save();
             }

@@ -65,7 +65,7 @@ export default function Show(props) {
                     </h1>
                     <div className="mt-3 flex items-center">
                         <ShippingBox01 className="mr-1 text-yellow-300 text-sm" />
-                        <span className="text-sm">5 Terjual</span>
+                        <span className="text-sm">{product.sold} Sold</span>
                     </div>
 
                     <PriceFormat

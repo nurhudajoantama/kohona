@@ -35,7 +35,7 @@ export default function ProductCard({ product }) {
 
                     <div className="flex items-center">
                         <ShippingBox01 className="mr-1 text-yellow-300 text-sm" />
-                        <span className="text-xs">5 Terjual</span>
+                        <span className="text-xs">{product.sold} Sold</span>
                     </div>
                 </div>
             </div>

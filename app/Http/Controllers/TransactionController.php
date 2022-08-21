@@ -13,7 +13,7 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::with(['orders', 'orders.product'])->where('user_id', auth()->id())->get();
+        $transactions = Transaction::with(['orders', 'orders.product'])->where('user_id', auth()->id())->latest()->get();
         return Inertia::render('Transaction/Index', compact('transactions'));
     }
 

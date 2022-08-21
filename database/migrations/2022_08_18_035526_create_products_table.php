@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->unsignedBigInteger('price')->default(0);
             $table->unsignedInteger('stock')->default(0);
+            $table->unsignedInteger('sold')->default(0);
             $table->timestamps();
         });
     }
