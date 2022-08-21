@@ -2,9 +2,9 @@ import React from "react";
 import Sidebar from "@/Components/Dashboard/Sidebar/Sidebar";
 import SidebarLink from "@/Components/Dashboard/Sidebar/SidebarLink";
 import DashboardFilled from "@/Components/Icon/DashboardFilled";
-import ClipboardList from "@/Components/Icon/ClipboardList";
 import GearIcon from "@/Components/Icon/GearIcon";
 import AdProduct from "@/Components/Icon/AdProduct";
+import OrderDetails from "@/Components/Icon/OrderDetails";
 
 export default function MerchantSidebar(props) {
     const { pathname } = window.location;
@@ -43,13 +43,11 @@ export default function MerchantSidebar(props) {
                             Products
                         </SidebarLink>
                         <SidebarLink
-                            // to="/merchants/dashboard/settings"
-                            // active={
-                            //     pathname === "/merchants/dashboard/settings"
-                            // }
-                            Icon={ClipboardList}
+                            to="/merchants/dashboard/orders"
+                            active={pathname === "/merchants/dashboard/orders"}
+                            Icon={OrderDetails}
                         >
-                            Transaction
+                            Order
                         </SidebarLink>
                         <SidebarLink
                             to="/merchants/dashboard/settings"

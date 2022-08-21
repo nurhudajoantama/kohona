@@ -1,5 +1,7 @@
 import React from "react";
 import UserMenu from "@/Components/Dashboard/Header/UserMenu";
+import PriceFormat from "@/Components/Price/PriceFormat";
+import { Link } from "@inertiajs/inertia-react";
 
 function Header({ sidebarOpen, setSidebarOpen, user, level, image, title }) {
     return (
@@ -34,6 +36,21 @@ function Header({ sidebarOpen, setSidebarOpen, user, level, image, title }) {
 
                     {/* Header: Right side */}
                     <div className="flex items-center">
+                        {user.merchant && (
+                            <Link href="/merchants/dashboard/wallet">
+                                <PriceFormat
+                                    value={user.merchant.wallet_amount}
+                                    renderText={(value, props) => (
+                                        <h4
+                                            className="font-semibold text-gray-700"
+                                            {...props}
+                                        >
+                                            {value}
+                                        </h4>
+                                    )}
+                                />
+                            </Link>
+                        )}
                         {/*  Divider */}
                         <hr className="w-px h-6 bg-yellow-200 mx-3" />
                         <UserMenu user={user} level={level} image={image} />

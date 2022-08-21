@@ -1,11 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Merchant\MerchantController;
+use App\Http\Controllers\Merchant\MerchantOrderController;
 use App\Http\Controllers\Merchant\MerchantProductController;
 use App\Http\Controllers\Merchant\MerchantSettingController;
 use App\Http\Controllers\Merchant\MerchantRegisterController;
 use App\Http\Controllers\Merchant\MerchantDashboardController;
-use App\Http\Controllers\Merchant\MerchantController;
 
 Route::prefix('/merchants')->middleware(['auth', 'verified'])->name('merchants.')->group(function () {
     // Register Merchant
@@ -20,6 +21,10 @@ Route::prefix('/merchants')->middleware(['auth', 'verified'])->name('merchants.'
 
         Route::resource('/products', MerchantProductController::class)->except(['show', 'patch', 'update']);
         Route::post('/products/{product}/update', [MerchantProductController::class, 'update'])->name('products.update');
+
+        Route::prefix('/orders')->name('orders.')->group(function () {
+            Route::get('/', [MerchantOrderController::class, 'index'])->name('index');
+        });
 
         Route::prefix('/settings')->name('settings.')->group(function () {
             Route::get('/', [MerchantSettingController::class, 'index'])->name('index');
