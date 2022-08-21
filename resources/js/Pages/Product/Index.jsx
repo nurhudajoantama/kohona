@@ -2,9 +2,12 @@ import ProductList from "@/Components/Product/ProductList";
 import Main from "@/Layouts/Main";
 import React from "react";
 import { Link } from "@inertiajs/inertia-react";
+import Pagination from "@/Components/Pagination/Pagination";
 
 export default function Index(props) {
     const { search } = props;
+    const { products } = props;
+    console.log(products);
     return (
         <Main user={props.auth.user}>
             <div className="mt-12">
@@ -20,8 +23,8 @@ export default function Index(props) {
                         </div>
                     )}
                 </div>
-                {props.products.length > 0 ? (
-                    <ProductList products={props.products} />
+                {products.data.length > 0 ? (
+                    <ProductList products={products.data} />
                 ) : (
                     <div className="text-center text-gray-600">
                         No products found,{" "}
@@ -34,6 +37,14 @@ export default function Index(props) {
                     </div>
                 )}
             </div>
+
+            <Pagination
+                links={products.links}
+                from={products.from}
+                to={products.to}
+                total={products.total}
+                last_page={products.last_page}
+            />
         </Main>
     );
 }

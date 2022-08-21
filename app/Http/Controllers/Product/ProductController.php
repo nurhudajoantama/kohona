@@ -13,7 +13,7 @@ class ProductController extends Controller
     public function index()
     {
         $search = request('search');
-        $products = Product::where('name', 'LIKE', "%{$search}%")->get();
+        $products = Product::where('name', 'LIKE', "%{$search}%")->paginate(20);
         return Inertia::render('Product/Index', compact('products', 'search'));
     }
 

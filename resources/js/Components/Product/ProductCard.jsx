@@ -8,8 +8,16 @@ export default function ProductCard({ product }) {
         <Link href={`/products/${product.slug}`}>
             <div
                 key={product.id}
-                className="mb-4 rounded-md border border-1 border-gray-200 overflow-hidden hover:ring-2 ring-yellow-200 pb-5"
+                className="relative mb-4 rounded-md border border-1 border-gray-200 overflow-hidden hover:ring-2 ring-yellow-200 pb-5"
             >
+                {product.stock < 1 && (
+                    <div>
+                        <section className="absolute inset-0 bg-gray-500 opacity-50 flex justify-center items-center"></section>
+                        <div className="absolute inset-0 flex justify-center items-center">
+                            <p className="font-semibold">Out Of Stock</p>
+                        </div>
+                    </div>
+                )}
                 <div className="mb-5 border-b border-b-gray-200">
                     {product.image && (
                         <img
