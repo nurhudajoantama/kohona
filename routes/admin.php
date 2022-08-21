@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminTokenController;
 use App\Http\Controllers\Admin\AdminMerchantController;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminTransactionController;
 
 // ADMIN ROUTE
 Route::prefix('/admin/dashboard')->middleware(['auth', 'verified', 'can:admin-access'])->name('admin.dashboard.')->group(function () {
@@ -20,5 +21,10 @@ Route::prefix('/admin/dashboard')->middleware(['auth', 'verified', 'can:admin-ac
         Route::get('/', [AdminMerchantController::class, 'index'])->name('index');
         Route::post('/{merchant}/activate', [AdminMerchantController::class, 'activate'])->name('activate');
         Route::post('/{merchant}/reject', [AdminMerchantController::class, 'reject'])->name('reject');
+    });
+
+    Route::prefix('/transactions')->name('transactions.')->group(function () {
+        Route::get('/', [AdminTransactionController::class, 'index'])->name('index');
+        Route::post('/{transaction}/status', [AdminTransactionController::class, 'changeStatus'])->name('status');
     });
 });
