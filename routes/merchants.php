@@ -7,6 +7,7 @@ use App\Http\Controllers\Merchant\MerchantProductController;
 use App\Http\Controllers\Merchant\MerchantSettingController;
 use App\Http\Controllers\Merchant\MerchantRegisterController;
 use App\Http\Controllers\Merchant\MerchantDashboardController;
+use App\Http\Controllers\Merchant\MerchantWalletController;
 
 Route::prefix('/merchants')->middleware(['auth', 'verified'])->name('merchants.')->group(function () {
     // Register Merchant
@@ -24,6 +25,11 @@ Route::prefix('/merchants')->middleware(['auth', 'verified'])->name('merchants.'
 
         Route::prefix('/orders')->name('orders.')->group(function () {
             Route::get('/', [MerchantOrderController::class, 'index'])->name('index');
+        });
+
+        Route::prefix('/wallet')->name('wallet.')->group(function () {
+            Route::get('/', [MerchantWalletController::class, 'index'])->name('index');
+            Route::post('/withdraw', [MerchantWalletController::class, 'withdraw'])->name('withdraw');
         });
 
         Route::prefix('/settings')->name('settings.')->group(function () {

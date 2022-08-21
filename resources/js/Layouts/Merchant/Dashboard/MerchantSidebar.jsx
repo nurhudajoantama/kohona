@@ -5,6 +5,7 @@ import DashboardFilled from "@/Components/Icon/DashboardFilled";
 import GearIcon from "@/Components/Icon/GearIcon";
 import AdProduct from "@/Components/Icon/AdProduct";
 import OrderDetails from "@/Components/Icon/OrderDetails";
+import WalletIcon from "@/Components/Icon/WalletIcon";
 
 export default function MerchantSidebar(props) {
     const { pathname } = window.location;
@@ -48,6 +49,13 @@ export default function MerchantSidebar(props) {
                             Icon={OrderDetails}
                         >
                             Order
+                        </SidebarLink>
+                        <SidebarLink
+                            to="/merchants/dashboard/wallet"
+                            active={pathname === "/merchants/dashboard/wallet"}
+                            Icon={WalletIcon}
+                        >
+                            Merchant Wallet
                         </SidebarLink>
                         <SidebarLink
                             to="/merchants/dashboard/settings"
