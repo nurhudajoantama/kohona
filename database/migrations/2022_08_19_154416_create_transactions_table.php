@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreignId('status_id')->default(1)->references('id')->on('statuses')->nullOnDelete();
+            $table->foreignId('status_id')->default(1)->references('id')->on('statuses');
             $table->text('address');
             $table->string('bank_name');
             $table->string('bank_account_number');

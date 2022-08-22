@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('wallet_amount')->default(0);
-            $table->foreignId('status_id')->default(1)->references('id')->on('statuses')->nullOnDelete();
+            $table->foreignId('status_id')->default(1)->references('id')->on('statuses');
             $table->timestamps();
         });
     }
