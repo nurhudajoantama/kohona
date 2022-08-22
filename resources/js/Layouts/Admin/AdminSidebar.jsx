@@ -5,6 +5,7 @@ import BagShopping from "@/Components/Icon/BagShopping";
 import GeneratingTokenRounded from "@/Components/Icon/GeneratingTokenRounded";
 import DashboardFilled from "@/Components/Icon/DashboardFilled";
 import ClipboardList from "@/Components/Icon/ClipboardList";
+import WalletIcon from "@/Components/Icon/WalletIcon";
 
 export default function AdminSidebar(props) {
     const { pathname } = window.location;
@@ -57,6 +58,13 @@ export default function AdminSidebar(props) {
                             Icon={ClipboardList}
                         >
                             Transactions
+                        </SidebarLink>
+                        <SidebarLink
+                            to="/admin/dashboard/wallet"
+                            active={pathname === "/admin/dashboard/wallet"}
+                            Icon={WalletIcon}
+                        >
+                            Wallet Transfer
                         </SidebarLink>
                     </ul>
                 </div>

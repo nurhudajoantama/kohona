@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminTokenController;
+use App\Http\Controllers\Admin\AdminWalletController;
 use App\Http\Controllers\Admin\AdminMerchantController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminTransactionController;
@@ -27,5 +28,9 @@ Route::prefix('/admin/dashboard')->middleware(['auth', 'verified', 'can:admin-ac
         Route::get('/', [AdminTransactionController::class, 'index'])->name('index');
         Route::post('/{transaction}/accept', [AdminTransactionController::class, 'accept'])->name('accept');
         Route::post('/{transaction}/reject', [AdminTransactionController::class, 'reject'])->name('reject');
+    });
+
+    Route::prefix('/wallet')->name('wallet.')->group(function () {
+        Route::get('/', [AdminWalletController::class, 'index'])->name('index');
     });
 });
