@@ -3,10 +3,10 @@ import AdminDashboard from "@/Layouts/Admin/AdminDashboard";
 import { useForm } from "@inertiajs/inertia-react";
 import Drawer from "@/Components/Dashboard/Drawer/Drawer";
 import Alert from "@/Components/Alert/Alert";
+import Pagination from "@/Components/Pagination/Pagination";
 
 export default function Index(props) {
     const { merchants } = props;
-
     const [isOpenDrawer, setIsOpenDrawer] = useState(false);
     const [selectedMerchantDetails, setSelectedMerchantDetails] =
         useState(null);
@@ -57,7 +57,7 @@ export default function Index(props) {
     return (
         <AdminDashboard title="Merchants" user={props.auth.user}>
             <Alert alerts={alerts} setAlerts={setAlerts} />
-            {merchants.map((merchant, i) => (
+            {merchants.data.map((merchant, i) => (
                 <div
                     className="border px-6 py-3 max-w-4xl rounded-lg flex justify-between items-center mb-5"
                     key={i}
@@ -67,7 +67,7 @@ export default function Index(props) {
                         <p className="text-sm">{merchant.description}</p>
                     </div>
                     <div>
-                        {merchant.status_id === 1 && (
+                        {merchant.status_id === 1 ? (
                             <>
                                 <button
                                     className="btn border border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 px-4 py-1 rounded-md text-sm"
@@ -88,10 +88,33 @@ export default function Index(props) {
                                     Reject
                                 </button>
                             </>
+                        ) : (
+                            <div className="flex items-center">
+                                <span
+                                    className={`capitalize ${
+                                        merchant.status.id === 1
+                                            ? "text-yellow-400"
+                                            : merchant.status.id === 2
+                                            ? "text-green-400"
+                                            : merchant.status.id === 3
+                                            ? "text-red-400"
+                                            : ""
+                                    }`}
+                                >
+                                    {merchant.status.status}
+                                </span>
+                            </div>
                         )}
                     </div>
                 </div>
             ))}
+            <Pagination
+                links={merchants.links}
+                from={merchants.from}
+                to={merchants.to}
+                total={merchants.total}
+                last_page={merchants.last_page}
+            />
             <Drawer isOpen={isOpenDrawer} setIsOpen={setIsOpenDrawer}>
                 <div className="px-3 py-2">
                     <h1 className="mb-5 font-bold text-xl">Merchant Detail</h1>

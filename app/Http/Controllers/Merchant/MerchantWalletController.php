@@ -12,14 +12,14 @@ class MerchantWalletController extends Controller
 {
     public function index()
     {
-        $transfers = TransferWallet::where('merchant_id', auth()->id())->latest()->get();
+        $transfers = TransferWallet::where('merchant_id', auth()->id())->latest()->paginate(10);
         return Inertia::render('Merchant/Dashboard/Wallet', compact('transfers'));
     }
 
     public function withdraw(Request $request)
     {
         $request->validate([
-            'amount' => 'required|numeric|min:1',
+            'amount' => 'required|numeric|min:100000',
             'bank_name' => 'required|string',
             'bank_account_number' => 'required|string',
         ]);
@@ -39,6 +39,6 @@ class MerchantWalletController extends Controller
             DB::rollback();
             throw $e;
         }
-        return redirect()->route('merchants.dashboard.wallet.index')->with('success', 'Transfer Successful');
+        return redirect()->back();
     }
 }

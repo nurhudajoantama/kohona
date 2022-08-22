@@ -22,7 +22,6 @@ class MerchantSettingController extends Controller
         $request->merge([
             'slug' => Str::slug($request->name),
         ]);
-        // dd($request->all());
         $merchant = auth()->user()->merchant;
         $data = $request->validate([
             'name' => 'required|string|max:255',

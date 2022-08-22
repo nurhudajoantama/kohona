@@ -7,7 +7,6 @@ import Pagination from "@/Components/Pagination/Pagination";
 export default function Index(props) {
     const { search } = props;
     const { products } = props;
-    console.log(products);
     return (
         <Main user={props.auth.user}>
             <div className="mt-12">

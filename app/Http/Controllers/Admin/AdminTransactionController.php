@@ -25,7 +25,7 @@ class AdminTransactionController extends Controller
         try {
             DB::beginTransaction();
             $transaction->update([
-                'status_id' => 2
+                'status_id' => Status::acceptedId
             ]);
             $orders = $transaction->orders;
             foreach ($orders as $order) {
@@ -40,7 +40,7 @@ class AdminTransactionController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back();
+            throw $e;
         }
         return redirect()->back();
     }
@@ -48,7 +48,7 @@ class AdminTransactionController extends Controller
     public function reject(Transaction $transaction)
     {
         $transaction->update([
-            'status_id' => 3
+            'status_id' => Status::rejectedId
         ]);
         return redirect()->back();
     }

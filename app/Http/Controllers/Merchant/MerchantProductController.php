@@ -14,7 +14,7 @@ class MerchantProductController extends Controller
 {
     public function index()
     {
-        $products = Product::where('merchant_id', auth()->id())->latest()->get();
+        $products = Product::where('merchant_id', auth()->id())->latest()->paginate(20);
         return Inertia::render('Merchant/Dashboard/Product/Index', compact('products'));
     }
 

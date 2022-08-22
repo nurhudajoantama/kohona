@@ -16,7 +16,7 @@ class AdminTokenController extends Controller
 
     public function index()
     {
-        $adminTokens = AdminToken::with('user')->get();
+        $adminTokens = AdminToken::with('user')->paginate(10);
         return Inertia::render('Admin/Dashboard/AdminToken', compact('adminTokens'));
     }
 

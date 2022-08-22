@@ -13,7 +13,7 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::with(['orders', 'orders.product'])->where('user_id', auth()->id())->latest()->get();
+        $transactions = Transaction::with(['orders', 'orders.product'])->where('user_id', auth()->id())->latest()->paginate(10);
         return Inertia::render('Transaction/Index', compact('transactions'));
     }
 
@@ -49,7 +49,7 @@ class TransactionController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back();
+            throw $e;
         }
         return redirect()->route('transactions.index');
     }
