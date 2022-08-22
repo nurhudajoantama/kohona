@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use App\Models\Status;
 use Illuminate\Database\Seeder;
+use Illuminate\Foundation\Auth\User;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,12 +17,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
         Status::insert(Status::statusAll());
+        User::insert([
+            'name' => 'Admin',
+            'email' => 'mail@admin.com',
+            'password' => bcrypt('admin'),
+            'is_admin' => true,
+        ]);
     }
 }
