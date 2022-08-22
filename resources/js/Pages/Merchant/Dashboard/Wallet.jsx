@@ -118,7 +118,12 @@ export default function Wallet(props) {
                     </div>
                     <button
                         type="submit"
-                        className="bg-yellow-400 text-white font-semibold py-2 px-4 rounded-lg"
+                        className="bg-yellow-400 text-white font-semibold py-2 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={
+                            data.amount < 100000 ||
+                            data.amount > merchant.wallet_amount ||
+                            processing
+                        }
                     >
                         Withdraw
                     </button>
