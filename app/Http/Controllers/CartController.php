@@ -23,9 +23,11 @@ class CartController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
         try {
+            DB::beginTransaction();
             $this->updateCart($request->product_id, $request->quantity);
+            DB::commit();
         } catch (\Exception $e) {
-            return redirect()->back();
+            throw $e;
         }
         return redirect()->route('carts.index');
     }
@@ -42,7 +44,7 @@ class CartController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back();
+            throw $e;
         }
         return redirect()->route('carts.index');
     }
@@ -73,7 +75,7 @@ class CartController extends Controller
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back();
+            throw $e;
         }
         $carts = Cart::with(['product'])->whereIn('id', $cartsId)->get();
         return Inertia::render('Checkout', compact('carts'));
@@ -87,26 +89,22 @@ class CartController extends Controller
         if ($stock <  $quantity) {
             throw new \Exception('Stock is not enough');
         }
-        try {
-            DB::beginTransaction();
-            if ($cart) {
-                $cart->quantity = $quantity;;
-                $cart->save();
-            } else {
-                Cart::create([
-                    'user_id' => auth()->id(),
-                    'product_id' => $product_id,
-                    'quantity' => $quantity,
-                ]);
-            }
-            $product->update([
-                'stock' => $stock - $quantity,
+
+        if ($cart) {
+            $cart->quantity = $quantity;;
+            $cart->save();
+        } else {
+            Cart::create([
+                'user_id' => auth()->id(),
+                'product_id' => $product_id,
+                'quantity' => $quantity,
             ]);
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
         }
+        $product->update([
+            'stock' => $stock - $quantity,
+        ]);
+        DB::commit();
+
         return $cart;
     }
 }

@@ -3,6 +3,7 @@ import AdminDashboard from "@/Layouts/Admin/AdminDashboard";
 import { useForm } from "@inertiajs/inertia-react";
 import Alert from "@/Components/Alert/Alert";
 import moment from "moment";
+import Pagination from "@/Components/Pagination/Pagination";
 
 export default function adminTokens(props) {
     const { adminTokens } = props;
@@ -53,7 +54,7 @@ export default function adminTokens(props) {
             </form>
 
             <div className="mt-7">
-                {adminTokens.map((token, i) => (
+                {adminTokens.data.map((token, i) => (
                     <div
                         className="border px-6 py-3 max-w-3xl rounded-lg flex justify-between items-center mb-5"
                         key={i}
@@ -77,6 +78,13 @@ export default function adminTokens(props) {
                         </div>
                     </div>
                 ))}
+                <Pagination
+                    links={adminTokens.links}
+                    from={adminTokens.from}
+                    to={adminTokens.to}
+                    total={adminTokens.total}
+                    last_page={adminTokens.last_page}
+                />
             </div>
         </AdminDashboard>
     );

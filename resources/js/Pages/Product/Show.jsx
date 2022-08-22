@@ -139,7 +139,7 @@ export default function Show(props) {
                                 )}
                             />
                         </div>
-                        <div className="mt-5 mb-3 w-full flex flex-row justify-center">
+                        <div className="relative mt-5 mb-3 w-full flex flex-row justify-center py-2">
                             <button
                                 onClick={handleAddToCart}
                                 className="flex items-center px-5 py-2 text-yellow-400 border border-1 border-yellow-400 rounded-lg"
@@ -153,6 +153,16 @@ export default function Show(props) {
                             >
                                 Buy Now
                             </button>
+                            {product.stock < 1 && !cart && (
+                                <div>
+                                    <section className="absolute inset-0 bg-gray-500 opacity-50 flex justify-center items-center rounded-lg"></section>
+                                    <div className="absolute inset-0 flex justify-center items-center">
+                                        <p className="font-semibold">
+                                            Out Of Stock
+                                        </p>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>

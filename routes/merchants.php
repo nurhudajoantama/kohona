@@ -37,14 +37,8 @@ Route::prefix('/merchants')->middleware(['auth', 'verified'])->name('merchants.'
             Route::post('/', [MerchantSettingController::class, 'update'])->name('update');
         });
     });
-    // Route::get('/', function () {
-    //     return Inertia::render('Merchant/Index');
-    // })->name('index');
 });
 
 Route::prefix('/merchants')->name('merchants.')->group(function () {
-    Route::get('/', function () {
-        return 'index';
-    })->name('index');
     Route::get('/{merchant}', [MerchantController::class, 'show'])->name('show');
 });

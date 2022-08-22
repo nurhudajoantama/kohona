@@ -3,6 +3,7 @@ import MerchantDashboard from "@/Layouts/Merchant/Dashboard/MerchantDashboard";
 import { Link, useForm } from "@inertiajs/inertia-react";
 import Alert from "@/Components/Alert/Alert";
 import PriceFormat from "@/Components/Price/PriceFormat";
+import Pagination from "@/Components/Pagination/Pagination";
 
 export default function Index(props) {
     const { products } = props;
@@ -38,7 +39,7 @@ export default function Index(props) {
                     Create
                 </Link>
             </div>
-            {products.map((product) => (
+            {products.data.map((product) => (
                 <div
                     className="border px-6 py-3 max-w-3xl rounded-lg flex justify-between items-center mb-5"
                     key={product.id}
@@ -80,6 +81,13 @@ export default function Index(props) {
                     </div>
                 </div>
             ))}
+            <Pagination
+                links={products.links}
+                from={products.from}
+                to={products.to}
+                total={products.total}
+                last_page={products.last_page}
+            />
         </MerchantDashboard>
     );
 }

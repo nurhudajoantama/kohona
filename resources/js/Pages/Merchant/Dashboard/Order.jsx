@@ -6,7 +6,6 @@ import moment from "moment/moment";
 
 export default function Order(props) {
     const { transactions } = props;
-    console.log(transactions);
     return (
         <MerchantDashboard title="Merchant Order" user={props.auth.user}>
             <div>

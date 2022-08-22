@@ -3,6 +3,7 @@ import Main from "@/Layouts/Main";
 import React from "react";
 import moment from "moment/moment";
 import { Link } from "@inertiajs/inertia-react";
+import Pagination from "@/Components/Pagination/Pagination";
 
 export default function Index(props) {
     const { transactions } = props;
@@ -13,7 +14,7 @@ export default function Index(props) {
                 <h1 className="text-3xl font-bold">History Transactions</h1>
             </div>
             <div className="mt-7">
-                {transactions.map((transaction) => (
+                {transactions.data.map((transaction) => (
                     <div
                         key={transaction.id}
                         className="mb-6 border border-gray-100 rounded-lg shadow-xl py-4"
@@ -124,6 +125,13 @@ export default function Index(props) {
                         </div>
                     </div>
                 ))}
+                <Pagination
+                    links={transactions.links}
+                    from={transactions.from}
+                    to={transactions.to}
+                    total={transactions.total}
+                    last_page={transactions.last_page}
+                />
             </div>
         </Main>
     );

@@ -77,14 +77,12 @@ export default function Setting(props) {
 
                 <div className="mt-4">
                     <Label forInput="description" value="Description" />
-                    <Input
-                        type="text"
+                    <textarea
                         name="description"
+                        className="mt-1 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm block w-full"
+                        onChange={onHandleChange}
                         value={data.description}
-                        className="mt-1 block w-full"
-                        handleChange={onHandleChange}
-                        required
-                    />
+                    ></textarea>
                     <InputError message={errors.description} className="mt-2" />
                 </div>
 
