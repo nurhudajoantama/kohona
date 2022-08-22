@@ -18,14 +18,21 @@ class MerchantWalletController extends Controller
 
     public function withdraw(Request $request)
     {
+        $merchant = auth()->user()->merchant;
         $request->validate([
-            'amount' => 'required|numeric|min:100000',
+            'amount' => [
+                'required', 'numeric', 'min:100000',
+                function ($attribute, $value, $fail) use ($merchant) {
+                    if ($value > $merchant->wallet_amount) {
+                        $fail('Wallet amount is not enough');
+                    }
+                }
+            ],
             'bank_name' => 'required|string',
             'bank_account_number' => 'required|string',
         ]);
         try {
             DB::beginTransaction();
-            $merchant = auth()->user()->merchant;
             $merchant->wallet_amount -= $request->amount;
             $merchant->save();
             TransferWallet::create([

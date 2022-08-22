@@ -34,7 +34,7 @@ export default function Wallet(props) {
         e.preventDefault();
         console.log("here");
         post(route("merchants.dashboard.wallet.withdraw"), {
-            onFinish: () => {
+            onSuccess: () => {
                 setAlerts([
                     ...alerts,
                     {
