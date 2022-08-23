@@ -21,6 +21,7 @@ class ProductController extends Controller
     {
         $product->load('merchant');
         $cart = Cart::where('user_id', auth()->id())->where('product_id', $product->id)->first();
+        $product->stock = $product->stock + ($cart ? $cart->quantity : 0);
         return Inertia::render('Product/Show', compact('product', 'cart'));
     }
 }

@@ -19,6 +19,16 @@ export default function Wallet(props) {
         amount: 100000,
     });
 
+    const [noEnoughBalance, setNoEnoughBalance] = useState(false);
+
+    useEffect(() => {
+        if (data.amount < 100000 || data.amount > merchant.wallet_amount) {
+            setNoEnoughBalance(true);
+        } else {
+            setNoEnoughBalance(false);
+        }
+    }, [data.amount]);
+
     useEffect(() => {
         return () => {
             reset(["bank_name", "bank_account_number", "amount"]);
@@ -116,14 +126,17 @@ export default function Wallet(props) {
                             />
                         </div>
                     </div>
+                    {noEnoughBalance && (
+                        <div className="text-red-500 text-xs italic">
+                            Amount must be greater than{" "}
+                            <PriceFormat value={100000} /> and less than your
+                            wallet amount.
+                        </div>
+                    )}
                     <button
                         type="submit"
                         className="bg-yellow-400 text-white font-semibold py-2 px-4 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                        disabled={
-                            data.amount < 100000 ||
-                            data.amount > merchant.wallet_amount ||
-                            processing
-                        }
+                        disabled={noEnoughBalance || processing}
                     >
                         Withdraw
                     </button>
