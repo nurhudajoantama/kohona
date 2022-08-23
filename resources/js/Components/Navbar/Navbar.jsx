@@ -99,6 +99,23 @@ export default function Navbar({ user }) {
                                     >
                                         <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                                             <Menu.Item>
+                                                <div className="block px-4 py-2 text-sm leading-5 text-gray-700 border-b border-b-gray-200">
+                                                    <p className="text-yellow-400">
+                                                        {user.name}
+                                                    </p>
+                                                    {user.is_admin && (
+                                                        <p className="mt-0.5 text-sm text-gray-300">
+                                                            Administrator
+                                                        </p>
+                                                    )}
+                                                    {user.merchant && (
+                                                        <p className="mt-0.5 text-sm text-gray-300">
+                                                            {user.merchant.name}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            </Menu.Item>
+                                            <Menu.Item>
                                                 <Link
                                                     href="/user/settings"
                                                     className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900"
