@@ -8,18 +8,12 @@ import { Inertia } from "@inertiajs/inertia";
 import QuantityField from "@/Components/Cart/QuantityField";
 
 export default function Cart(props) {
-    const c = props.carts;
+    // const { carts } = props;
     const { delete: d } = useForm();
 
     const [alerts, setAlerts] = React.useState([]);
 
-    const [carts, setCarts] = React.useState(
-        JSON.parse(JSON.stringify([...c]))
-    );
-
-    useEffect(() => {
-        setCarts(JSON.parse(JSON.stringify([...c])));
-    }, [c]);
+    const [carts, setCarts] = React.useState(props.carts);
 
     const [selectedCartsIndex, setSelectedCartsIndex] = React.useState([]);
 
@@ -53,9 +47,8 @@ export default function Cart(props) {
 
     const handleAddQuantity = (index) => (e) => {
         e.preventDefault();
-        const stock = c[index].product.stock + c[index].quantity;
         const newCarts = [...carts];
-        if (newCarts[index].quantity < stock) {
+        if (newCarts[index].quantity < carts[index].product.stock) {
             newCarts[index].quantity += 1;
         }
         setCarts(newCarts);

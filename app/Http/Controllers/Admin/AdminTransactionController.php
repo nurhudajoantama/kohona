@@ -47,9 +47,22 @@ class AdminTransactionController extends Controller
 
     public function reject(Transaction $transaction)
     {
-        $transaction->update([
-            'status_id' => Status::rejectedId
-        ]);
+        try {
+            DB::beginTransaction();
+            $transaction->update([
+                'status_id' => Status::rejectedId
+            ]);
+            $orders = $transaction->orders;
+            foreach ($orders as $order) {
+                $product = $order->product;
+                $product->stock += $order->quantity;
+                $product->save();
+            }
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
         return redirect()->back();
     }
 }

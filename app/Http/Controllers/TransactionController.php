@@ -36,8 +36,11 @@ class TransactionController extends Controller
             ]);
             $totalPrice = 0;
             foreach ($request->carts_id as $cartId) {
-                $cart = Cart::find($cartId);
+                $cart = Cart::with(['product'])->find($cartId);
                 $totalPrice += $cart->product->price * $cart->quantity;
+                $product = $cart->product;
+                $product->stock = $product->stock - $cart->quantity;
+                $product->save();
                 $transaction->orders()->create([
                     'product_id' => $cart->product_id,
                     'quantity' => $cart->quantity,
