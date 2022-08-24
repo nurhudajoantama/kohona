@@ -106,7 +106,7 @@ class CartController extends Controller
             DB::rollBack();
             throw $e;
         }
-        // $carts = Cart::with(['product'])->whereIn('id', $cartsId)->get();
+        $carts = Cart::with(['product'])->whereIn('id', $cartsId)->get();
 
         return Inertia::render('Checkout', compact('carts'));
     }
