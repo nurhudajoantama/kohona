@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use Inertia\Inertia;
 use App\Models\Product;
+use App\Models\Merchant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
 
 class CartController extends Controller
 {
     public function index()
     {
-        $carts = Cart::with(['product'])->where('user_id', auth()->id())->get();
+        $cartRole = function ($query) {
+            $query->where('user_id', auth()->id());
+        };
+        $carts = Merchant::with(['products' => function ($query) use ($cartRole) {
+            $query->whereHas('carts', $cartRole);
+        }, 'products.carts' => $cartRole])->whereHas('products.carts', $cartRole)->get();
         return Inertia::render('Cart', compact('carts'));
     }
 
