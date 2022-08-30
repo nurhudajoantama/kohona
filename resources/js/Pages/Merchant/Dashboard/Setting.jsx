@@ -45,7 +45,7 @@ export default function Setting(props) {
                             src={
                                 data.image
                                     ? URL.createObjectURL(data?.image)
-                                    : `/storage/${props?.product.image}`
+                                    : `/storage/${merchant?.image}`
                             }
                             alt={merchant.name}
                         />
