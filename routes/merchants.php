@@ -18,7 +18,9 @@ Route::prefix('/merchants')->middleware(['auth', 'verified'])->name('merchants.'
 
 
     Route::prefix('/dashboard')->middleware(['merchant'])->name('dashboard.')->group(function () {
-        Route::get('/', [MerchantDashboardController::class, 'index'])->name('index');
+        Route::get('/', function () {
+            return redirect()->route('merchants.dashboard.products.index');
+        })->name('index');
 
         Route::resource('/products', MerchantProductController::class)->except(['show', 'patch', 'update']);
         Route::post('/products/{product}/update', [MerchantProductController::class, 'update'])->name('products.update');
