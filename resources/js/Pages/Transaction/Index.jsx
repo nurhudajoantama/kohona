@@ -7,6 +7,7 @@ import Pagination from "@/Components/Pagination/Pagination";
 
 export default function Index(props) {
     const { transactions } = props;
+    console.log(transactions);
 
     return (
         <Main user={props.auth.user}>
@@ -69,59 +70,106 @@ export default function Index(props) {
                             </div>
                         </div>
                         <div className="px-7">
-                            <div className="ml-1 ">
-                                <h2 className="text-sm">Products</h2>
-                            </div>
-                            {transaction.orders.map((order) => (
-                                <Link
-                                    href={route(
-                                        "products.show",
-                                        order?.product
-                                    )}
-                                    key={order.id}
-                                    className="flex justify-between mt-4"
-                                >
-                                    <div className="flex items-center">
-                                        <img
-                                            src={`/storage/${order.product?.image}`}
-                                            alt={order.product?.name}
-                                            className="w-12 h-12 rounded-md"
-                                        />
-                                        <div className="ml-4">
-                                            <div className="text-lg font-semibold">
-                                                {order.product?.name}
-                                            </div>
-                                            <div className="text-sm text-gray-600">
-                                                Qty: {order.quantity}
-                                            </div>
+                            {transaction.per_merchant_transactions.map(
+                                (per_merchant_transaction) => (
+                                    <div
+                                        className="mt-4 pb-2 border-b border-gray-200"
+                                        key={per_merchant_transaction.id}
+                                    >
+                                        <div>
+                                            <Link
+                                                href={route(
+                                                    "merchants.show",
+                                                    per_merchant_transaction.merchant
+                                                )}
+                                                className="hover:underline"
+                                            >
+                                                {
+                                                    per_merchant_transaction
+                                                        .merchant.name
+                                                }
+                                            </Link>
+                                        </div>
+                                        {per_merchant_transaction.orders.map(
+                                            (order) => (
+                                                <Link
+                                                    href={route(
+                                                        "products.show",
+                                                        order?.product
+                                                    )}
+                                                    key={order.id}
+                                                    className="flex justify-between mt-4"
+                                                >
+                                                    <div className="flex items-center">
+                                                        <img
+                                                            src={`/storage/${order.product?.image}`}
+                                                            alt={
+                                                                order.product
+                                                                    ?.name
+                                                            }
+                                                            className="w-12 h-12 rounded-md"
+                                                        />
+                                                        <div className="ml-4">
+                                                            <div className="text-lg font-semibold">
+                                                                {
+                                                                    order
+                                                                        .product
+                                                                        ?.name
+                                                                }
+                                                            </div>
+                                                            <div className="text-sm text-gray-600">
+                                                                Qty:{" "}
+                                                                {order.quantity}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <PriceFormat
+                                                            value={order.price}
+                                                            renderText={(
+                                                                value,
+                                                                props
+                                                            ) => (
+                                                                <div
+                                                                    className="text-sm text-gray-600"
+                                                                    {...props}
+                                                                >
+                                                                    {value}
+                                                                </div>
+                                                            )}
+                                                        />
+                                                        <PriceFormat
+                                                            value={
+                                                                order.price *
+                                                                order.quantity
+                                                            }
+                                                            renderText={(
+                                                                value,
+                                                                props
+                                                            ) => (
+                                                                <div
+                                                                    className="text-sm font-semibold text-gray-600"
+                                                                    {...props}
+                                                                >
+                                                                    {value}
+                                                                </div>
+                                                            )}
+                                                        />
+                                                    </div>
+                                                </Link>
+                                            )
+                                        )}
+                                        <div className="flex justify-end mt-3">
+                                            <PriceFormat
+                                                value={
+                                                    per_merchant_transaction.total_price
+                                                }
+                                                className="text-sm font-semibold"
+                                            />
                                         </div>
                                     </div>
-                                    <div className="text-right">
-                                        <PriceFormat
-                                            value={order.price}
-                                            renderText={(value, props) => (
-                                                <div
-                                                    className="text-sm text-gray-600"
-                                                    {...props}
-                                                >
-                                                    {value}
-                                                </div>
-                                            )}
-                                        />
-                                        <PriceFormat
-                                            value={order.price * order.quantity}
-                                            renderText={(value, props) => (
-                                                <div
-                                                    className="text-sm font-semibold text-gray-600"
-                                                    {...props}
-                                                >
-                                                    {value}
-                                                </div>
-                                            )}
-                                        />
-                                    </div>
-                                </Link>
-                            ))}
+                                )
+                            )}
                         </div>
                     </div>
                 ))}

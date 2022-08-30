@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('per_merchant_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('per_merchant_transaction_id')->references('id')->on('per_merchant_transactions')->cascadeOnDelete();
-            $table->foreignId('product_id')->nullable()->references('id')->on('products')->nullOnDelete();
-            $table->unsignedInteger('quantity');
-            $table->unsignedBigInteger('price');
+            $table->foreignId('transaction_id')->references('id')->on('transactions')->cascadeOnDelete();
+            $table->foreignId('merchant_id')->references('id')->on('merchants')->cascadeOnDelete();
+            $table->unsignedBigInteger('total_price')->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('per_merchant_transactions');
     }
 };

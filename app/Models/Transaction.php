@@ -20,9 +20,9 @@ class Transaction extends Model
 
     protected $with = ['status'];
 
-    public function orders()
+    public function perMerchantTransactions()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(PerMerchantTransaction::class);
     }
 
     public function user()

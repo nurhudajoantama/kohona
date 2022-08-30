@@ -106,7 +106,13 @@ class CartController extends Controller
             DB::rollBack();
             throw $e;
         }
-        $carts = Cart::with(['product'])->whereIn('id', $cartsId)->get();
+
+        $cartRole = function ($query) use ($cartsId) {
+            $query->whereIn('id', $cartsId);
+        };
+        $carts = Merchant::with(['products' => function ($query) use ($cartRole) {
+            $query->whereHas('carts', $cartRole);
+        }, 'products.carts' => $cartRole])->whereHas('products.carts', $cartRole)->get();
 
         return Inertia::render('Checkout', compact('carts'));
     }
