@@ -20,7 +20,7 @@ class AdminMerchantController extends Controller
         })->when($search, function ($query) use ($search) {
             return $query->where('name', 'like', '%' . $search . '%');
         })->orderBy('status_id')->paginate(10)->appends(request()->query());
-        return Inertia::render('Admin/Dashboard/Merchant', compact('merchants', 'search', 'statusId'));
+        return Inertia::render('Admin/Dashboard/Merchant', compact('merchants'));
     }
 
     public function activate(Merchant $merchant)

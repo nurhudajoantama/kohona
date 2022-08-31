@@ -10,10 +10,13 @@ export default function Index(props) {
     const [selectedMerchantDetails, setSelectedMerchantDetails] =
         useState(null);
 
-    const { post, get } = useForm();
+    const { post } = useForm();
     const [alerts, setAlerts] = useState([]);
-    const [search, setSearch] = useState(props.search || "");
-    const [status_id, setStatus_id] = useState(props.statusId || "");
+    const params = new URLSearchParams(window.location.search);
+    const [search, setSearch] = useState(params.get("search") || undefined);
+    const [status_id, setStatus_id] = useState(
+        params.get("status_id") || undefined
+    );
 
     const handleActive = ({ name, ...merchant }) => {
         return (e) => {
@@ -56,10 +59,10 @@ export default function Index(props) {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        const data = {};
-        if (search) data.search = search;
-        if (status_id) data.status_id = status_id;
-        Inertia.get(route("admin.dashboard.merchants.index"), data);
+        Inertia.get(route("admin.dashboard.merchants.index"), {
+            search,
+            status_id,
+        });
     };
 
     return (
@@ -79,7 +82,7 @@ export default function Index(props) {
                         id="search"
                         placeholder="Search"
                         value={search ?? ""}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => setSearch(e.target.value || undefined)}
                     />
                 </div>
                 <div className="flex items-end mt-1">
@@ -95,7 +98,9 @@ export default function Index(props) {
                             name="status_id"
                             id="status"
                             value={status_id}
-                            onChange={(e) => setStatus_id(e.target.value)}
+                            onChange={(e) =>
+                                setStatus_id(e.target.value || undefined)
+                            }
                         >
                             <option value="">All</option>
                             <option value="1">Pending</option>
