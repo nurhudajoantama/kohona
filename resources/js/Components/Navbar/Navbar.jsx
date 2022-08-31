@@ -9,7 +9,7 @@ import UserCircle from "../Icon/UserCircle";
 export default function Navbar({ user }) {
     const params = new URLSearchParams(window.location.search);
     const { get, data, setData } = useForm({
-        search: params.get("search") || "",
+        search: params.get("search") || undefined,
     });
 
     const handleSearch = (e) => {
@@ -52,7 +52,10 @@ export default function Navbar({ user }) {
                                     autoComplete="search"
                                     value={data.search}
                                     onChange={(e) =>
-                                        setData("search", e.target.value)
+                                        setData(
+                                            "search",
+                                            e.target.value || undefined
+                                        )
                                     }
                                 />
                             </div>
