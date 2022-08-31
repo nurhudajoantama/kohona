@@ -10,15 +10,15 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'transaction_id',
+        'per_merchant_transaction_id',
         'product_id',
         'quantity',
         'price',
     ];
 
-    public function transaction()
+    public function perMerchantTransaction()
     {
-        return $this->belongsTo(Transaction::class);
+        return $this->belongsTo(PerMerchantTransaction::class);
     }
 
     public function product()

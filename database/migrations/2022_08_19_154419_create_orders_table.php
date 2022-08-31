@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaction_id')->references('id')->on('transactions')->cascadeOnDelete();
-            $table->foreignId('product_id')->references('id')->on('products')->nullOnDelete();
+            $table->foreignId('per_merchant_transaction_id')->references('id')->on('per_merchant_transactions')->cascadeOnDelete();
+            $table->foreignId('product_id')->nullable()->references('id')->on('products')->nullOnDelete();
             $table->unsignedInteger('quantity');
             $table->unsignedBigInteger('price');
             $table->timestamps();

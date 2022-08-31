@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use Inertia\Inertia;
 use App\Models\Status;
+use App\Models\Product;
+use App\Models\Merchant;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Models\Merchant;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class AdminTransactionController extends Controller
 {
@@ -22,21 +23,34 @@ class AdminTransactionController extends Controller
 
     public function accept(Transaction $transaction)
     {
+        $transaction->load([
+            'perMerchantTransactions',
+            'perMerchantTransactions.orders',
+            'perMerchantTransactions.merchant',
+            'perMerchantTransactions.orders.product'
+        ]);
+
+        $newMerchants = [];
+        $newProducts = [];
+
+        foreach ($transaction->perMerchantTransactions as $perMerchantTransaction) {
+            $newMerchant = $perMerchantTransaction->merchant->toArray();
+            unset($newMerchant['status']);
+            $newMerchant['wallet_amount'] += $perMerchantTransaction->total_price;
+            $newMerchants[] = $newMerchant;
+            foreach ($perMerchantTransaction->orders as $order) {
+                $newProduct = $order->product->toArray();
+                $newProduct['sold'] += $order->quantity;
+                $newProducts[] = $newProduct;
+            }
+        }
         try {
             DB::beginTransaction();
             $transaction->update([
-                'status_id' => Status::acceptedId
+                'status_id' => Status::acceptedId,
             ]);
-            $orders = $transaction->orders;
-            foreach ($orders as $order) {
-                $product = $order->product;
-                $product->sold += $order->quantity;
-                $product->save();
-
-                $merchant = $product->merchant;
-                $merchant->wallet_amount += $order->quantity * $order->price;
-                $merchant->save();
-            }
+            Merchant::upsert($newMerchants, ['id'], ['wallet_amount']);
+            Product::upsert($newProducts, ['id'], ['sold']);
             DB::commit();
         } catch (\Exception $e) {
             DB::rollBack();
@@ -47,9 +61,31 @@ class AdminTransactionController extends Controller
 
     public function reject(Transaction $transaction)
     {
-        $transaction->update([
-            'status_id' => Status::rejectedId
+        $transaction->load([
+            'perMerchantTransactions',
+            'perMerchantTransactions.orders',
+            'perMerchantTransactions.orders.product'
         ]);
+        $newProducts = [];
+        foreach ($transaction->perMerchantTransactions as $perMerchantTransaction) {
+            foreach ($perMerchantTransaction->orders as $order) {
+                $newProduct = $order->product->toArray();
+                $newProduct['stock'] += $order->quantity;
+                $newProducts[] = $newProduct;
+            }
+        }
+
+        try {
+            DB::beginTransaction();
+            $transaction->update([
+                'status_id' => Status::rejectedId
+            ]);
+            Product::upsert($newProducts, ['id'], ['stock']);
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
         return redirect()->back();
     }
 }

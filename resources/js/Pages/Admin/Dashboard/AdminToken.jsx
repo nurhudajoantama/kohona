@@ -4,6 +4,8 @@ import { useForm } from "@inertiajs/inertia-react";
 import Alert from "@/Components/Alert/Alert";
 import moment from "moment";
 import Pagination from "@/Components/Pagination/Pagination";
+import CopyToClipboard from "react-copy-to-clipboard";
+import CopyIcon from "@/Components/Icon/CopyIcon";
 
 export default function adminTokens(props) {
     const { adminTokens } = props;
@@ -17,12 +19,12 @@ export default function adminTokens(props) {
         post(route("admin.dashboard.admin-tokens.generate"), {
             onSuccess: () =>
                 setAlerts([
-                    ...alerts,
                     {
                         color: "green",
                         title: "Success!!",
                         message: "Successfully generated admin token.",
                     },
+                    ...alerts,
                 ]),
         });
     };
@@ -44,11 +46,21 @@ export default function adminTokens(props) {
         };
     };
 
+    const handleOnCopy = () =>
+        setAlerts([
+            {
+                color: "green",
+                title: "Success!!",
+                message: "Successfully copied token.",
+            },
+            ...alerts,
+        ]);
+
     return (
         <AdminDashboard title="Admin Token" user={props.auth.user}>
             <Alert alerts={alerts} setAlerts={setAlerts} />
             <form onSubmit={handleGenerate}>
-                <button className="btn bg-indigo-500 hover:bg-indigo-600 text-white px-5 py-2 rounded-sm">
+                <button className="btn bg-yellow-400  text-white px-5 py-2 rounded-sm">
                     Generate Token
                 </button>
             </form>
@@ -56,21 +68,31 @@ export default function adminTokens(props) {
             <div className="mt-7">
                 {adminTokens.data.map((token, i) => (
                     <div
-                        className="border px-6 py-3 max-w-3xl rounded-lg flex justify-between items-center mb-5"
+                        className="border p-3 rounded-md flex justify-between items-center mb-5"
                         key={i}
                     >
                         <div>
-                            <p className="underline">{token.token}</p>
-                            <span className="font-bold text-sm">
+                            <div className="border bg-white px-3 py-1 rounded-sm">
+                                {token.token}
+                            </div>
+                            <span className="text-xs text-gray-400">
                                 Created By {token.user.name} on{" "}
                                 {moment(token.created_at).format(
                                     "DD MMMM YYYY, HH:mm:ss"
                                 )}
                             </span>
                         </div>
-                        <div>
+                        <div className="flex">
+                            <CopyToClipboard
+                                text={token.token}
+                                onCopy={handleOnCopy}
+                            >
+                                <button className="border border-gray-400 text-gray-400 px-4 py-3 rounded-md">
+                                    <CopyIcon />
+                                </button>
+                            </CopyToClipboard>
                             <button
-                                className="btn border border-red-500 hover:bg-red-500 hover:text-white text-red-500 px-4 py-1 rounded-md text-sm"
+                                className="ml-2 border bg-red-500 text-white px-7 py-3 rounded-md text-sm"
                                 onClick={handleDelete(token.id)}
                             >
                                 Delete

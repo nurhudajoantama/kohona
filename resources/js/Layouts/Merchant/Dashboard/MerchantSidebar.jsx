@@ -28,13 +28,6 @@ export default function MerchantSidebar(props) {
                     </h3>
                     <ul className="mt-3">
                         <SidebarLink
-                            to="/merchants/dashboard"
-                            active={pathname === "/merchants/dashboard"}
-                            Icon={DashboardFilled}
-                        >
-                            Merchant Dashboard
-                        </SidebarLink>
-                        <SidebarLink
                             to="/merchants/dashboard/products"
                             active={
                                 pathname === "/merchants/dashboard/products"

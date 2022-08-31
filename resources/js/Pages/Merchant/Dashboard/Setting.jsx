@@ -39,10 +39,14 @@ export default function Setting(props) {
             <Alert alerts={alerts} setAlerts={setAlerts} />
             <form onSubmit={submit} encType="multipart/form-data">
                 <div>
-                    {merchant?.image && (
+                    {(data.image || merchant?.image) && (
                         <img
                             className="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                            src={`/storage/${merchant.image}`}
+                            src={
+                                data.image
+                                    ? URL.createObjectURL(data?.image)
+                                    : `/storage/${merchant?.image}`
+                            }
                             alt={merchant.name}
                         />
                     )}

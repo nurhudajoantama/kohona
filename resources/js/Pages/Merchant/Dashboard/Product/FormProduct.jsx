@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MerchantDashboard from "@/Layouts/Merchant/Dashboard/MerchantDashboard";
 import Button from "@/Components/Button";
 import Input from "@/Components/Input";
@@ -61,11 +61,15 @@ export default function FormProduct(props) {
 
             <form onSubmit={submit} encType="multipart/form-data">
                 <div>
-                    {update && !data.image && props?.product?.image && (
+                    {(data.image || props?.product?.image) && (
                         <img
                             className="p-1 w-24 h-24 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                            src={`/storage/${props?.product.image}`}
-                            alt={props?.product.name}
+                            src={
+                                data.image
+                                    ? URL.createObjectURL(data?.image)
+                                    : `/storage/${props?.product.image}`
+                            }
+                            alt={props?.product?.name}
                         />
                     )}
                     <Label forInput="image" value="Image" />

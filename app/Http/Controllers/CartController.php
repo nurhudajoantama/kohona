@@ -3,16 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cart;
+use Inertia\Inertia;
 use App\Models\Product;
+use App\Models\Merchant;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Inertia\Inertia;
 
 class CartController extends Controller
 {
     public function index()
     {
-        $carts = Cart::with(['product'])->where('user_id', auth()->id())->get();
+        $cartRole = function ($query) {
+            $query->where('user_id', auth()->id());
+        };
+        $carts = Merchant::with(['products' => function ($query) use ($cartRole) {
+            $query->whereHas('carts', $cartRole);
+        }, 'products.carts' => $cartRole])->whereHas('products.carts', $cartRole)->get();
         return Inertia::render('Cart', compact('carts'));
     }
 
@@ -24,7 +30,22 @@ class CartController extends Controller
         ]);
         try {
             DB::beginTransaction();
-            $this->updateCart($request->product_id, $request->quantity);
+            $product = Product::find($request->product_id);
+            $cart = Cart::where('user_id', auth()->id())->where('product_id', $request->product_id)->first();
+            if ($product->stock <  $request->quantity) {
+                throw new \Exception('Stock is not enough');
+            }
+            if ($cart) {
+                $cart->quantity = $request->quantity;;
+                $cart->save();
+            } else {
+                Cart::create([
+                    'user_id' => auth()->id(),
+                    'product_id' => $request->product_id,
+                    'quantity' => $request->quantity,
+                ]);
+            }
+            DB::commit();
             DB::commit();
         } catch (\Exception $e) {
             throw $e;
@@ -34,12 +55,8 @@ class CartController extends Controller
 
     public function destroy(Cart $cart)
     {
-        $product = $cart->product;
         try {
             DB::beginTransaction();
-            $product->update([
-                'stock' => $product->stock + $cart->quantity,
-            ]);
             $cart->delete();
             DB::commit();
         } catch (\Exception $e) {
@@ -58,6 +75,10 @@ class CartController extends Controller
         ]);
 
         if (isset($request->all()[0]['new']) && $request->all()[0]['new']) {
+            $product = Product::find($request->all()[0]['product_id']);
+            if ($product->stock < $request->all()[0]['quantity']) {
+                return redirect()->back();
+            }
             Cart::create([
                 'user_id' => auth()->id(),
                 'product_id' => $request->all()[0]['product_id'],
@@ -68,8 +89,16 @@ class CartController extends Controller
         $cartsId = [];
         try {
             DB::beginTransaction();
+            $carts = Cart::with(['product'])->where('user_id', auth()->id())->get();
             foreach ($request->all() as $r) {
-                $cart = $this->updateCart($r['product_id'], $r['quantity']);
+                // $cart = $this->updateCart($r['product_id'], $r['quantity']);
+                $cart = $carts->where('product_id', $r['product_id'])->first();
+                if ($cart->product->stock < $r['quantity']) {
+                    throw new \Exception('Stock is not enough');
+                }
+                $cart->quantity = $r['quantity'];
+                $cart->save();
+
                 array_push($cartsId, $cart->id);
             }
             DB::commit();
@@ -77,34 +106,14 @@ class CartController extends Controller
             DB::rollBack();
             throw $e;
         }
-        $carts = Cart::with(['product'])->whereIn('id', $cartsId)->get();
+
+        $cartRole = function ($query) use ($cartsId) {
+            $query->whereIn('id', $cartsId);
+        };
+        $carts = Merchant::with(['products' => function ($query) use ($cartRole) {
+            $query->whereHas('carts', $cartRole);
+        }, 'products.carts' => $cartRole])->whereHas('products.carts', $cartRole)->get();
+
         return Inertia::render('Checkout', compact('carts'));
-    }
-
-    private function updateCart($product_id, $quantity)
-    {
-        $product = Product::find($product_id);
-        $cart = Cart::where('user_id', auth()->id())->where('product_id', $product_id)->first();
-        $stock = $product->stock + ($cart ? $cart->quantity : 0);
-        if ($stock <  $quantity) {
-            throw new \Exception('Stock is not enough');
-        }
-
-        if ($cart) {
-            $cart->quantity = $quantity;;
-            $cart->save();
-        } else {
-            Cart::create([
-                'user_id' => auth()->id(),
-                'product_id' => $product_id,
-                'quantity' => $quantity,
-            ]);
-        }
-        $product->update([
-            'stock' => $stock - $quantity,
-        ]);
-        DB::commit();
-
-        return $cart;
     }
 }

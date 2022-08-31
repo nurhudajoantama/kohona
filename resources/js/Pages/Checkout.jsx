@@ -1,5 +1,5 @@
 import Main from "@/Layouts/Main";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Head, useForm } from "@inertiajs/inertia-react";
 import PriceFormat from "@/Components/Price/PriceFormat";
 import moment from "moment/moment";
@@ -13,7 +13,10 @@ export default function Checkout(props) {
         address: "",
         bank_name: "",
         bank_account_number: "",
-        carts_id: carts.map((cart) => cart.id),
+        carts: carts.map((merchant) => ({
+            merchant_id: merchant.id,
+            carts_id: merchant.products.map((product) => product.carts[0].id),
+        })),
     });
 
     const handleBuy = (e) => {
@@ -23,16 +26,28 @@ export default function Checkout(props) {
         post(route("buy.store"));
     };
 
-    const [modalAddress, setModalAddress] = React.useState(false);
-    const [modalBank, setModalBank] = React.useState(false);
+    const [modalAddress, setModalAddress] = useState(false);
+    const [modalBank, setModalBank] = useState(false);
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.value);
     };
 
-    const total = carts.reduce((acc, cart) => {
-        return acc + cart.quantity * cart.product.price;
-    }, 0);
+    const [total, setTotal] = useState(0);
+
+    useEffect(() => {
+        setTotal(
+            carts.reduce((acc, merchant) => {
+                return (
+                    acc +
+                    merchant.products.reduce((acc, product) => {
+                        return acc + product.carts[0].quantity * product.price;
+                    }, 0)
+                );
+            }, 0)
+        );
+    }, [carts]);
+    // return <> </>;
     return (
         <Main user={props.auth.user}>
             <Head title="Checkout" />
@@ -43,75 +58,22 @@ export default function Checkout(props) {
 
             <div className="grid grid-cols-3 gap-7">
                 <div className="col-span-2">
-                    {carts.map((cart, index) => (
+                    {carts.map((merchant, index) => (
                         <div
+                            className="mb-3 pb-3 border-b-2 border-gray-300"
                             key={index}
-                            className="mb-6 border border-gray-100 rounded-lg shadow-xl p-5"
                         >
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center">
-                                    <img
-                                        className="h-28 w-28 object-cover rounded-md"
-                                        src={`/storage/${cart.product.image}`}
-                                        alt={cart.product.name}
-                                    />
-                                    <div className="flex flex-col ml-4">
-                                        <div className="mb-2">
-                                            <h1 className="font-bold text-xl">
-                                                {cart.product.name}
-                                            </h1>
-                                            <p className="text-xs text-gray-500">
-                                                Stock : {cart.product.stock}
-                                            </p>
-                                        </div>
-
-                                        <div className="flex items-center justify-between">
-                                            <PriceFormat
-                                                value={cart.product.price}
-                                                renderText={(value, props) => (
-                                                    <span
-                                                        className="font-semibold text-xl"
-                                                        {...props}
-                                                    >
-                                                        {value}
-                                                    </span>
-                                                )}
-                                            />
-                                        </div>
-
-                                        <div>
-                                            <span className="text-sm text-gray-500">
-                                                {moment(cart.updated_at).format(
-                                                    "DD MMMM YYYY"
-                                                )}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div>
-                                    <div className="flex flex-col items-end">
-                                        <span className="font-semibold text-gray-700 font-sm">
-                                            Qty
-                                        </span>
-                                        <span>{cart.quantity}</span>
-                                        <PriceFormat
-                                            value={
-                                                cart.product.price *
-                                                cart.quantity
-                                            }
-                                            renderText={(value, props) => (
-                                                <span
-                                                    className="font-semibold text-md"
-                                                    {...props}
-                                                >
-                                                    {value}
-                                                </span>
-                                            )}
-                                        />
-                                    </div>
-                                </div>
+                            <div className="mb-3">
+                                <h1 className="text-lg font-semibold">
+                                    {merchant.name}
+                                </h1>
                             </div>
+                            {merchant.products.map((product, index) => (
+                                <ProductCheckoutCard
+                                    product={product}
+                                    key={index}
+                                />
+                            ))}
                         </div>
                     ))}
                 </div>
@@ -252,5 +214,73 @@ export default function Checkout(props) {
                 </div>
             </Modal>
         </Main>
+    );
+}
+
+function ProductCheckoutCard({ product }) {
+    return (
+        <div className="mb-6 border border-gray-100 rounded-lg shadow-xl p-5">
+            <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                    <img
+                        className="h-28 w-28 object-cover rounded-md"
+                        src={`/storage/${product.image}`}
+                        alt={product.name}
+                    />
+                    <div className="flex flex-col ml-4">
+                        <div className="mb-2">
+                            <h1 className="font-bold text-xl">
+                                {product.name}
+                            </h1>
+                            <p className="text-xs text-gray-500">
+                                Stock : {product.stock}
+                            </p>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                            <PriceFormat
+                                value={product.price}
+                                renderText={(value, props) => (
+                                    <span
+                                        className="font-semibold text-xl"
+                                        {...props}
+                                    >
+                                        {value}
+                                    </span>
+                                )}
+                            />
+                        </div>
+
+                        <div>
+                            <span className="text-sm text-gray-500">
+                                {moment(product.carts[0].updated_at).format(
+                                    "DD MMMM YYYY"
+                                )}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div className="flex flex-col items-end">
+                        <span className="font-semibold text-gray-700 font-sm">
+                            Qty
+                        </span>
+                        <span>{product.carts[0].quantity}</span>
+                        <PriceFormat
+                            value={product.price * product.carts[0].quantity}
+                            renderText={(value, props) => (
+                                <span
+                                    className="font-semibold text-md"
+                                    {...props}
+                                >
+                                    {value}
+                                </span>
+                            )}
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }

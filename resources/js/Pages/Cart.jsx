@@ -1,62 +1,66 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Main from "@/Layouts/Main";
-import moment from "moment/moment";
-import PriceFormat from "@/Components/Price/PriceFormat";
-import { Head, Link, useForm } from "@inertiajs/inertia-react";
+import { Head, useForm } from "@inertiajs/inertia-react";
 import Alert from "@/Components/Alert/Alert";
 import { Inertia } from "@inertiajs/inertia";
-import QuantityField from "@/Components/Cart/QuantityField";
+import ProductCartCard from "@/Components/Cart/ProductCartCard";
+import SummaryCard from "@/Components/Cart/SummaryCard";
 
 export default function Cart(props) {
-    const c = props.carts;
     const { delete: d } = useForm();
+    const [alerts, setAlerts] = useState([]);
+    const [carts, setCarts] = useState(props.carts);
+    const [selectedCartsIndex, setSelectedCartsIndex] = useState([]);
 
-    const [alerts, setAlerts] = React.useState([]);
-
-    const [carts, setCarts] = React.useState(
-        JSON.parse(JSON.stringify([...c]))
-    );
+    const [total, setTotal] = useState(0);
 
     useEffect(() => {
-        setCarts(JSON.parse(JSON.stringify([...c])));
-    }, [c]);
+        setTotal(
+            selectedCartsIndex.reduce(
+                (acc, { merchantIndex, productIndex }) => {
+                    return (
+                        acc +
+                        carts[merchantIndex].products[productIndex].carts[0]
+                            .quantity *
+                            carts[merchantIndex].products[productIndex].price
+                    );
+                },
+                0
+            )
+        );
+    }, [selectedCartsIndex, carts]);
 
-    const [selectedCartsIndex, setSelectedCartsIndex] = React.useState([]);
-
-    const total = selectedCartsIndex.reduce((acc, cartIndex) => {
-        return acc + carts[cartIndex].quantity * carts[cartIndex].product.price;
-    }, 0);
-
-    const handleCheckboxChange = (e) => {
-        const index = e.target.value;
+    const handleCheckboxChange = (merchantIndex, productIndex) => (e) => {
         const isChecked = e.target.checked;
         const newSelectedCartsIndex = [...selectedCartsIndex];
         if (isChecked) {
-            newSelectedCartsIndex.push(index);
+            newSelectedCartsIndex.push({ merchantIndex, productIndex });
         } else {
             newSelectedCartsIndex.splice(
-                newSelectedCartsIndex.indexOf(index),
+                newSelectedCartsIndex.indexOf({ merchantIndex, productIndex }),
                 1
             );
         }
         setSelectedCartsIndex(newSelectedCartsIndex);
     };
 
-    const handleRemoveQuantity = (index) => (e) => {
+    const handleRemoveQuantity = (merchantIndex, productIndex) => (e) => {
         e.preventDefault();
         const newCarts = [...carts];
-        if (newCarts[index].quantity > 1) {
-            newCarts[index].quantity -= 1;
+        if (carts[merchantIndex].products[productIndex].carts[0].quantity > 1) {
+            carts[merchantIndex].products[productIndex].carts[0].quantity -= 1;
         }
         setCarts(newCarts);
     };
 
-    const handleAddQuantity = (index) => (e) => {
+    const handleAddQuantity = (merchantIndex, productIndex) => (e) => {
         e.preventDefault();
-        const stock = c[index].product.stock + c[index].quantity;
         const newCarts = [...carts];
-        if (newCarts[index].quantity < stock) {
-            newCarts[index].quantity += 1;
+        if (
+            carts[merchantIndex].products[productIndex].carts[0].quantity <
+            carts[merchantIndex].products[productIndex].stock
+        ) {
+            carts[merchantIndex].products[productIndex].carts[0].quantity += 1;
         }
         setCarts(newCarts);
     };
@@ -82,10 +86,14 @@ export default function Cart(props) {
     const handleCheckout = (e) => {
         e.preventDefault();
         if (selectedCartsIndex.length === 0) return;
-        const data = selectedCartsIndex.map((index) => ({
-            product_id: carts[index].product.id,
-            quantity: carts[index].quantity,
-        }));
+        const data = selectedCartsIndex.map(
+            ({ merchantIndex, productIndex }) => ({
+                product_id: carts[merchantIndex].products[productIndex].id,
+                quantity:
+                    carts[merchantIndex].products[productIndex].carts[0]
+                        .quantity,
+            })
+        );
         Inertia.post(route("carts.checkout"), data);
     };
 
@@ -99,156 +107,45 @@ export default function Cart(props) {
             <Alert alerts={alerts} setAlerts={setAlerts} />
             <div className="grid grid-cols-3 gap-7">
                 <div className="col-span-2">
-                    {carts.map((cart, index) => (
+                    {carts.map((merchant, merchantIndex) => (
                         <div
-                            key={index}
-                            className="mb-6 border border-gray-100 rounded-lg shadow-xl p-5"
+                            key={merchantIndex}
+                            className="border-b-2 border-gray-300 mb-3 pb-3"
                         >
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center justify-between">
-                                    <div className="mr-4">
-                                        <input
-                                            value={index}
-                                            type="checkbox"
-                                            name="carts"
-                                            onChange={handleCheckboxChange}
-                                        />
-                                    </div>
-                                    <Link
-                                        href={route(
-                                            "products.show",
-                                            cart.product
-                                        )}
-                                    >
-                                        <div className="flex items-center">
-                                            <img
-                                                className="h-28 w-28 object-cover rounded-md"
-                                                src={`/storage/${cart.product.image}`}
-                                                alt={cart.product.name}
-                                            />
-                                            <div className="flex flex-col ml-4">
-                                                <div className="mb-2">
-                                                    <h1 className="font-bold text-xl">
-                                                        {cart.product.name}
-                                                    </h1>
-                                                    <p className="text-xs text-gray-500">
-                                                        Stock :{" "}
-                                                        {cart.product.stock}
-                                                    </p>
-                                                </div>
-
-                                                <div className="flex items-center justify-between">
-                                                    <PriceFormat
-                                                        value={
-                                                            cart.product.price
-                                                        }
-                                                        renderText={(
-                                                            value,
-                                                            props
-                                                        ) => (
-                                                            <span
-                                                                className="font-semibold text-xl"
-                                                                {...props}
-                                                            >
-                                                                {value}
-                                                            </span>
-                                                        )}
-                                                    />
-                                                </div>
-
-                                                <div>
-                                                    <span className="text-sm text-gray-500">
-                                                        {moment(
-                                                            cart.updated_at
-                                                        ).format(
-                                                            "DD MMMM YYYY"
-                                                        )}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </Link>
-                                </div>
-                                <div>
-                                    <div className="flex flex-col items-end">
-                                        <span className="font-semibold text-gray-700 font-sm">
-                                            Qty
-                                        </span>
-                                        <QuantityField
-                                            quantity={cart.quantity}
-                                            onAddQuantity={handleAddQuantity(
-                                                index
-                                            )}
-                                            onRemoveQuantity={handleRemoveQuantity(
-                                                index
-                                            )}
-                                        />
-                                        <PriceFormat
-                                            value={
-                                                cart.product.price *
-                                                cart.quantity
-                                            }
-                                            renderText={(value, props) => (
-                                                <span
-                                                    className="font-semibold text-md"
-                                                    {...props}
-                                                >
-                                                    {value}
-                                                </span>
-                                            )}
-                                        />
-                                        <div className="mt-3">
-                                            <button
-                                                onClick={handleRemove(cart)}
-                                                className="bg-red-600 text-white py-1 px-3 rounded-md"
-                                            >
-                                                Remove
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div className="mb-3">
+                                <h1 className="text-lg font-semibold">
+                                    {merchant.name}
+                                </h1>
                             </div>
+                            {merchant.products.map((product, productIndex) => (
+                                <ProductCartCard
+                                    product={product}
+                                    key={productIndex}
+                                    handleCheckboxChange={handleCheckboxChange(
+                                        merchantIndex,
+                                        productIndex
+                                    )}
+                                    handleRemoveQuantity={handleRemoveQuantity(
+                                        merchantIndex,
+                                        productIndex
+                                    )}
+                                    handleAddQuantity={handleAddQuantity(
+                                        merchantIndex,
+                                        productIndex
+                                    )}
+                                    handleRemove={handleRemove(
+                                        product.carts[0]
+                                    )}
+                                />
+                            ))}
                         </div>
                     ))}
                 </div>
                 <div>
-                    <div className="py-3 border border-gray-100 rounded-lg shadow-xl">
-                        <div className="px-5 pb-3 border-b border-gray-200">
-                            <h3 className="font-bold text-2xl">
-                                Shopping Summary
-                            </h3>
-                            <div className="mt-5 flex justify-between">
-                                <h3 className=" text-sm">Subtotal</h3>
-                                <PriceFormat
-                                    value={total}
-                                    renderText={(value, props) => (
-                                        <span className="text-sm" {...props}>
-                                            {value}
-                                        </span>
-                                    )}
-                                />
-                            </div>
-                        </div>
-                        <div className="px-5 my-5 flex justify-between">
-                            <h3 className="font-semibold text-xl">Total</h3>
-                            <PriceFormat
-                                value={total}
-                                renderText={(value, props) => (
-                                    <span className="text-lg" {...props}>
-                                        {value}
-                                    </span>
-                                )}
-                            />
-                        </div>
-                        <div className="px-5 mb-2">
-                            <button
-                                onClick={handleCheckout}
-                                className="w-full bg-yellow-300 text-white py-1 px-3 rounded-sm"
-                            >
-                                Checkout
-                            </button>
-                        </div>
-                    </div>
+                    <SummaryCard
+                        total={total}
+                        handleCheckout={handleCheckout}
+                    />
                 </div>
             </div>
         </Main>

@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('per_merchant_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete();
-            $table->foreignId('status_id')->default(1)->nullable()->references('id')->on('statuses')->nullOnDelete();
-            $table->text('address');
-            $table->string('bank_name');
-            $table->string('bank_account_number');
+            $table->foreignId('transaction_id')->references('id')->on('transactions')->cascadeOnDelete();
+            $table->foreignId('merchant_id')->references('id')->on('merchants')->cascadeOnDelete();
             $table->unsignedBigInteger('total_price')->default(0);
             $table->timestamps();
         });
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('per_merchant_transactions');
     }
 };

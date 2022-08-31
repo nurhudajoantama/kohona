@@ -14,11 +14,10 @@ export default function Show(props) {
         product_id: product.id,
         quantity: cart ? cart.quantity : 1,
     });
-    const stock = product.stock + (cart ? cart.quantity : 0);
 
     const handleAddQuantity = (e) => {
         e.preventDefault();
-        if (data.quantity >= stock) {
+        if (data.quantity >= product.stock) {
             return;
         }
         setData("quantity", data.quantity + 1);
@@ -153,7 +152,7 @@ export default function Show(props) {
                             >
                                 Buy Now
                             </button>
-                            {product.stock < 1 && !cart && (
+                            {product.stock < 1 && (
                                 <div>
                                     <section className="absolute inset-0 bg-gray-500 opacity-50 flex justify-center items-center rounded-lg"></section>
                                     <div className="absolute inset-0 flex justify-center items-center">
