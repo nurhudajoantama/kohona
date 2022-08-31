@@ -20,6 +20,20 @@ class TransactionController extends Controller
         return Inertia::render('Transaction/Index', compact('transactions'));
     }
 
+    public function show(Transaction $transaction)
+    {
+        if ($transaction->user_id !== auth()->id()) {
+            abort(404);
+        }
+        $transaction = $transaction->load([
+            'perMerchantTransactions',
+            'perMerchantTransactions.orders',
+            'perMerchantTransactions.merchant',
+            'perMerchantTransactions.orders.product'
+        ]);
+        return Inertia::render('Transaction/Show', compact('transaction'));
+    }
+
     public function store(Request $request)
     {
         $request->validate([

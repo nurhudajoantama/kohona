@@ -2,15 +2,16 @@ import PriceFormat from "@/Components/Price/PriceFormat";
 import Main from "@/Layouts/Main";
 import React from "react";
 import moment from "moment/moment";
-import { Link } from "@inertiajs/inertia-react";
+import { Head, Link } from "@inertiajs/inertia-react";
 import Pagination from "@/Components/Pagination/Pagination";
+import ArrowRight from "@/Components/Icon/ArrowRight";
 
 export default function Index(props) {
     const { transactions } = props;
-    console.log(transactions);
 
     return (
         <Main user={props.auth.user}>
+            <Head title="Transaction" />
             <div className="mt-12">
                 <h1 className="text-3xl font-bold">History Transactions</h1>
             </div>
@@ -46,12 +47,6 @@ export default function Index(props) {
                             </div>
                             <div>
                                 <span className="text-gray-500 text-xs">
-                                    Address
-                                </span>
-                                <p className="text-sm">{transaction.address}</p>
-                            </div>
-                            <div className="flex flex-col items-end">
-                                <span className="text-gray-500 text-xs">
                                     Status
                                 </span>
                                 <p
@@ -67,6 +62,19 @@ export default function Index(props) {
                                 >
                                     {transaction.status.status}
                                 </p>
+                            </div>
+                            <div className="flex justify-end items-center">
+                                <Link
+                                    href={route(
+                                        "transactions.show",
+                                        transaction
+                                    )}
+                                >
+                                    <button className="flex items-center text-yellow-400 text-sm font-semibold px-2 py-1.5 border border-yellow-400 rounded-sm">
+                                        <span className="mr-1">Detail</span>
+                                        <ArrowRight />
+                                    </button>
+                                </Link>
                             </div>
                         </div>
                         <div className="px-7">
