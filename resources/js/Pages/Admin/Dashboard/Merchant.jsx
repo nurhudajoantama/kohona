@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import AdminDashboard from "@/Layouts/Admin/AdminDashboard";
 import { useForm } from "@inertiajs/inertia-react";
-import Drawer from "@/Components/Dashboard/Drawer/Drawer";
 import Alert from "@/Components/Alert/Alert";
 import Pagination from "@/Components/Pagination/Pagination";
 
 export default function Index(props) {
     const { merchants } = props;
-    const [isOpenDrawer, setIsOpenDrawer] = useState(false);
     const [selectedMerchantDetails, setSelectedMerchantDetails] =
         useState(null);
 
@@ -49,65 +47,85 @@ export default function Index(props) {
     const handleDetails = (i) => {
         return (e) => {
             e.preventDefault();
-            setSelectedMerchantDetails(merchants[i]);
-            setIsOpenDrawer(true);
+            setSelectedMerchantDetails(merchants.data[i]);
         };
     };
 
     return (
         <AdminDashboard title="Merchants" user={props.auth.user}>
             <Alert alerts={alerts} setAlerts={setAlerts} />
-            {merchants.data.map((merchant, i) => (
-                <div
-                    className="border px-6 py-3 max-w-4xl rounded-lg flex justify-between items-center mb-5"
-                    key={i}
-                >
-                    <div>
-                        <h5 className="font-bold text-lg">{merchant.name}</h5>
-                        <p className="text-sm">{merchant.description}</p>
-                    </div>
-                    <div>
-                        {merchant.status_id === 1 ? (
-                            <>
-                                <button
-                                    className="btn border border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 px-4 py-1 rounded-md text-sm"
-                                    onClick={handleDetails(i)}
-                                >
-                                    Detail
-                                </button>
-                                <button
-                                    className="ml-4 btn border border-green-500 hover:bg-green-500 hover:text-white text-green-500 px-4 py-1 rounded-md text-sm"
-                                    onClick={handleActive(merchant)}
-                                >
-                                    Accepted
-                                </button>
-                                <button
-                                    className="ml-4 btn border border-red-500 hover:bg-red-500 hover:text-white text-red-500 px-4 py-1 rounded-md text-sm"
-                                    onClick={handleReject(merchant)}
-                                >
-                                    Reject
-                                </button>
-                            </>
-                        ) : (
-                            <div className="flex items-center">
-                                <span
-                                    className={`capitalize ${
-                                        merchant.status.id === 1
-                                            ? "text-yellow-400"
-                                            : merchant.status.id === 2
-                                            ? "text-green-400"
-                                            : merchant.status.id === 3
-                                            ? "text-red-400"
-                                            : ""
-                                    }`}
-                                >
-                                    {merchant.status.status}
-                                </span>
+            <div className="grid grid-cols-5 gap-7">
+                <div className="col-span-3">
+                    {merchants.data.map((merchant, i) => (
+                        <div
+                            className="border px-6 py-3 rounded-md flex justify-between items-center mb-5"
+                            key={i}
+                        >
+                            <div>
+                                <h5 className="font-bold text-lg">
+                                    {merchant.name}
+                                </h5>
+                                <p className="text-sm">
+                                    {merchant.description}
+                                </p>
                             </div>
-                        )}
-                    </div>
+                            <div>
+                                {merchant.status_id === 1 ? (
+                                    <>
+                                        <button
+                                            className="btn border bg-blue-500 text-white px-4 py-1 rounded-md text-sm"
+                                            onClick={handleDetails(i)}
+                                        >
+                                            Detail
+                                        </button>
+                                        <button
+                                            className="ml-4 btn border bg-green-500 text-white px-4 py-1 rounded-md text-sm"
+                                            onClick={handleActive(merchant)}
+                                        >
+                                            Accepted
+                                        </button>
+                                        <button
+                                            className="ml-4 btn border bg-red-500 text-white px-4 py-1 rounded-md text-sm"
+                                            onClick={handleReject(merchant)}
+                                        >
+                                            Reject
+                                        </button>
+                                    </>
+                                ) : (
+                                    <div className="flex items-center">
+                                        <span
+                                            className={`capitalize ${
+                                                merchant.status.id === 1
+                                                    ? "text-yellow-400"
+                                                    : merchant.status.id === 2
+                                                    ? "text-green-400"
+                                                    : merchant.status.id === 3
+                                                    ? "text-red-400"
+                                                    : ""
+                                            }`}
+                                        >
+                                            {merchant.status.status}
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            ))}
+                <div className="col-span-2">
+                    {selectedMerchantDetails && (
+                        <div className="px-7 py-5 border rounded-md">
+                            <h1 className="text-xl font-bold mb-2">
+                                {selectedMerchantDetails.name}
+                            </h1>
+                            <span className="text-yellow-400 font-semibold text-lg">
+                                Deskripsi
+                            </span>
+                            <p>{selectedMerchantDetails.description}</p>
+                        </div>
+                    )}
+                </div>
+            </div>
             <Pagination
                 links={merchants.links}
                 from={merchants.from}
@@ -115,15 +133,6 @@ export default function Index(props) {
                 total={merchants.total}
                 last_page={merchants.last_page}
             />
-            <Drawer isOpen={isOpenDrawer} setIsOpen={setIsOpenDrawer}>
-                <div className="px-3 py-2">
-                    <h1 className="mb-5 font-bold text-xl">Merchant Detail</h1>
-                    <h2 className="font-bold text-xl mb-3">
-                        {selectedMerchantDetails?.name}
-                    </h2>
-                    <p className="">{selectedMerchantDetails?.description}</p>
-                </div>
-            </Drawer>
         </AdminDashboard>
     );
 }
