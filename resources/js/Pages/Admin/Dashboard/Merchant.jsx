@@ -4,6 +4,7 @@ import { useForm } from "@inertiajs/inertia-react";
 import Alert from "@/Components/Alert/Alert";
 import Pagination from "@/Components/Pagination/Pagination";
 import { Inertia } from "@inertiajs/inertia";
+import MerchantListCard from "@/Components/Admin/MerchantListCard";
 
 export default function Index(props) {
     const { merchants } = props;
@@ -50,10 +51,10 @@ export default function Index(props) {
             });
         };
     };
-    const handleDetails = (i) => {
+    const handleDetails = (merchant) => {
         return (e) => {
             e.preventDefault();
-            setSelectedMerchantDetails(merchants.data[i]);
+            setSelectedMerchantDetails(merchant);
         };
     };
 
@@ -122,59 +123,13 @@ export default function Index(props) {
             <div className="mt-12 grid grid-cols-5 gap-7">
                 <div className="col-span-3">
                     {merchants.data.map((merchant, i) => (
-                        <div
-                            className="border px-6 py-3 rounded-md flex justify-between items-center mb-5"
+                        <MerchantListCard
+                            handleActive={handleActive}
+                            handleDetails={handleDetails}
+                            handleReject={handleReject}
+                            merchant={merchant}
                             key={i}
-                        >
-                            <div>
-                                <h5 className="font-bold text-lg">
-                                    {merchant.name}
-                                </h5>
-                                <p className="text-sm">
-                                    {merchant.description}
-                                </p>
-                            </div>
-                            <div>
-                                {merchant.status_id === 1 ? (
-                                    <>
-                                        <button
-                                            className="btn border bg-blue-500 text-white px-4 py-1 rounded-md text-sm"
-                                            onClick={handleDetails(i)}
-                                        >
-                                            Detail
-                                        </button>
-                                        <button
-                                            className="ml-4 btn border bg-green-500 text-white px-4 py-1 rounded-md text-sm"
-                                            onClick={handleActive(merchant)}
-                                        >
-                                            Accepted
-                                        </button>
-                                        <button
-                                            className="ml-4 btn border bg-red-500 text-white px-4 py-1 rounded-md text-sm"
-                                            onClick={handleReject(merchant)}
-                                        >
-                                            Reject
-                                        </button>
-                                    </>
-                                ) : (
-                                    <div className="flex items-center">
-                                        <span
-                                            className={`capitalize ${
-                                                merchant.status.id === 1
-                                                    ? "text-yellow-400"
-                                                    : merchant.status.id === 2
-                                                    ? "text-green-400"
-                                                    : merchant.status.id === 3
-                                                    ? "text-red-400"
-                                                    : ""
-                                            }`}
-                                        >
-                                            {merchant.status.status}
-                                        </span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
+                        />
                     ))}
                 </div>
                 <div className="col-span-2">
