@@ -21,9 +21,10 @@ function FooterLink(props) {
 }
 
 function IconLink(props) {
+    const { icon: Icon, ...rest } = props;
     return (
-        <Link {...props}>
-            <props.Icon className="p-2 mr-1 h-12 w-12" />
+        <Link {...rest}>
+            <Icon className="p-2 mr-1 h-12 w-12" />
         </Link>
     );
 }
@@ -63,17 +64,17 @@ export default function Footer() {
                     <div>
                         <h4 className="text-lg">Cari tau berita terbaru</h4>
                         <div className="flex mt-1">
-                            <IconLink Icon={FacebookFill} />
-                            <IconLink Icon={InstagramFilled} />
-                            <IconLink Icon={TwitterFill} />
-                            <IconLink Icon={YoutubeFill} />
+                            <IconLink icon={FacebookFill} />
+                            <IconLink icon={InstagramFilled} />
+                            <IconLink icon={TwitterFill} />
+                            <IconLink icon={YoutubeFill} />
                         </div>
                     </div>
                     <div className="mt-5">
                         <h4 className="text-lg">Unduh Aplikasi</h4>
                         <div className="flex mt-1">
-                            <IconLink Icon={LogoGooglePlayStore} />
-                            <IconLink Icon={AppleFilled} />
+                            <IconLink icon={LogoGooglePlayStore} />
+                            <IconLink icon={AppleFilled} />
                         </div>
                     </div>
                 </div>
