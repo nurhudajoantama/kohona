@@ -9,7 +9,7 @@ import UserCircle from "../Icon/UserCircle";
 export default function Navbar({ user }) {
     const params = new URLSearchParams(window.location.search);
     const { get, data, setData } = useForm({
-        search: params.get("search") || "",
+        search: params.get("search") || undefined,
     });
 
     const handleSearch = (e) => {
@@ -24,7 +24,7 @@ export default function Navbar({ user }) {
                     <div className="relative flex items-center justify-between h-16">
                         <div className="flex items-center justify-center sm:items-stretch sm:justify-start">
                             <Link href="/" className="flex items-center">
-                                <ApplicationLogo className="block h-8 w-auto" />
+                                <ApplicationLogo className="block h-8 w-auto text-yellow-400" />
                                 <h1 className="ml-5 font-semibold text-lg">
                                     Kohona
                                 </h1>
@@ -52,7 +52,10 @@ export default function Navbar({ user }) {
                                     autoComplete="search"
                                     value={data.search}
                                     onChange={(e) =>
-                                        setData("search", e.target.value)
+                                        setData(
+                                            "search",
+                                            e.target.value || undefined
+                                        )
                                     }
                                 />
                             </div>

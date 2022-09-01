@@ -2,10 +2,8 @@ import React, { useState } from "react";
 import AdminDashboard from "@/Layouts/Admin/AdminDashboard";
 import { useForm } from "@inertiajs/inertia-react";
 import Alert from "@/Components/Alert/Alert";
-import moment from "moment";
 import Pagination from "@/Components/Pagination/Pagination";
-import CopyToClipboard from "react-copy-to-clipboard";
-import CopyIcon from "@/Components/Icon/CopyIcon";
+import AdminTokenListCard from "@/Components/Admin/AdminTokenListCard";
 
 export default function adminTokens(props) {
     const { adminTokens } = props;
@@ -35,12 +33,12 @@ export default function adminTokens(props) {
             d(route("admin.dashboard.admin-tokens.destroy", id), {
                 onSuccess: () =>
                     setAlerts([
-                        ...alerts,
                         {
                             color: "red",
                             title: "Success!!",
                             message: "Successfully deleted admin token.",
                         },
+                        ...alerts,
                     ]),
             });
         };
@@ -66,39 +64,13 @@ export default function adminTokens(props) {
             </form>
 
             <div className="mt-7">
-                {adminTokens.data.map((token, i) => (
-                    <div
-                        className="border p-3 rounded-md flex justify-between items-center mb-5"
-                        key={i}
-                    >
-                        <div>
-                            <div className="border bg-white px-3 py-1 rounded-sm">
-                                {token.token}
-                            </div>
-                            <span className="text-xs text-gray-400">
-                                Created By {token.user.name} on{" "}
-                                {moment(token.created_at).format(
-                                    "DD MMMM YYYY, HH:mm:ss"
-                                )}
-                            </span>
-                        </div>
-                        <div className="flex">
-                            <CopyToClipboard
-                                text={token.token}
-                                onCopy={handleOnCopy}
-                            >
-                                <button className="border border-gray-400 text-gray-400 px-4 py-3 rounded-md">
-                                    <CopyIcon />
-                                </button>
-                            </CopyToClipboard>
-                            <button
-                                className="ml-2 border bg-red-500 text-white px-7 py-3 rounded-md text-sm"
-                                onClick={handleDelete(token.id)}
-                            >
-                                Delete
-                            </button>
-                        </div>
-                    </div>
+                {adminTokens.data.map((token) => (
+                    <AdminTokenListCard
+                        key={token.id}
+                        token={token}
+                        handleDelete={handleDelete}
+                        handleOnCopy={handleOnCopy}
+                    />
                 ))}
                 <Pagination
                     links={adminTokens.links}

@@ -89,7 +89,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, children }) {
                     </button>
                     {/* Logo */}
                     <Link href="/" className="flex items-center">
-                        <ApplicationLogo className="h-10 w-10" />
+                        <ApplicationLogo className="h-10 w-10 text-yellow-400" />
                         <h3 className="text-xl font-semibold ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                             Kohona
                         </h3>

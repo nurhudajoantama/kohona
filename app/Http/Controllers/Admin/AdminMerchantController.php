@@ -13,12 +13,13 @@ class AdminMerchantController extends Controller
     public function index()
     {
         $statusId = request('status_id');
-        $seacrh = request('search');
+        $statusId = $statusId ? $statusId : null;
+        $search = request('search');
         $merchants = Merchant::when($statusId, function ($query) use ($statusId) {
             return $query->where('status_id', $statusId);
-        })->when($seacrh, function ($query) use ($seacrh) {
-            return $query->where('name', 'like', '%' . $seacrh . '%');
-        })->paginate(10);
+        })->when($search, function ($query) use ($search) {
+            return $query->where('name', 'like', '%' . $search . '%');
+        })->orderBy('status_id')->paginate(10)->appends(request()->query());
         return Inertia::render('Admin/Dashboard/Merchant', compact('merchants'));
     }
 

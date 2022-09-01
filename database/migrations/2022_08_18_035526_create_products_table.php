@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('merchant_id')->references('id')->on('merchants')->cascadeOnDelete();
             $table->string('slug')->unique();
-            $table->string('name');
+            $table->string('name')->index();
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('price')->default(0);
