@@ -15,7 +15,7 @@ export default function Auth({ children }) {
             </div>
             <div className="flex flex-col justify-center items-center">
                 <Link href="/" className="flex items-center mb-7">
-                    <ApplicationLogo />
+                    <ApplicationLogo className="text-yellow-400" />
                     <h1 className="ml-3 font-semibold text-3xl">Kohona</h1>
                 </Link>
                 <div

@@ -6,7 +6,6 @@ import Input from "@/Components/Input";
 import InputError from "@/Components/InputError";
 import Label from "@/Components/Label";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
-import ApplicationLogo from "@/Components/ApplicationLogo";
 import Auth from "@/Layouts/Auth/Auth";
 
 export default function Login({ status, canResetPassword }) {
