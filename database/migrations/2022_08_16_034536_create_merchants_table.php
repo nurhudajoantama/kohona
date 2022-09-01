@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('merchants', function (Blueprint $table) {
             $table->foreignId('id')->unique()->references('id')->on('users')->cascadeOnDelete();
             $table->string('slug')->unique();
-            $table->string('name');
+            $table->string('name')->index();
             $table->string('image')->nullable();
             $table->text('description')->nullable();
             $table->unsignedBigInteger('wallet_amount')->default(0);
