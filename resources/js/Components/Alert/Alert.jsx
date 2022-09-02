@@ -22,35 +22,33 @@ export default function Alert({ alerts, setAlerts }) {
         };
     };
     return (
-        <NoScrollBar className="max-h-32 mb-3 overflow-auto">
+        <NoScrollBar className="fixed bottom-1 right-3 w-96 max-h-32 mb-3 overflow-auto">
             {alerts.map((alert, i) => {
-                let className = "";
+                let className =
+                    "flex justify-between items-center border px-4 py-3 rounded relative mb-3 ";
                 switch (alert.color) {
                     case "red":
-                        className =
+                        className +=
                             "bg-red-100 border border-red-400 text-red-700";
                         break;
                     case "yellow":
-                        className =
+                        className +=
                             "bg-yellow-100 border border-yellow-400 text-yellow-700";
                         break;
                     default:
-                        className =
+                        className +=
                             "bg-green-100 border border-green-400 text-green-700";
                 }
-                className += " border px-4 py-3 rounded relative mb-3";
+
                 return (
                     <div key={i} className={className}>
-                        <strong className="font-bold">{alert.title}</strong>
-                        <span className="block sm:inline ml-2">
-                            {alert.message}
-                        </span>
-                        <button
-                            className="absolute top-0 bottom-0 right-0 px-4 py-3"
-                            onClick={handleRemove(i)}
-                        >
+                        <div>
+                            <h5 className="font-bold text-sm">{alert.title}</h5>
+                            <p className="text-sm">{alert.message}</p>
+                        </div>
+                        <button className="p-1" onClick={handleRemove(i)}>
                             <svg
-                                className={`fill-current h-6 w-6 text-${alert.color}-500`}
+                                className={`fill-current h-5 w-5 text-${alert.color}-500`}
                                 role="button"
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
