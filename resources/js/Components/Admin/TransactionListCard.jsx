@@ -1,11 +1,28 @@
 import React from "react";
 import PriceFormat from "@/Components/Price/PriceFormat";
+import { useForm } from "@inertiajs/inertia-react";
+import { useAlert } from "react-alert";
 
-export default function TransactionListCard({
-    transaction,
-    handleAccept,
-    handleReject,
-}) {
+export default function TransactionListCard({ transaction }) {
+    const { post } = useForm();
+    const alert = useAlert();
+
+    const handleAccept = (e) => {
+        e.preventDefault();
+        post(route("admin.dashboard.transactions.accept", transaction), {
+            onSuccess: () =>
+                alert.success("Transaction has been accepted successfully"),
+        });
+    };
+
+    const handleReject = (e) => {
+        e.preventDefault();
+        post(route("admin.dashboard.transactions.reject", transaction), {
+            onSuccess: () =>
+                alert.error("Transaction has been rejected successfully"),
+        });
+    };
+
     return (
         <div className="p-6 border border-gray-300 shadow-md mb-5 rounded-md bg-white flex justify-between">
             <div>
@@ -60,13 +77,13 @@ export default function TransactionListCard({
             {transaction.status_id === 1 && (
                 <div className="flex items-center">
                     <button
-                        onClick={handleAccept(transaction)}
+                        onClick={handleAccept}
                         className="ml-4 btn border bg-green-500 text-white px-5 py-2 rounded-md"
                     >
                         Accepted
                     </button>
                     <button
-                        onClick={handleReject(transaction)}
+                        onClick={handleReject}
                         className="ml-4 btn border bg-red-500 text-white  px-5 py-2 rounded-md"
                     >
                         Reject

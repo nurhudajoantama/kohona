@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import MerchantDashboard from "@/Layouts/Merchant/Dashboard/MerchantDashboard";
 import { Link, useForm } from "@inertiajs/inertia-react";
-import Alert from "@/Components/Alert/Alert";
 import PriceFormat from "@/Components/Price/PriceFormat";
 import Pagination from "@/Components/Pagination/Pagination";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { useAlert } from "react-alert";
 
 export default function Index(props) {
     const { products } = props;
 
     const { delete: d } = useForm();
-    const [alerts, setAlerts] = useState([]);
+
+    const alert = useAlert();
 
     const handleDelete = (product) => {
         return (e) => {
@@ -31,14 +32,9 @@ export default function Index(props) {
                                 ),
                                 {
                                     onSuccess: () =>
-                                        setAlerts([
-                                            ...alerts,
-                                            {
-                                                color: "red",
-                                                title: "Success!!",
-                                                message: `Successfully deleted product "${product.name}".`,
-                                            },
-                                        ]),
+                                        alert.error(
+                                            "Product has been deleted successfully"
+                                        ),
                                 }
                             ),
                     },
@@ -51,7 +47,6 @@ export default function Index(props) {
     };
     return (
         <MerchantDashboard title="Merchant Products" user={props.auth.user}>
-            <Alert alerts={alerts} setAlerts={setAlerts} />
             <div>
                 <Link
                     href={route("merchants.dashboard.products.create")}

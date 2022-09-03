@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import MerchantDashboard from "@/Layouts/Merchant/Dashboard/MerchantDashboard";
 import Button from "@/Components/Button";
 import Input from "@/Components/Input";
 import InputError from "@/Components/InputError";
 import Label from "@/Components/Label";
-import Alert from "@/Components/Alert/Alert";
+import { useAlert } from "react-alert";
 import { useForm } from "@inertiajs/inertia-react";
 import PriceFormat from "@/Components/Price/PriceFormat";
 
@@ -26,6 +26,8 @@ export default function FormProduct(props) {
               }
     );
 
+    const alert = useAlert();
+
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.value);
     };
@@ -37,28 +39,20 @@ export default function FormProduct(props) {
                 forceFormData: true,
                 replace: true,
                 onSuccess: () =>
-                    setAlerts([
-                        ...alerts,
-                        {
-                            color: "green",
-                            title: "Success",
-                            message: `Successfully update your product.`,
-                        },
-                    ]),
+                    alert.success("Product has been updated successfully"),
             });
         } else {
-            post(route("merchants.dashboard.products.store"));
+            post(route("merchants.dashboard.products.store"), {
+                onSuccess: () =>
+                    alert.success("Product has been created successfully"),
+            });
         }
     };
-
-    const [alerts, setAlerts] = useState([]);
     return (
         <MerchantDashboard
             title={`${update ? "Update" : "Create"} Products`}
             user={props.auth.user}
         >
-            <Alert alerts={alerts} setAlerts={setAlerts} />
-
             <form onSubmit={submit} encType="multipart/form-data">
                 <div>
                     {(data.image || props?.product?.image) && (

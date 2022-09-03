@@ -7,7 +7,7 @@ import Input from "@/Components/Input";
 import InputError from "@/Components/InputError";
 import moment from "moment/moment";
 import Pagination from "@/Components/Pagination/Pagination";
-import Alert from "@/Components/Alert/Alert";
+import { useAlert } from "react-alert";
 
 export default function Wallet(props) {
     const { transfers } = props;
@@ -39,20 +39,13 @@ export default function Wallet(props) {
         setData(event.target.name, event.target.value);
     };
 
-    const [alerts, setAlerts] = useState([]);
+    const alert = useAlert();
     const handleSubmitWithdraw = (e) => {
         e.preventDefault();
         console.log("here");
         post(route("merchants.dashboard.wallet.withdraw"), {
             onSuccess: () => {
-                setAlerts([
-                    ...alerts,
-                    {
-                        color: "green",
-                        title: "Success!!",
-                        message: "Your withdraw will processed by admin.",
-                    },
-                ]);
+                alert.success("Withdrawal request has been sent");
                 reset("bank_name", "bank_account_number", "amount");
             },
         });
@@ -75,7 +68,6 @@ export default function Wallet(props) {
                 />
             </div>
             <div className="mt-10">
-                <Alert alerts={alerts} setAlerts={setAlerts} />
                 <form onSubmit={handleSubmitWithdraw}>
                     <div className="grid grid-cols-3 mb-3 gap-7">
                         <div>

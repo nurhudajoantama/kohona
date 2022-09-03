@@ -6,6 +6,7 @@ import ReactDOM from "react-dom/client";
 import { createInertiaApp } from "@inertiajs/inertia-react";
 import { InertiaProgress } from "@inertiajs/progress";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
+import MainProvider from "./Context/MainProvider";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
@@ -21,7 +22,9 @@ createInertiaApp({
         const root = ReactDOM.createRoot(el);
         root.render(
             <React.StrictMode>
-                <App {...props} />
+                <MainProvider>
+                    <App {...props} />
+                </MainProvider>
             </React.StrictMode>
         );
         return root;

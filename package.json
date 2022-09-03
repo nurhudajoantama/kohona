@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "moment": "^2.29.4",
+        "react-alert": "^7.0.3",
         "react-confirm-alert": "^3.0.6",
         "react-copy-to-clipboard": "^5.1.0",
         "react-number-format": "^4.9.3",

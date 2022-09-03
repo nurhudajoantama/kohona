@@ -2,7 +2,6 @@ import PriceFormat from "@/Components/Price/PriceFormat";
 import React from "react";
 import moment from "moment/moment";
 import Pagination from "@/Components/Pagination/Pagination";
-import Alert from "@/Components/Alert/Alert";
 import AdminDashboard from "@/Layouts/Admin/AdminDashboard";
 
 export default function Wallet(props) {

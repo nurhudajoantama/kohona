@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import AdminDashboard from "@/Layouts/Admin/AdminDashboard";
-import { useForm } from "@inertiajs/inertia-react";
-import Alert from "@/Components/Alert/Alert";
 import Pagination from "@/Components/Pagination/Pagination";
 import { Inertia } from "@inertiajs/inertia";
 import MerchantListCard from "@/Components/Admin/MerchantListCard";
@@ -11,46 +9,12 @@ export default function Index(props) {
     const [selectedMerchantDetails, setSelectedMerchantDetails] =
         useState(null);
 
-    const { post } = useForm();
-    const [alerts, setAlerts] = useState([]);
     const params = new URLSearchParams(window.location.search);
     const [search, setSearch] = useState(params.get("search") || undefined);
     const [status_id, setStatus_id] = useState(
         params.get("status_id") || undefined
     );
 
-    const handleActive = ({ name, ...merchant }) => {
-        return (e) => {
-            e.preventDefault();
-            post(route("admin.dashboard.merchants.activate", merchant), {
-                onSuccess: () =>
-                    setAlerts([
-                        ...alerts,
-                        {
-                            color: "green",
-                            title: "Success!!",
-                            message: `Successfully activate ${name} merchant.`,
-                        },
-                    ]),
-            });
-        };
-    };
-    const handleReject = ({ name, ...merchant }) => {
-        return (e) => {
-            e.preventDefault();
-            post(route("admin.dashboard.merchants.reject", merchant), {
-                onSuccess: () =>
-                    setAlerts([
-                        ...alerts,
-                        {
-                            color: "red",
-                            title: "Success!!",
-                            message: `Successfully rejected ${name} merchant.`,
-                        },
-                    ]),
-            });
-        };
-    };
     const handleDetails = (merchant) => {
         return (e) => {
             e.preventDefault();
@@ -68,9 +32,7 @@ export default function Index(props) {
 
     return (
         <AdminDashboard title="Merchants" user={props.auth.user}>
-            <Alert alerts={alerts} setAlerts={setAlerts} />
             {/* Search */}
-
             <form onSubmit={handleSearch}>
                 <div>
                     <label htmlFor="search" className="text-sm text-gray-700">
@@ -120,13 +82,12 @@ export default function Index(props) {
                 </div>
             </form>
 
+            {/* List */}
             <div className="mt-12 grid grid-cols-5 gap-7">
                 <div className="col-span-3">
                     {merchants.data.map((merchant, i) => (
                         <MerchantListCard
-                            handleActive={handleActive}
                             handleDetails={handleDetails}
-                            handleReject={handleReject}
                             merchant={merchant}
                             key={i}
                         />

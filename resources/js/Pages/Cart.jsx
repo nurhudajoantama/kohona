@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Main from "@/Layouts/Main";
 import { Head, useForm } from "@inertiajs/inertia-react";
-import Alert from "@/Components/Alert/Alert";
+import { useAlert } from "react-alert";
 import { Inertia } from "@inertiajs/inertia";
 import ProductCartCard from "@/Components/Cart/ProductCartCard";
 import SummaryCard from "@/Components/Cart/SummaryCard";
 
 export default function Cart(props) {
-    const { delete: d } = useForm();
-    const [alerts, setAlerts] = useState([]);
     const [carts, setCarts] = useState(props.carts);
     const [selectedCartsIndex, setSelectedCartsIndex] = useState([]);
 
@@ -65,20 +63,14 @@ export default function Cart(props) {
         setCarts(newCarts);
     };
 
+    const { delete: d } = useForm();
+    const alert = useAlert();
     const handleRemove = (cart) => {
         return (e) => {
             e.preventDefault();
             d(route("carts.destroy", cart), {
-                onSuccess: () => {
-                    setAlerts([
-                        ...alerts,
-                        {
-                            color: "red",
-                            title: "Success!!",
-                            message: `Successfully remove item "${cart.product.name}" form your cart.`,
-                        },
-                    ]);
-                },
+                onSuccess: () =>
+                    alert.error("Product has been deleted from cart"),
             });
         };
     };
@@ -104,10 +96,10 @@ export default function Cart(props) {
                 <h1 className="font-bold text-4xl">Cart</h1>
                 <p>Your cart is going full, let's pay... </p>
             </div>
-            <Alert alerts={alerts} setAlerts={setAlerts} />
+
             <div className="grid grid-cols-3 gap-7">
                 <div className="col-span-2">
-                    {carts.map((merchant, merchantIndex) => (
+                    {props.carts.map((merchant, merchantIndex) => (
                         <div
                             key={merchantIndex}
                             className="border-b-2 border-gray-300 mb-3 pb-3"

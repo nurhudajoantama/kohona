@@ -46,7 +46,6 @@ class CartController extends Controller
                 ]);
             }
             DB::commit();
-            DB::commit();
         } catch (\Exception $e) {
             throw $e;
         }
@@ -55,15 +54,8 @@ class CartController extends Controller
 
     public function destroy(Cart $cart)
     {
-        try {
-            DB::beginTransaction();
-            $cart->delete();
-            DB::commit();
-        } catch (\Exception $e) {
-            DB::rollBack();
-            throw $e;
-        }
-        return redirect()->route('carts.index');
+        $cart->delete();
+        return redirect()->back();
     }
 
     public function checkout(Request $request)

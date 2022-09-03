@@ -5,7 +5,7 @@ import Input from "@/Components/Input";
 import InputError from "@/Components/InputError";
 import Label from "@/Components/Label";
 import { useForm } from "@inertiajs/inertia-react";
-import Alert from "@/Components/Alert/Alert";
+import { useAlert } from "react-alert";
 
 export default function Setting(props) {
     const { merchant } = props;
@@ -14,29 +14,22 @@ export default function Setting(props) {
         description: merchant.description,
     });
 
+    const alert = useAlert();
+
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.value);
     };
 
-    const [alerts, setAlerts] = useState([]);
     const submit = (e) => {
         e.preventDefault();
         post(route("merchants.dashboard.settings.update"), {
             onSuccess: () =>
-                setAlerts([
-                    ...alerts,
-                    {
-                        color: "green",
-                        title: "Success",
-                        message: `Successfully update your merchant setting.`,
-                    },
-                ]),
+                alert.success("Merchant has been updated successfully"),
         });
     };
 
     return (
         <MerchantDashboard title="Merchant Setting" user={props.auth.user}>
-            <Alert alerts={alerts} setAlerts={setAlerts} />
             <form onSubmit={submit} encType="multipart/form-data">
                 <div>
                     {(data.image || merchant?.image) && (
