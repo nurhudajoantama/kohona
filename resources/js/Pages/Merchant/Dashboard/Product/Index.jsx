@@ -4,6 +4,8 @@ import { Link, useForm } from "@inertiajs/inertia-react";
 import Alert from "@/Components/Alert/Alert";
 import PriceFormat from "@/Components/Price/PriceFormat";
 import Pagination from "@/Components/Pagination/Pagination";
+import { confirmAlert } from "react-confirm-alert";
+import "react-confirm-alert/src/react-confirm-alert.css";
 
 export default function Index(props) {
     const { products } = props;
@@ -14,16 +16,36 @@ export default function Index(props) {
     const handleDelete = (product) => {
         return (e) => {
             e.preventDefault();
-            d(route("merchants.dashboard.products.destroy", product), {
-                onSuccess: () =>
-                    setAlerts([
-                        ...alerts,
-                        {
-                            color: "red",
-                            title: "Success!!",
-                            message: `Successfully deleted product "${product.name}".`,
-                        },
-                    ]),
+
+            confirmAlert({
+                title: "Confirm to delete",
+                message: `Are you sure to delete "${product.name}" ?`,
+                buttons: [
+                    {
+                        label: "Yes",
+                        onClick: () =>
+                            d(
+                                route(
+                                    "merchants.dashboard.products.destroy",
+                                    product
+                                ),
+                                {
+                                    onSuccess: () =>
+                                        setAlerts([
+                                            ...alerts,
+                                            {
+                                                color: "red",
+                                                title: "Success!!",
+                                                message: `Successfully deleted product "${product.name}".`,
+                                            },
+                                        ]),
+                                }
+                            ),
+                    },
+                    {
+                        label: "No",
+                    },
+                ],
             });
         };
     };
