@@ -5,7 +5,7 @@ import Main from "@/Layouts/Main";
 export default function MerchantWait(props) {
     const { merchant } = props;
     return (
-        <Main user={props.auth.user} title="Merchant Wait">
+        <Main title="Merchant Wait">
             <Head title="Dashboard" />
             <div className="pt-7">
                 <div className="flex flex-col items-center">

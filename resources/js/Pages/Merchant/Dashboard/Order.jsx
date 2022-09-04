@@ -8,7 +8,7 @@ export default function Order(props) {
     const { transactions: per_merchant_transactions } = props;
 
     return (
-        <MerchantDashboard title="Merchant Order" user={props.auth.user}>
+        <MerchantDashboard title="Merchant Order">
             <div>
                 {per_merchant_transactions.data.map(
                     (per_merchant_transaction) => (

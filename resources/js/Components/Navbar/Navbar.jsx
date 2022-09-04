@@ -1,12 +1,14 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import ApplicationLogo from "../ApplicationLogo";
-import { Link, useForm } from "@inertiajs/inertia-react";
+import { Link, useForm, usePage } from "@inertiajs/inertia-react";
 import SearchIcon from "../Icon/SearchIcon";
 import CartIcon from "../Icon/CartIcon";
 import UserCircle from "../Icon/UserCircle";
 
-export default function Navbar({ user }) {
+export default function Navbar() {
+    const user = usePage().props.auth.user;
+
     const params = new URLSearchParams(window.location.search);
     const { get, data, setData } = useForm({
         search: params.get("search") || undefined,

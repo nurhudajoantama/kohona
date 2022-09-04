@@ -2,8 +2,11 @@ import React from "react";
 import UserMenu from "@/Components/Dashboard/Header/UserMenu";
 import PriceFormat from "@/Components/Price/PriceFormat";
 import { Link } from "@inertiajs/inertia-react";
+import { usePage } from "@inertiajs/inertia-react";
 
-function Header({ sidebarOpen, setSidebarOpen, user, level, image, title }) {
+function Header({ sidebarOpen, setSidebarOpen, level, title }) {
+    const user = usePage().props.auth.user;
+
     return (
         <header className="sticky top-0 bg-white border-b z-30 shadow-sm">
             <div className="px-4 sm:px-6 lg:px-8">
@@ -53,7 +56,7 @@ function Header({ sidebarOpen, setSidebarOpen, user, level, image, title }) {
                         )}
                         {/*  Divider */}
                         <hr className="w-px h-6 bg-yellow-200 mx-3" />
-                        <UserMenu user={user} level={level} image={image} />
+                        <UserMenu user={user} level={level} />
                     </div>
                 </div>
             </div>

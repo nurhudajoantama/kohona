@@ -49,7 +49,7 @@ export default function Checkout(props) {
     }, [carts]);
     // return <> </>;
     return (
-        <Main user={props.auth.user}>
+        <Main>
             <Head title="Checkout" />
             <div className="mb-7 mt-12">
                 <h1 className="font-bold text-4xl">Checkout</h1>

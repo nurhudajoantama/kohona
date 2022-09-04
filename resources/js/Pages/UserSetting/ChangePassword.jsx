@@ -27,7 +27,7 @@ export default function ChangePassword(props) {
     };
 
     return (
-        <Setting user={props.auth.user}>
+        <Setting>
             <Head title="User Setting" />
 
             <form onSubmit={submit}>

@@ -48,7 +48,7 @@ export default function Show(props) {
     };
 
     return (
-        <Main user={props.auth.user}>
+        <Main>
             <Head title={product.name} />
             <div className="mt-24 grid grid-cols-3 gap-12">
                 <div>

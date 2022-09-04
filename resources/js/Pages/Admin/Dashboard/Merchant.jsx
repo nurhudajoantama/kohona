@@ -31,7 +31,7 @@ export default function Index(props) {
     };
 
     return (
-        <AdminDashboard title="Merchants" user={props.auth.user}>
+        <AdminDashboard title="Merchants">
             {/* Search */}
             <form onSubmit={handleSearch}>
                 <div>

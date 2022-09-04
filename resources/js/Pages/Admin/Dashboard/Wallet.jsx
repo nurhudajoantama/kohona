@@ -8,7 +8,7 @@ export default function Wallet(props) {
     const { transfers } = props;
 
     return (
-        <AdminDashboard user={props.auth.user} title="Merchant Wallet">
+        <AdminDashboard title="Merchant Wallet">
             <div className="mt-7">
                 <h4 className="text-lg text-gray-400">Merchant Transfer</h4>
                 <div>

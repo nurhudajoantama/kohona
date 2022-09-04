@@ -2,9 +2,9 @@ import React from "react";
 import { Link } from "@inertiajs/inertia-react";
 import Main from "./Main";
 
-export default function Setting({ children, user }) {
+export default function Setting({ children }) {
     return (
-        <Main user={user}>
+        <Main>
             <div className="flex mt-9">
                 <div className="mr-12">
                     <div className="hover:text-gray-500 ">

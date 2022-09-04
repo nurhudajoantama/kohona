@@ -13,7 +13,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 export default function Show(props) {
     const { transaction } = props;
     return (
-        <Detail user={props.auth.user}>
+        <Detail>
             <Head title="Detail Transaction" />
             <div className="grid grid-cols-2 gap-7 m-7">
                 <div>

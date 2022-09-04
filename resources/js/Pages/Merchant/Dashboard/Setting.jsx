@@ -29,7 +29,7 @@ export default function Setting(props) {
     };
 
     return (
-        <MerchantDashboard title="Merchant Setting" user={props.auth.user}>
+        <MerchantDashboard title="Merchant Setting">
             <form onSubmit={submit} encType="multipart/form-data">
                 <div>
                     {(data.image || merchant?.image) && (

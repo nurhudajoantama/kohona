@@ -24,7 +24,7 @@ export default function Index(props) {
     };
 
     return (
-        <Setting user={props.auth.user}>
+        <Setting>
             <Head title="User Setting" />
             <form onSubmit={submit}>
                 <div>

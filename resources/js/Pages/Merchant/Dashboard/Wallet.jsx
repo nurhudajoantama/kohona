@@ -52,7 +52,7 @@ export default function Wallet(props) {
     };
 
     return (
-        <MerchantDashboard user={props.auth.user} title="Merchant Wallet">
+        <MerchantDashboard title="Merchant Wallet">
             <div className="mt-5">
                 <h4 className="text-lg text-gray-400">Amount</h4>
                 <PriceFormat

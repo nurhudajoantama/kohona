@@ -25,7 +25,7 @@ function WhyCard(props) {
 
 export default function Index(props) {
     return (
-        <Main user={props.auth.user}>
+        <Main>
             <Head />
 
             <div className="mt-7">

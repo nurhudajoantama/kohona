@@ -7,7 +7,7 @@ export default function Transaction(props) {
     const { transactions } = props;
 
     return (
-        <AdminDashboard user={props.auth.user} title="Transactions">
+        <AdminDashboard title="Transactions">
             <div>
                 {transactions.data.map((transaction) => (
                     <TransactionListCard

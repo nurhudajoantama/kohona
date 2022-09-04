@@ -10,7 +10,7 @@ export default function Index(props) {
     const { transactions } = props;
 
     return (
-        <Main user={props.auth.user}>
+        <Main>
             <Head title="Transaction" />
             <div className="mt-12">
                 <h1 className="text-3xl font-bold">History Transactions</h1>

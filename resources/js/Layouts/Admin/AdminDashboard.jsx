@@ -3,7 +3,7 @@ import Header from "@/Components/Dashboard/Header/Header";
 import AdminSidebar from "@/Layouts/Admin/AdminSidebar";
 import { Head } from "@inertiajs/inertia-react";
 
-export default function AdminDashboard({ children, title, user }) {
+export default function AdminDashboard({ children, title }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     return (
         <div className="flex h-screen overflow-hidden">
@@ -19,7 +19,6 @@ export default function AdminDashboard({ children, title, user }) {
             <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden bg-gray-50">
                 {/*  Site header */}
                 <Header
-                    user={user}
                     title={title}
                     level="admin"
                     sidebarOpen={sidebarOpen}

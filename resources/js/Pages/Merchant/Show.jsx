@@ -7,7 +7,7 @@ export default function Show(props) {
         merchant: { products, ...merchant },
     } = props;
     return (
-        <Main user={props.auth.user}>
+        <Main>
             <div className="mt-24 mb-12 flex flex-col items-center">
                 {merchant.image && (
                     <div className="mb-8">

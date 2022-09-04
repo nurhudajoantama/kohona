@@ -20,7 +20,7 @@ export default function adminTokens(props) {
     };
 
     return (
-        <AdminDashboard title="Admin Token" user={props.auth.user}>
+        <AdminDashboard title="Admin Token">
             <form onSubmit={handleGenerate}>
                 <button className="btn bg-yellow-400  text-white px-5 py-2 rounded-sm">
                     Generate Token

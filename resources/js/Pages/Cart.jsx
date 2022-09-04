@@ -90,7 +90,7 @@ export default function Cart(props) {
     };
 
     return (
-        <Main user={props.auth.user}>
+        <Main>
             <Head title="Cart" />
             <div className="mb-7 mt-12">
                 <h1 className="font-bold text-4xl">Cart</h1>

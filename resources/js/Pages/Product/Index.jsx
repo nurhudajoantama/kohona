@@ -8,7 +8,7 @@ export default function Index(props) {
     const { search } = props;
     const { products } = props;
     return (
-        <Main user={props.auth.user}>
+        <Main>
             <div className="mt-12">
                 <div className="mb-5">
                     <Link href={route("products.index")}>

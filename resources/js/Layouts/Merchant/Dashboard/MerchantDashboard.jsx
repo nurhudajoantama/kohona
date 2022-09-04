@@ -3,7 +3,7 @@ import Header from "@/Components/Dashboard/Header/Header";
 import MerchantSidebar from "@/Layouts/Merchant/Dashboard/MerchantSidebar";
 import { Head } from "@inertiajs/inertia-react";
 
-export default function MerchantDashboard({ children, title, user }) {
+export default function MerchantDashboard({ children, title }) {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     return (
         <div className="flex h-screen overflow-hidden">
@@ -19,11 +19,6 @@ export default function MerchantDashboard({ children, title, user }) {
             <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden bg-gray-50">
                 {/*  Site header */}
                 <Header
-                    image={
-                        user.merchant?.image &&
-                        `/storage/${user.merchant.image}`
-                    }
-                    user={user}
                     level="merchant"
                     title={title}
                     sidebarOpen={sidebarOpen}

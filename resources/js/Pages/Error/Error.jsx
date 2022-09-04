@@ -17,7 +17,7 @@ export default function ErrorPage({ status, user }) {
     }[status];
 
     return (
-        <Main user={user}>
+        <Main>
             <div className="mt-32">
                 <h1 className="font-bold text-8xl">{status}</h1>
                 <h3 className="mt-2 font-semibold text-4xl text-gray-900">

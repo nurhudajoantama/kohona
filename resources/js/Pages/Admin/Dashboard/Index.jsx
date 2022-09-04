@@ -9,7 +9,7 @@ function Dashboard(props) {
     const { adminTokens, merchants, transactions } = props;
 
     return (
-        <AdminDashboard title="Admin Dashboard" user={props.auth.user}>
+        <AdminDashboard title="Admin Dashboard">
             <Head title="Admin Dashboard" />
             <div>
                 <Link href={route("admin.dashboard.admin-tokens.index")}>

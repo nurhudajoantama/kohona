@@ -46,7 +46,7 @@ export default function Index(props) {
         };
     };
     return (
-        <MerchantDashboard title="Merchant Products" user={props.auth.user}>
+        <MerchantDashboard title="Merchant Products">
             <div>
                 <Link
                     href={route("merchants.dashboard.products.create")}

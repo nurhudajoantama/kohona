@@ -49,10 +49,7 @@ export default function FormProduct(props) {
         }
     };
     return (
-        <MerchantDashboard
-            title={`${update ? "Update" : "Create"} Products`}
-            user={props.auth.user}
-        >
+        <MerchantDashboard title={`${update ? "Update" : "Create"} Products`}>
             <form onSubmit={submit} encType="multipart/form-data">
                 <div>
                     {(data.image || props?.product?.image) && (

@@ -42,10 +42,13 @@ function UserMenu({ user, level, image }) {
                 onClick={() => setDropdownOpen(!dropdownOpen)}
                 aria-expanded={dropdownOpen}
             >
-                {image && (
+                {level === "merchant" && user.merchant?.image && (
                     <img
                         className="w-8 h-8 rounded-full"
-                        src={image}
+                        src={
+                            user.merchant?.image &&
+                            `/storage/${user.merchant.image}`
+                        }
                         width="32"
                         height="32"
                         alt="User"
