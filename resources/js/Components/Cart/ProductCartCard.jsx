@@ -3,14 +3,35 @@ import moment from "moment/moment";
 import PriceFormat from "@/Components/Price/PriceFormat";
 import { Link } from "@inertiajs/inertia-react";
 import QuantityField from "@/Components/Cart/QuantityField";
+import { useCart } from "@/Context/CartProvider";
 
 export default function ProductCartCard({
     product,
-    handleCheckboxChange,
-    handleAddQuantity,
-    handleRemoveQuantity,
-    handleRemove,
+    productIndex,
+    merchantIndex,
 }) {
+    const { addQuantity, removeQuantity, removeItem, checkboxChange } =
+        useCart();
+
+    const handleAddQuantity = (e) => {
+        e.preventDefault();
+        addQuantity(merchantIndex, productIndex);
+    };
+
+    const handleRemoveQuantity = (e) => {
+        e.preventDefault();
+        removeQuantity(merchantIndex, productIndex);
+    };
+
+    const handleRemove = (e) => {
+        e.preventDefault();
+        removeItem(product.carts[0]);
+    };
+
+    const handleCheckboxChange = (e) => {
+        checkboxChange(merchantIndex, productIndex, e.target.checked);
+    };
+
     return (
         <div className="mb-6 border border-gray-100 rounded-lg shadow-xl p-5">
             <div className="flex items-center justify-between">

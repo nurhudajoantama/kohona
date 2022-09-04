@@ -1,7 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PriceFormat from "@/Components/Price/PriceFormat";
+import { useCart } from "@/Context/CartProvider";
 
-export default function SummaryCard({ total, handleCheckout }) {
+export default function SummaryCard() {
+    const { total, checkout } = useCart();
+
+    const handleCheckout = (e) => {
+        e.preventDefault();
+        checkout();
+    };
+
     return (
         <div className="py-3 border border-gray-100 rounded-lg shadow-xl">
             <div className="px-5 pb-3 border-b border-gray-200">
