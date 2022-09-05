@@ -1,6 +1,6 @@
 import React from "react";
 import PriceFormat from "@/Components/Price/PriceFormat";
-import { useForm } from "@inertiajs/inertia-react";
+import { useForm, Link } from "@inertiajs/inertia-react";
 import { useAlert } from "react-alert";
 import { customConfirmAlert } from "@/Utils/customConfirmAlert";
 
@@ -41,7 +41,12 @@ export default function TransactionListCard({ transaction }) {
     return (
         <div className="p-6 border border-gray-300 shadow-md mb-5 rounded-md bg-white flex justify-between">
             <div>
-                <h3 className="text-lg font-semibold">
+                <Link href={`/transactions/${transaction.id}`}>
+                    <h3 className="font-semibold underline">
+                        {transaction.id}
+                    </h3>
+                </Link>
+                <h3 className="text-lg font-semibold mt-1">
                     {transaction.user.name}
                 </h3>
                 <h5 className="text-yellow-400 text-sm font-semibold mt-2">

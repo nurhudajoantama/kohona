@@ -22,7 +22,7 @@ class TransactionController extends Controller
 
     public function show(Transaction $transaction)
     {
-        if ($transaction->user_id !== auth()->id()) {
+        if (!($transaction->user_id === auth()->id() || auth()->user()->is_admin)) {
             abort(404);
         }
         $transaction = $transaction->load([
