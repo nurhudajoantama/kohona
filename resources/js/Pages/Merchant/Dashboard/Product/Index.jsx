@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import MerchantDashboard from "@/Layouts/Merchant/Dashboard/MerchantDashboard";
 import { Link, useForm } from "@inertiajs/inertia-react";
 import PriceFormat from "@/Components/Price/PriceFormat";
 import Pagination from "@/Components/Pagination/Pagination";
 import { useAlert } from "react-alert";
 import { customConfirmAlert } from "@/Utils/customConfirmAlert";
+import moment from "moment/moment";
 
 export default function Index(props) {
     const { products } = props;
@@ -34,53 +35,60 @@ export default function Index(props) {
                 <Link
                     href={route("merchants.dashboard.products.create")}
                     as="button"
-                    className="btn bg-indigo-500 hover:bg-indigo-600 text-white px-5 py-2 rounded-sm"
+                    className="btn bg-yellow-400 text-white px-5 py-2 rounded-md"
                 >
                     Create
                 </Link>
             </div>
-            {products.data.map((product) => (
-                <div
-                    className="border px-6 py-3 max-w-3xl rounded-lg flex justify-between items-center mb-5"
-                    key={product.id}
-                >
-                    <div>
-                        {product.image && (
-                            <img
-                                className="p-1 w-24 h-24 rounded-md"
-                                src={`/storage/${product.image}`}
-                                alt={product.name}
+            <div className="mt-5">
+                {products.data.map((product) => (
+                    <div
+                        className="border p-4 bg-white shadow-sm rounded-lg flex justify-between items-center mb-5"
+                        key={product.id}
+                    >
+                        <div>
+                            {product.image && (
+                                <img
+                                    className="w-32 h-32 rounded-xl border"
+                                    src={`/storage/${product.image}`}
+                                    alt={product.name}
+                                />
+                            )}
+                        </div>
+                        <div className="flex flex-col justify-between flex-auto ml-5">
+                            <h1 className="text-xl font-semibold capitalize mb-5">
+                                {product.name}
+                            </h1>
+                            <PriceFormat
+                                className="text-xl font-semibold"
+                                value={product.price}
                             />
-                        )}
-                        <h1 className="font-md font-bold">{product.name}</h1>
-                        <p>{product.description}</p>
-                        <PriceFormat
-                            value={product.price}
-                            renderText={(value, props) => (
-                                <div {...props}>price : {value}</div>
-                            )}
-                        />
-                        <p>stock : {product.stock}</p>
+                            <p className="text-xs text-gray-600 mt-1">
+                                {moment(product.updated_at).format(
+                                    "DD MMMM YYYY"
+                                )}
+                            </p>
+                        </div>
+                        <div className="flex">
+                            <Link
+                                className="mr-4 btn border bg-green-600 text-white px-5 py-2 rounded-lg text-sm"
+                                href={route(
+                                    "merchants.dashboard.products.edit",
+                                    product
+                                )}
+                            >
+                                Udpate
+                            </Link>
+                            <button
+                                onClick={handleDelete(product)}
+                                className="btn border bg-red-500 text-white px-5 py-2 rounded-lg text-sm"
+                            >
+                                Delete
+                            </button>
+                        </div>
                     </div>
-                    <div>
-                        <Link
-                            className="mr-4 btn border border-blue-500 hover:bg-blue-500 hover:text-white text-blue-500 px-4 py-1 rounded-md text-sm"
-                            href={route(
-                                "merchants.dashboard.products.edit",
-                                product
-                            )}
-                        >
-                            Udpate
-                        </Link>
-                        <button
-                            onClick={handleDelete(product)}
-                            className="btn border border-red-500 hover:bg-red-500 hover:text-white text-red-500 px-4 py-1 rounded-md text-sm"
-                        >
-                            Delete
-                        </button>
-                    </div>
-                </div>
-            ))}
+                ))}
+            </div>
             <Pagination
                 links={products.links}
                 from={products.from}
