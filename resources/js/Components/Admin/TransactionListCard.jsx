@@ -2,6 +2,7 @@ import React from "react";
 import PriceFormat from "@/Components/Price/PriceFormat";
 import { useForm } from "@inertiajs/inertia-react";
 import { useAlert } from "react-alert";
+import { customConfirmAlert } from "@/Utils/customConfirmAlert";
 
 export default function TransactionListCard({ transaction }) {
     const { post } = useForm();
@@ -9,17 +10,31 @@ export default function TransactionListCard({ transaction }) {
 
     const handleAccept = (e) => {
         e.preventDefault();
-        post(route("admin.dashboard.transactions.accept", transaction), {
-            onSuccess: () =>
-                alert.success("Transaction has been accepted successfully"),
+        customConfirmAlert({
+            title: "Confirm to accept",
+            message: `Are you sure to accept this transaction '${transaction.id}' ?`,
+        }).then(() => {
+            post(route("admin.dashboard.transactions.accept", transaction), {
+                onSuccess: () =>
+                    alert.success(
+                        `Transaction ${transaction.id} has been accepted successfully`
+                    ),
+            });
         });
     };
 
     const handleReject = (e) => {
         e.preventDefault();
-        post(route("admin.dashboard.transactions.reject", transaction), {
-            onSuccess: () =>
-                alert.error("Transaction has been rejected successfully"),
+        customConfirmAlert({
+            title: "Confirm to reject",
+            message: `Are you sure to reject this transaction '${transaction.id}' ?`,
+        }).then(() => {
+            post(route("admin.dashboard.transactions.reject", transaction), {
+                onSuccess: () =>
+                    alert.error(
+                        `Transaction ${transaction.id} has been rejected successfully`
+                    ),
+            });
         });
     };
 

@@ -16,7 +16,6 @@ export function customConfirmAlert({ title, message }) {
                             <button
                                 className="mr-5 px-5 py-2 bg-red-500 hover:bg-red-600 text-white rounded-md"
                                 onClick={() => {
-                                    reject();
                                     onClose();
                                 }}
                             >

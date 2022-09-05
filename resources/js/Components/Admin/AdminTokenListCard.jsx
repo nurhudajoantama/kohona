@@ -4,6 +4,7 @@ import CopyIcon from "@/Components/Icon/CopyIcon";
 import moment from "moment/moment";
 import { useAlert } from "react-alert";
 import { useForm } from "@inertiajs/inertia-react";
+import { customConfirmAlert } from "@/Utils/customConfirmAlert";
 
 export default function AdminTokenListCard({ token }) {
     const alert = useAlert();
@@ -11,8 +12,14 @@ export default function AdminTokenListCard({ token }) {
 
     const handleDelete = (e) => {
         e.preventDefault();
-        d(route("admin.dashboard.admin-tokens.destroy", token), {
-            onSuccess: () => alert.error("Token has been deleted successfully"),
+        customConfirmAlert({
+            title: "Confirm to delete",
+            message: `Are you sure to delete token ?`,
+        }).then(() => {
+            d(route("admin.dashboard.admin-tokens.destroy", token), {
+                onSuccess: () =>
+                    alert.error("Token has been deleted successfully"),
+            });
         });
     };
 

@@ -6,6 +6,7 @@ import InputError from "@/Components/InputError";
 import Label from "@/Components/Label";
 import { useForm } from "@inertiajs/inertia-react";
 import { useAlert } from "react-alert";
+import { customConfirmAlert } from "@/Utils/customConfirmAlert";
 
 export default function Setting(props) {
     const { merchant } = props;
@@ -22,9 +23,14 @@ export default function Setting(props) {
 
     const submit = (e) => {
         e.preventDefault();
-        post(route("merchants.dashboard.settings.update"), {
-            onSuccess: () =>
-                alert.success("Merchant has been updated successfully"),
+        customConfirmAlert({
+            title: "Confirm to update",
+            message: `Are you sure to update merchant ?`,
+        }).then(() => {
+            post(route("merchants.dashboard.settings.update"), {
+                onSuccess: () =>
+                    alert.success("Merchant has been updated successfully"),
+            });
         });
     };
 

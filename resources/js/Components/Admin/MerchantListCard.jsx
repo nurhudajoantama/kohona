@@ -1,6 +1,7 @@
 import React from "react";
 import { useAlert } from "react-alert";
 import { useForm } from "@inertiajs/inertia-react";
+import { customConfirmAlert } from "@/Utils/customConfirmAlert";
 
 export default function MerchantListCard({ merchant, handleDetails }) {
     const { post } = useForm();
@@ -8,19 +9,31 @@ export default function MerchantListCard({ merchant, handleDetails }) {
 
     const handleActive = (e) => {
         e.preventDefault();
-        post(route("admin.dashboard.merchants.activate", merchant), {
-            onSuccess: () =>
-                alert.success(
-                    `Successfully activate ${merchant.name} merchant.`
-                ),
+        customConfirmAlert({
+            title: "Confirm to activate",
+            message: `Are you sure to activate merchant "${merchant.name}" ?`,
+        }).then(() => {
+            post(route("admin.dashboard.merchants.activate", merchant), {
+                onSuccess: () =>
+                    alert.success(
+                        `Successfully activate ${merchant.name} merchant.`
+                    ),
+            });
         });
     };
 
     const handleReject = (e) => {
         e.preventDefault();
-        post(route("admin.dashboard.merchants.reject", merchant), {
-            onSuccess: () =>
-                alert.error(`Successfully rejected ${merchant.name} merchant.`),
+        customConfirmAlert({
+            title: "Confirm to reject",
+            message: `Are you sure to reject merchant "${merchant.name}" ?`,
+        }).then(() => {
+            post(route("admin.dashboard.merchants.reject", merchant), {
+                onSuccess: () =>
+                    alert.error(
+                        `Successfully rejected ${merchant.name} merchant.`
+                    ),
+            });
         });
     };
     return (

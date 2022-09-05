@@ -4,6 +4,7 @@ import { useForm } from "@inertiajs/inertia-react";
 import Pagination from "@/Components/Pagination/Pagination";
 import AdminTokenListCard from "@/Components/Admin/AdminTokenListCard";
 import { useAlert } from "react-alert";
+import { customConfirmAlert } from "@/Utils/customConfirmAlert";
 
 export default function adminTokens(props) {
     const { adminTokens } = props;
@@ -13,9 +14,16 @@ export default function adminTokens(props) {
 
     const handleGenerate = (e) => {
         e.preventDefault();
-        post(route("admin.dashboard.admin-tokens.generate"), {
-            onSuccess: () =>
-                alert.success("Admin token has been generated successfully"),
+        customConfirmAlert({
+            title: "Confirm to generate",
+            message: `Are you sure to generate new token ?`,
+        }).then(() => {
+            post(route("admin.dashboard.admin-tokens.generate"), {
+                onSuccess: () =>
+                    alert.success(
+                        "Admin token has been generated successfully"
+                    ),
+            });
         });
     };
 

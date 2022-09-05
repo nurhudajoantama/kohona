@@ -7,6 +7,7 @@ import Label from "@/Components/Label";
 import { useAlert } from "react-alert";
 import { useForm } from "@inertiajs/inertia-react";
 import PriceFormat from "@/Components/Price/PriceFormat";
+import { customConfirmAlert } from "@/Utils/customConfirmAlert";
 
 export default function FormProduct(props) {
     const { update = false } = props;
@@ -35,16 +36,31 @@ export default function FormProduct(props) {
     const submit = (e) => {
         e.preventDefault();
         if (update) {
-            post(route("merchants.dashboard.products.update", props.product), {
-                forceFormData: true,
-                replace: true,
-                onSuccess: () =>
-                    alert.success("Product has been updated successfully"),
+            customConfirmAlert({
+                title: "Confirm to update",
+                message: `Are you sure to update product "${data.name}" ?`,
+            }).then(() => {
+                post(
+                    route("merchants.dashboard.products.update", props.product),
+                    {
+                        forceFormData: true,
+                        replace: true,
+                        onSuccess: () =>
+                            alert.success(
+                                "Product has been updated successfully"
+                            ),
+                    }
+                );
             });
         } else {
-            post(route("merchants.dashboard.products.store"), {
-                onSuccess: () =>
-                    alert.success("Product has been created successfully"),
+            customConfirmAlert({
+                title: "Confirm to create",
+                message: `Are you sure to create product "${data.name}" ?`,
+            }).then(() => {
+                post(route("merchants.dashboard.products.store"), {
+                    onSuccess: () =>
+                        alert.success("Product has been created successfully"),
+                });
             });
         }
     };

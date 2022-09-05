@@ -8,6 +8,7 @@ import InputError from "@/Components/InputError";
 import moment from "moment/moment";
 import Pagination from "@/Components/Pagination/Pagination";
 import { useAlert } from "react-alert";
+import { customConfirmAlert } from "@/Utils/customConfirmAlert";
 
 export default function Wallet(props) {
     const { transfers } = props;
@@ -42,12 +43,16 @@ export default function Wallet(props) {
     const alert = useAlert();
     const handleSubmitWithdraw = (e) => {
         e.preventDefault();
-        console.log("here");
-        post(route("merchants.dashboard.wallet.withdraw"), {
-            onSuccess: () => {
-                alert.success("Withdrawal request has been sent");
-                reset("bank_name", "bank_account_number", "amount");
-            },
+        customConfirmAlert({
+            title: "Confirm to withdraw",
+            message: `Are you sure to withdraw Rp. ${data.amount} ?`,
+        }).then(() => {
+            post(route("merchants.dashboard.wallet.withdraw"), {
+                onSuccess: () => {
+                    alert.success("Withdrawal request has been sent");
+                    reset("bank_name", "bank_account_number", "amount");
+                },
+            });
         });
     };
 
