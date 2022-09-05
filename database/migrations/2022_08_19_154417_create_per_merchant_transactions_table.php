@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('per_merchant_transactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaction_id')->references('id')->on('transactions')->cascadeOnDelete();
+            $table->string('transaction_id')->foreignId('transaction_id')->references('id')->on('transactions')->cascadeOnDelete();
             $table->foreignId('merchant_id')->references('id')->on('merchants')->cascadeOnDelete();
             $table->unsignedBigInteger('total_price')->default(0);
             $table->timestamps();

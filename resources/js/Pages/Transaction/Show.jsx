@@ -17,7 +17,12 @@ export default function Show(props) {
             <Head title="Detail Transaction" />
             <div className="grid grid-cols-2 gap-7 m-7">
                 <div>
-                    <h1 className="text-xl font-semibold">Order Details</h1>
+                    <div className="flex items-end">
+                        <h1 className="text-xl font-semibold">Order Details</h1>
+                        <p className="ml-2 text-xs font-semibold text-gray-600">
+                            {transaction.id}
+                        </p>
+                    </div>
                     <div>
                         {transaction.per_merchant_transactions.map(
                             (per_merchant_transaction) => (

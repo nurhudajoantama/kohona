@@ -24,9 +24,10 @@ export default function Index(props) {
                         <div className="grid grid-cols-4 px-7 border-b pb-3 mb-2">
                             <div>
                                 <span className="text-gray-500 text-xs">
-                                    Transaction Date
+                                    Transaction ID
                                 </span>
-                                <p className="text-sm">
+                                <p className="text-sm">{transaction.id}</p>
+                                <p className="text-xs text-gray-600">
                                     {moment(transaction.updated_at).format(
                                         "DD MMMM YYYY"
                                     )}

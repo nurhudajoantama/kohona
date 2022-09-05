@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
 {
     use HasFactory;
+
+    protected $keyType = 'string';
 
     protected $fillable = [
         'user_id',
@@ -18,7 +21,17 @@ class Transaction extends Model
         'total_price',
     ];
 
+
+
     protected $with = ['status'];
+
+    public static function boot()
+    {
+        parent::boot();
+        self::creating(function ($model) {
+            $model->id = IdGenerator::generate(['table' => $model->table, 'length' => 7, 'prefix' => 'INV']);
+        });
+    }
 
     public function perMerchantTransactions()
     {
