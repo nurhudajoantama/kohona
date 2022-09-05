@@ -18,9 +18,6 @@ class MerchantOrderController extends Controller
             $query->without('merchant');
         }, 'orders', 'orders.product'])
             ->where('merchant_id', auth()->id())
-            ->whereHas('transaction', function ($query) {
-                $query->where('status_id', Status::acceptedId);
-            })
             ->orderBy('created_at', 'desc')->paginate(10);
         return Inertia::render('Merchant/Dashboard/Order', compact('transactions'));
     }
