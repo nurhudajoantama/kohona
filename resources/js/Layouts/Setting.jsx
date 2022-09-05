@@ -16,7 +16,9 @@ export default function Setting({ children }) {
                         </Link>
                     </div>
                 </div>
-                <div className="flex-1">{children}</div>
+                <div className="flex-1 border bg-white shadow-lg rounded-md p-7">
+                    {children}
+                </div>
             </div>
         </Main>
     );

@@ -6,6 +6,8 @@ import Label from "@/Components/Label";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import Main from "@/Layouts/Main";
 import Setting from "@/Layouts/Setting";
+import { useAlert } from "react-alert";
+import { customConfirmAlert } from "@/Utils/customConfirmAlert";
 
 export default function Index(props) {
     const { user } = props;
@@ -18,9 +20,17 @@ export default function Index(props) {
         setData(event.target.name, event.target.value);
     };
 
+    const alert = useAlert();
     const submit = (e) => {
         e.preventDefault();
-        post(route("user.setting.update"));
+        customConfirmAlert({
+            title: "Confirm to update",
+            message: "Are you sure to update your profile ?",
+        }).then(() => {
+            post(route("user.setting.update"), {
+                onSuccess: () => alert.success("Profile updated successfully"),
+            });
+        });
     };
 
     return (
@@ -33,7 +43,7 @@ export default function Index(props) {
                         type="text"
                         name="name"
                         value={data.name}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-96"
                         isFocused={true}
                         handleChange={onHandleChange}
                     />
@@ -46,14 +56,16 @@ export default function Index(props) {
                         type="text"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-96"
                         handleChange={onHandleChange}
                     />
                     <InputError message={errors.email} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
-                    <Button processing={processing}>Update</Button>
+                    <Button processing={processing} className="bg-yellow-400">
+                        Update
+                    </Button>
                 </div>
             </form>
         </Setting>

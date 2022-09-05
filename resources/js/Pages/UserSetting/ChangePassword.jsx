@@ -5,6 +5,8 @@ import InputError from "@/Components/InputError";
 import Label from "@/Components/Label";
 import { Head, useForm } from "@inertiajs/inertia-react";
 import Setting from "@/Layouts/Setting";
+import { customConfirmAlert } from "@/Utils/customConfirmAlert";
+import { useAlert } from "react-alert";
 
 export default function ChangePassword(props) {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -21,9 +23,17 @@ export default function ChangePassword(props) {
         reset("password", "new_password", "new_password_confirmation");
     }, []);
 
+    const alert = useAlert();
     const submit = (e) => {
         e.preventDefault();
-        post(route("user.setting.change-password.update"));
+        customConfirmAlert({
+            title: "Confirm to change password",
+            message: "Are you sure to change your password ?",
+        }).then(() => {
+            post(route("user.setting.change-password.update"), {
+                onSuccess: () => alert.success("Password changed successfully"),
+            });
+        });
     };
 
     return (
@@ -79,7 +89,9 @@ export default function ChangePassword(props) {
                 </div>
 
                 <div className="mt-4">
-                    <Button processing={processing}>Update</Button>
+                    <Button processing={processing} className="bg-yellow-400">
+                        Update
+                    </Button>
                 </div>
             </form>
         </Setting>
