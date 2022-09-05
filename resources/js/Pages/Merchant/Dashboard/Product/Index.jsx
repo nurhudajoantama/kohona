@@ -3,9 +3,8 @@ import MerchantDashboard from "@/Layouts/Merchant/Dashboard/MerchantDashboard";
 import { Link, useForm } from "@inertiajs/inertia-react";
 import PriceFormat from "@/Components/Price/PriceFormat";
 import Pagination from "@/Components/Pagination/Pagination";
-import { confirmAlert } from "react-confirm-alert";
-import "react-confirm-alert/src/react-confirm-alert.css";
 import { useAlert } from "react-alert";
+import { customConfirmAlert } from "@/Utils/customConfirmAlert";
 
 export default function Index(props) {
     const { products } = props;
@@ -18,30 +17,14 @@ export default function Index(props) {
         return (e) => {
             e.preventDefault();
 
-            confirmAlert({
+            customConfirmAlert({
                 title: "Confirm to delete",
-                message: `Are you sure to delete "${product.name}" ?`,
-                buttons: [
-                    {
-                        label: "Yes",
-                        onClick: () =>
-                            d(
-                                route(
-                                    "merchants.dashboard.products.destroy",
-                                    product
-                                ),
-                                {
-                                    onSuccess: () =>
-                                        alert.error(
-                                            "Product has been deleted successfully"
-                                        ),
-                                }
-                            ),
-                    },
-                    {
-                        label: "No",
-                    },
-                ],
+                message: `Are you sure to delete product "${product.name}" ?`,
+            }).then(() => {
+                d(route("merchants.dashboard.products.destroy", product), {
+                    onSuccess: () =>
+                        alert.error("Product has been deleted successfully"),
+                });
             });
         };
     };
