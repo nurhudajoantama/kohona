@@ -42,7 +42,7 @@ class UserSettingController extends Controller
         ]);
 
         User::find(auth()->id())->update([
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($request->new_password),
         ]);
 
         return redirect()->route('user.setting.index');
