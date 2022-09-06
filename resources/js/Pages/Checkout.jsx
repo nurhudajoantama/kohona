@@ -6,6 +6,7 @@ import moment from "moment/moment";
 import LocationPin from "@/Components/Icon/LocationPin";
 import CreditCardFilled from "@/Components/Icon/CreditCardFilled";
 import Modal from "@/Components/Modal/Modal";
+import { useAlert } from "react-alert";
 
 export default function Checkout(props) {
     const { carts } = props;
@@ -19,10 +20,13 @@ export default function Checkout(props) {
         })),
     });
 
+    const alert = useAlert();
     const handleBuy = (e) => {
         e.preventDefault();
-        if (!data.address || !data.bank_name || !data.bank_account_number)
+        if (!data.address || !data.bank_name || !data.bank_account_number) {
+            alert.error("Please fill all the form");
             return;
+        }
         post(route("buy.store"));
     };
 

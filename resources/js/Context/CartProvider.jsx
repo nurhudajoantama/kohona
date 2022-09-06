@@ -75,7 +75,10 @@ export default function CartProvider({ children }) {
     };
 
     const checkout = () => {
-        if (selectedCartsIndex.length === 0) return;
+        if (selectedCartsIndex.length === 0) {
+            alert.error("Please select product to checkout");
+            return;
+        }
         const data = selectedCartsIndex.map(
             ({ merchantIndex, productIndex }) => ({
                 product_id: carts[merchantIndex].products[productIndex].id,
