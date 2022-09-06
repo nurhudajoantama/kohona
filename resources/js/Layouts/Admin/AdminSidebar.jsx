@@ -6,6 +6,7 @@ import GeneratingTokenRounded from "@/Components/Icon/GeneratingTokenRounded";
 import DashboardFilled from "@/Components/Icon/DashboardFilled";
 import ClipboardList from "@/Components/Icon/ClipboardList";
 import WalletIcon from "@/Components/Icon/WalletIcon";
+import PersonHeart from "@/Components/Icon/PersonHeart";
 
 export default function AdminSidebar(props) {
     const { pathname } = window.location;
@@ -43,6 +44,7 @@ export default function AdminSidebar(props) {
                         >
                             Admin Tokens
                         </SidebarLink>
+
                         <SidebarLink
                             to="/admin/dashboard/merchants"
                             active={pathname === "/admin/dashboard/merchants"}
@@ -58,6 +60,13 @@ export default function AdminSidebar(props) {
                             Icon={ClipboardList}
                         >
                             Transactions
+                        </SidebarLink>
+                        <SidebarLink
+                            to="/admin/dashboard/users"
+                            active={pathname.includes("/admin/dashboard/users")}
+                            Icon={PersonHeart}
+                        >
+                            Users
                         </SidebarLink>
                         <SidebarLink
                             to="/admin/dashboard/wallet"

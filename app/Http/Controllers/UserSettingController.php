@@ -19,8 +19,8 @@ class UserSettingController extends Controller
     public function update(Request $request)
     {
         User::find(auth()->id())->update($request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
         ]));
         return redirect()->route('user.setting.index');
     }

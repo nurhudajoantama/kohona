@@ -77,6 +77,12 @@ export default function Footer() {
                             <IconLink icon={AppleFilled} />
                         </div>
                     </div>
+                    <div className="mt-5">
+                        <h4 className="text-lg">Hubungi Kami</h4>
+                        <div className="mt-1">
+                            <p>mail@kohona.com</p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div className="flex justify-center mt-14">

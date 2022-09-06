@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\AdminWalletController;
 use App\Http\Controllers\Admin\AdminMerchantController;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminTransactionController;
+use App\Http\Controllers\Admin\AdminUserController;
 
 // ADMIN ROUTE
 Route::prefix('/admin/dashboard')->middleware(['auth', 'verified', 'can:admin-access'])->name('admin.dashboard.')->group(function () {
@@ -28,6 +29,11 @@ Route::prefix('/admin/dashboard')->middleware(['auth', 'verified', 'can:admin-ac
         Route::get('/', [AdminTransactionController::class, 'index'])->name('index');
         Route::post('/{transaction}/accept', [AdminTransactionController::class, 'accept'])->name('accept');
         Route::post('/{transaction}/reject', [AdminTransactionController::class, 'reject'])->name('reject');
+    });
+
+    Route::prefix('/users')->name('users.')->group(function () {
+        Route::get('/', [AdminUserController::class, 'index'])->name('index');
+        Route::post('/{user}', [AdminUserController::class, 'update'])->name('update');
     });
 
     Route::prefix('/wallet')->name('wallet.')->group(function () {
