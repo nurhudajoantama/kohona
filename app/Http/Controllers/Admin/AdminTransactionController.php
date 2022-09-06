@@ -15,9 +15,17 @@ class AdminTransactionController extends Controller
 {
     public function index()
     {
+        $search_id = request('id');
+        $search_user = request('user');
 
         $transactions = Transaction::with(['user', 'status'])
-            ->orderBy('status_id')->orderBy('created_at', 'desc')->paginate(10);
+            ->when($search_id, function ($query, $search_id) {
+                return $query->where('id', 'like', '%' . $search_id . '%');
+            })->when($search_user, function ($query, $search_user) {
+                return $query->whereHas('user', function ($query) use ($search_user) {
+                    return $query->where('name', 'like', '%' . $search_user . '%');
+                });
+            })->orderBy('status_id')->orderBy('created_at', 'desc')->paginate(10);
         return Inertia::render('Admin/Dashboard/Transaction', compact('transactions'));
     }
 
