@@ -26,7 +26,7 @@ function WhyCard(props) {
 export default function Index(props) {
     return (
         <Main>
-            <Head />
+            <Head title="Home" />
 
             <div className="mt-7">
                 <IndexCarousel />

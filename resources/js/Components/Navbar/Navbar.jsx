@@ -9,13 +9,22 @@ import UserCircle from "../Icon/UserCircle";
 export default function Navbar() {
     const user = usePage().props.auth.user;
 
-    const params = new URLSearchParams(window.location.search);
-    const { get, data, setData } = useForm({
-        search: params.get("search") || undefined,
+    const page = usePage();
+
+    const locationSearch = "?" + page.url.split("?")[1];
+    const params = new URLSearchParams(locationSearch);
+    const { get, data, setData, transform } = useForm({
+        search: params.get("search") || "",
     });
 
     const handleSearch = (e) => {
         e.preventDefault();
+        transform((data) => {
+            return {
+                ...data,
+                search: data.search || undefined,
+            };
+        });
         get(route("products.index"));
     };
 
@@ -54,10 +63,7 @@ export default function Navbar() {
                                     autoComplete="search"
                                     value={data.search}
                                     onChange={(e) =>
-                                        setData(
-                                            "search",
-                                            e.target.value || undefined
-                                        )
+                                        setData("search", e.target.value)
                                     }
                                 />
                             </div>
