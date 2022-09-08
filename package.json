@@ -2,9 +2,10 @@
     "private": true,
     "scripts": {
         "dev": "vite",
-        "build": "vite build && vite build --ssr",
-        "mixssr": "mix --mix-config=webpack.ssr.mix.js",
-        "runssr": "node public/js/ssr.js"
+        "build": "npm run build:app && npm run build:ssr",
+        "build:app": "vite build",
+        "build:ssr": "mix --mix-config=webpack.ssr.mix.js",
+        "serve": "node public/js/ssr.js"
     },
     "devDependencies": {
         "@babel/preset-react": "^7.18.6",
