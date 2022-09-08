@@ -7,6 +7,7 @@ import ArrowRight2Icon from "@/Components/Icon/ArrowRight2Icon";
 import AwardsIcon from "@/Components/Icon/AwardsIcon";
 import PersonHeart from "@/Components/Icon/PersonHeart";
 import ThumbUp from "@/Components/Icon/ThumbUp";
+import Seo from "@/Components/SEO/Seo";
 
 function WhyCard(props) {
     const { icon: Icon, title, description } = props;
@@ -26,7 +27,7 @@ function WhyCard(props) {
 export default function Index(props) {
     return (
         <Main>
-            <Head title="Home" />
+            <Seo title="Home" description="Kohona E Commerce number one" />
 
             <div className="mt-7">
                 <IndexCarousel />
@@ -73,7 +74,7 @@ export default function Index(props) {
                         href={route("products.index")}
                         className="flex items-center px-4 py-2 text-yellow-400 border border-1 border-yellow-400 rounded-full"
                     >
-                        See More
+                        See More Product
                         <ArrowRight2Icon className="w-2.5 h-2.5 ml-2" />
                     </Link>
                 </div>

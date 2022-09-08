@@ -24,6 +24,7 @@ function IconLink(props) {
     const { icon: Icon, ...rest } = props;
     return (
         <Link {...rest}>
+            <span className="sr-only">{props.href}</span>
             <Icon className="p-2 mr-1 h-12 w-12" />
         </Link>
     );
@@ -64,17 +65,35 @@ export default function Footer() {
                     <div>
                         <h4 className="text-lg">Cari tau berita terbaru</h4>
                         <div className="flex mt-1">
-                            <IconLink icon={FacebookFill} />
-                            <IconLink icon={InstagramFilled} />
-                            <IconLink icon={TwitterFill} />
-                            <IconLink icon={YoutubeFill} />
+                            <IconLink
+                                href="https://facebook.com"
+                                icon={FacebookFill}
+                            />
+                            <IconLink
+                                href="https://instagram.com"
+                                icon={InstagramFilled}
+                            />
+                            <IconLink
+                                href="https://twitter.com"
+                                icon={TwitterFill}
+                            />
+                            <IconLink
+                                href='https"//youtube.com'
+                                icon={YoutubeFill}
+                            />
                         </div>
                     </div>
                     <div className="mt-5">
                         <h4 className="text-lg">Unduh Aplikasi</h4>
                         <div className="flex mt-1">
-                            <IconLink icon={LogoGooglePlayStore} />
-                            <IconLink icon={AppleFilled} />
+                            <IconLink
+                                href="https://play.google.com"
+                                icon={LogoGooglePlayStore}
+                            />
+                            <IconLink
+                                href="https://apple.com"
+                                icon={AppleFilled}
+                            />
                         </div>
                     </div>
                     <div className="mt-5">

@@ -3,12 +3,14 @@ import Main from "@/Layouts/Main";
 import React from "react";
 import { Link } from "@inertiajs/inertia-react";
 import Pagination from "@/Components/Pagination/Pagination";
+import Seo from "@/Components/SEO/Seo";
 
 export default function Index(props) {
     const { search } = props;
     const { products } = props;
     return (
         <Main>
+            <Seo title="Product" description="Kohona E Commerce number one" />
             <div className="mt-12">
                 <div className="mb-5">
                     <Link href={route("products.index")}>

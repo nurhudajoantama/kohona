@@ -1,6 +1,7 @@
 import Main from "@/Layouts/Main";
 import React from "react";
 import ProductList from "@/Components/Product/ProductList";
+import Seo from "@/Components/SEO/Seo";
 
 export default function Show(props) {
     const {
@@ -8,6 +9,7 @@ export default function Show(props) {
     } = props;
     return (
         <Main>
+            <Seo title={merchant.name} description={merchant.description} />
             <div className="mt-24 mb-12 flex flex-col items-center">
                 {merchant.image && (
                     <div className="mb-8">

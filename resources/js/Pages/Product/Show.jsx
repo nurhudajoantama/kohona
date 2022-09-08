@@ -6,6 +6,7 @@ import CartPlus from "@/Components/Icon/CartPlus";
 import ShippingBox01 from "@/Components/Icon/ShippingBox01";
 import PriceFormat from "@/Components/Price/PriceFormat";
 import { Inertia } from "@inertiajs/inertia";
+import Seo from "@/Components/SEO/Seo";
 
 export default function Show(props) {
     const { product, cart } = props;
@@ -49,7 +50,7 @@ export default function Show(props) {
 
     return (
         <Main>
-            <Head title={product.name} />
+            <Seo title={product.name} description={product.description} />
             <div className="mt-24 grid grid-cols-3 gap-12">
                 <div>
                     <img

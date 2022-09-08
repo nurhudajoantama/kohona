@@ -288,13 +288,22 @@ export default function IndexCarousel() {
             autoPlay
         >
             <div>
-                <img src="/assets/images/ads/carousel1.png" />
+                <img
+                    src="/assets/images/ads/carousel1.png"
+                    alt="carousel-img-1"
+                />
             </div>
             <div>
-                <img src="/assets/images/ads/carousel1.png" />
+                <img
+                    src="/assets/images/ads/carousel1.png"
+                    alt="carousel-img-2"
+                />
             </div>
             <div>
-                <img src="/assets/images/ads/carousel1.png" />
+                <img
+                    src="/assets/images/ads/carousel1.png"
+                    alt="carousel-img-3"
+                />
             </div>
         </StyledCarousel>
     );
