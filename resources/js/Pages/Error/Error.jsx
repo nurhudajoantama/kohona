@@ -1,3 +1,5 @@
+import Footer from "@/Components/Footer/Footer";
+import Navbar from "@/Components/Navbar/Navbar";
 import Main from "@/Layouts/Main";
 import React from "react";
 
@@ -17,14 +19,28 @@ export default function ErrorPage({ status, user }) {
     }[status];
 
     return (
-        <Main>
-            <div className="mt-32">
-                <h1 className="font-bold text-8xl">{status}</h1>
-                <h3 className="mt-2 font-semibold text-4xl text-gray-900">
-                    {title}
-                </h3>
-                <div className="mt-4 text-gray-900">{description}</div>
+        <div className="min-h-screen flex flex-col ">
+            <Navbar />
+
+            <div className="md:grid grid-cols-2 flex-1 mt-40">
+                <div className="hidden md:flex justify-center items-center">
+                    <div className="w-2/3 h-auto">
+                        <img
+                            src="/assets/images/errorpage-img.png"
+                            alt="login image"
+                        />
+                    </div>
+                </div>
+                <div className="hidden md:flex items-center">
+                    <div className="text-gray-600">
+                        <h2 className="mb-7 text-7xl tracking-wide">Opps !</h2>
+                        <h1 className="font-semibold text-3xl">{status}</h1>
+                        <h3 className="font-semibold text-2xl">{title}</h3>
+                        <div className="mt-4">{description}</div>
+                    </div>
+                </div>
             </div>
-        </Main>
+            <Footer />
+        </div>
     );
 }

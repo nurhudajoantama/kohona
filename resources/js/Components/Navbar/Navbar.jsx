@@ -7,9 +7,8 @@ import CartIcon from "../Icon/CartIcon";
 import UserCircle from "../Icon/UserCircle";
 
 export default function Navbar() {
-    const user = usePage().props.auth.user;
-
     const page = usePage();
+    const user = page.props.auth?.user;
 
     const locationSearch = "?" + page.url.split("?")[1];
     const params = new URLSearchParams(locationSearch);

@@ -61,15 +61,15 @@ class Handler extends ExceptionHandler
 
         if (!app()->environment(['local', 'testing'])) {
             if ($response->isNotFound()) {
-                return Inertia::render('Error/Error', ['status' => 404, 'user' => auth()->user()])
+                return Inertia::render('Error/Error', ['status' => 404, 'auth' => ['user' => auth()->user()]])
                     ->toResponse($request)
                     ->setStatusCode(404);
             } else if ($response->isForbidden()) {
-                return Inertia::render('Error/Error', ['status' => 403, 'user' => auth()->user()])
+                return Inertia::render('Error/Error', ['status' => 403, 'auth' => ['user' => auth()->user()]])
                     ->toResponse($request)
                     ->setStatusCode(403);
             } else if ($response->isServerError()) {
-                return Inertia::render('Error/Error', ['status' => 500, 'user' => auth()->user()])
+                return Inertia::render('Error/Error', ['status' => 500, 'auth' => ['user' => auth()->user()]])
                     ->toResponse($request)
                     ->setStatusCode(500);
             }
