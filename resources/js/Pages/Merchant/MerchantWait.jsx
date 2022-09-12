@@ -1,37 +1,53 @@
 import React from "react";
-import { Head } from "@inertiajs/inertia-react";
-import Main from "@/Layouts/Main";
+import { Head, Link } from "@inertiajs/inertia-react";
+import ApplicationLogo from "@/Components/ApplicationLogo";
 
 export default function MerchantWait(props) {
     const { merchant } = props;
     return (
-        <Main title="Merchant Wait">
-            <Head title="Dashboard" />
-            <div className="pt-7">
-                <div className="flex flex-col items-center">
-                    <h1 className="capitalize font-bold text-xl">
-                        {merchant.name}
-                    </h1>
-                    <p className="text-gray-600 text-center">
-                        {merchant.description}
-                    </p>
-                </div>
-                <div className="py-12">
-                    <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                        <div
-                            className={`p-6 rounded-lg border-b border-gray-200 flex justify-center ${
-                                merchant.status_id === 1
-                                    ? "bg-yellow-500"
-                                    : "bg-red-500"
-                            }`}
-                        >
-                            <div className="font-semibold text-white text-lg">
-                                {merchant.status.status}
-                            </div>
-                        </div>
-                    </div>
+        <div className="md:grid grid-cols-2 min-h-screen">
+            <Head title="Merchant" />
+            <div className="hidden md:flex bg-yellow-400 justify-center items-center">
+                <div className="w-2/3 h-auto">
+                    <img
+                        src="/assets/images/merchant-wait.png"
+                        alt="login image"
+                    />
                 </div>
             </div>
-        </Main>
+            <div className="flex flex-col justify-center items-center">
+                <Link href="/" className="flex items-center mb-7">
+                    <ApplicationLogo className="text-yellow-400" />
+                    <h1 className="ml-3 font-semibold text-3xl">Kohona</h1>
+                </Link>
+                <div
+                    className="border border-gray-300 rounded-xl px-20 py-12"
+                    style={{ width: "515px" }}
+                >
+                    <h1 className="font-semibold text-3xl text-center">
+                        Merchant Status
+                    </h1>
+                    <div className="mt-7 flex justify-between items-center text-lg">
+                        <p className="text-gray-600">Status :</p>
+                        <div
+                            className={`border-2 rounded-full px-5 py-2 ${
+                                merchant.status_id === 1
+                                    ? "border-yellow-400 text-yellow-400"
+                                    : "border-red-400 text-red-400"
+                            }`}
+                        >
+                            <p className="capitalize">
+                                {merchant.status.status}
+                            </p>
+                        </div>
+                    </div>
+                    <p className="mt-4 text-sm text-gray-400">
+                        {merchant.status_id === 1
+                            ? "Wait for admin to accepted the request"
+                            : "Sorry!, Admin doesn't accept your Merchant, Please try again."}
+                    </p>
+                </div>
+            </div>
+        </div>
     );
 }
