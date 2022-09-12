@@ -295,13 +295,13 @@ export default function IndexCarousel() {
             </div>
             <div>
                 <img
-                    src="/assets/images/ads/carousel1.png"
+                    src="/assets/images/ads/carousel2.png"
                     alt="carousel-img-2"
                 />
             </div>
             <div>
                 <img
-                    src="/assets/images/ads/carousel1.png"
+                    src="/assets/images/ads/carousel3.png"
                     alt="carousel-img-3"
                 />
             </div>
