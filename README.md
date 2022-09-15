@@ -3,14 +3,6 @@
 <!--
 *** KOHONA
  -->
-<div align="center">
-    [![Contributors][contributors-shield]][contributors-url]
-    [![Forks][forks-shield]][forks-url]
-    [![Stargazers][stars-shield]][stars-url]
-    [![Issues][issues-shield]][issues-url]
-    [![MIT License][license-shield]][license-url]
-    [![LinkedIn][linkedin-shield]][linkedin-url]
-</div>
 
 <!-- PROJECT LOGO -->
 <br />
@@ -32,13 +24,3 @@
     <a href="https://github.com/nurhudajoantama/kohona/issues">Request Feature</a>
   </p>
 </div>
-
-### Built With
-
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
--   [![Laravel][laravel.com]][laravel-url]
--   [![React][react.js]][react-url]
--   [![Tailwind][tailwindcss.com]][tailwindcss-url]
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
