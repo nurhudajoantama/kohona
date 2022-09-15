@@ -279,6 +279,9 @@ const StyledCarousel = styled(Carousel)`
     }
 `;
 
+function CarouselImage(props) {
+    return <img width="1280px" height="429px" {...props} />;
+}
 export default function IndexCarousel() {
     return (
         <StyledCarousel
@@ -288,20 +291,20 @@ export default function IndexCarousel() {
             autoPlay
         >
             <div>
-                <img
-                    src="/assets/images/ads/carousel1.png"
+                <CarouselImage
+                    src="/assets/images/ads/carousel1.webp"
                     alt="carousel-img-1"
                 />
             </div>
             <div>
-                <img
-                    src="/assets/images/ads/carousel2.png"
+                <CarouselImage
+                    src="/assets/images/ads/carousel2.webp"
                     alt="carousel-img-2"
                 />
             </div>
             <div>
-                <img
-                    src="/assets/images/ads/carousel3.png"
+                <CarouselImage
+                    src="/assets/images/ads/carousel3.webp"
                     alt="carousel-img-3"
                 />
             </div>

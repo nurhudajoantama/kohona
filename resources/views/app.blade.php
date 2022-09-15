@@ -14,7 +14,6 @@
     <link rel="shortcut icon" href="/assets/icon/favicon.ico" type="image/x-icon">
 
     <!-- Scripts -->
-    @routes
     @viteReactRefresh
     @vite('resources/js/app.jsx')
     @inertiaHead
@@ -22,6 +21,8 @@
 
 <body class="font-sans antialiased">
     @inertia
+
+    @routes
 </body>
 
 </html>
